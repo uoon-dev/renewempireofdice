@@ -120,7 +120,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 5.9
+  bundleVersion: 6.2
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -169,7 +169,7 @@ PlayerSettings:
     iPhone: com.banjihagames.DiceEmpire2
   buildNumber:
     iPhone: 65
-  AndroidBundleVersionCode: 68
+  AndroidBundleVersionCode: 71
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1

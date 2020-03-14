@@ -76,68 +76,77 @@ public class StatisticsController : MonoBehaviour
         SetStarCount();
         SetRewardHeart();
 
-        star01Image.GetComponent<Animator>().enabled = true;
-        star01Text.GetComponent<Animator>().enabled = true;        
-
-        if (clearedBlockCount == ddackCount)
+        if (currentLevelNumber > 1)
         {
-            yield return new WaitForSeconds(0.7f);
-            star02Image.GetComponent<Animator>().enabled = true;
-            star02Text.GetComponent<Animator>().enabled = true;
-            star02Text.GetComponent<Text>().text = "딱뎀 100%";
 
-            if (inTurnLimit)
+            star01Image.GetComponent<Animator>().enabled = true;
+            star01Text.GetComponent<Animator>().enabled = true;
+
+            if (clearedBlockCount == ddackCount)
             {
                 yield return new WaitForSeconds(0.7f);
-                star03Image.GetComponent<Animator>().enabled = true;
-                star03Text.GetComponent<Animator>().enabled = true;
-
-                if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.LEVEL)
-                {
-                    bool isHeartFullReward = false;
-                    if (currentLevelNumber % 10 == 0 && levelCleared != 1)
-                    {
-                        isHeartFullReward = true;
-                        yield return new WaitForSeconds(0.7f);
-                        afterPurchaseEffectController.ShowScreen("3");
-                    }
-                    if (savedLevelStarCount < 3)
-                    {
-                        yield return new WaitForSeconds(isHeartFullReward ? 2f : 0.7f);
-                        afterPurchaseEffectController.ShowScreen("2");
-                    }
-                }
-            }
-        } 
-        else 
-        {
-            yield return new WaitForSeconds(0.7f);
-            if (inTurnLimit) 
-            {
                 star02Image.GetComponent<Animator>().enabled = true;
                 star02Text.GetComponent<Animator>().enabled = true;
-                star02Text.GetComponent<Text>().text = "30턴 안에 클리어!";
+                star02Text.GetComponent<Text>().text = "딱뎀 100%";
+
+                if (inTurnLimit)
+                {
+                    yield return new WaitForSeconds(0.7f);
+                    star03Image.GetComponent<Animator>().enabled = true;
+                    star03Text.GetComponent<Animator>().enabled = true;
+
+                    if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.LEVEL)
+                    {
+                        bool isHeartFullReward = false;
+                        if (currentLevelNumber % 10 == 0 && levelCleared != 1)
+                        {
+                            isHeartFullReward = true;
+                            yield return new WaitForSeconds(0.7f);
+                            afterPurchaseEffectController.ShowScreen("3");
+                        }
+                        if (savedLevelStarCount < 3)
+                        {
+                            yield return new WaitForSeconds(isHeartFullReward ? 2f : 0.7f);
+                            afterPurchaseEffectController.ShowScreen("2");
+                        }
+                    }
+                }
+            } 
+            else 
+            {
+                yield return new WaitForSeconds(0.7f);
+                if (inTurnLimit) 
+                {
+                    star02Image.GetComponent<Animator>().enabled = true;
+                    star02Text.GetComponent<Animator>().enabled = true;
+                    star02Text.GetComponent<Text>().text = "30턴 안에 클리어!";
+                }
+            }
+
+            if (levelCleared != 1 && getStarCount < 3)
+            {
+                if (currentLevelNumber % 10 == 0)
+                {
+                    Debug.Log("afterPurchaseEffectController.ShowScreen('3')");
+                    yield return new WaitForSeconds(0.7f);
+                    afterPurchaseEffectController.ShowScreen("3");
+                }
             }
         }
 
-        if (levelCleared != 1 && getStarCount < 3)
-        {
-            if (currentLevelNumber % 10 == 0)
-            {
-                Debug.Log("afterPurchaseEffectController.ShowScreen('3')");
-                yield return new WaitForSeconds(0.7f);
-                afterPurchaseEffectController.ShowScreen("3");
-            }
-        }        
-
         PlayerPrefs.SetInt($"Level {currentLevelNumber}", 1);
-
-        Debug.Log(savedLevelStarCount + ":savedLevelStarCount");
-        Debug.Log(getStarCount + ":getStarCount");
 
         if (savedLevelStarCount < getStarCount)
         {
-            PlayerPrefs.SetInt($"LevelStar {currentLevelNumber}", getStarCount);
+            // 튜토리얼은 별 무조건 3개 주기
+            if (currentLevelNumber == 1)
+            {
+                PlayerPrefs.SetInt($"LevelStar {currentLevelNumber}", 3);
+            }
+            else
+            {
+                PlayerPrefs.SetInt($"LevelStar {currentLevelNumber}", getStarCount);
+            }
         }
 
         yield return new WaitForSeconds(getStarCount > 1 ? 1.5f : 0.7f);
