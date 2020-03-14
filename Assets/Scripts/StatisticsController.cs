@@ -58,7 +58,7 @@ public class StatisticsController : MonoBehaviour
         resetDiceController = FindObjectOfType<ResetDiceController>();
 
         currentLevelNumber = levelLoader.GetCurrentLevelNumber();
-        savedLevelStarCount = PlayerPrefs.GetInt("LevelStar");
+        savedLevelStarCount = PlayerPrefs.GetInt($"LevelStar {currentLevelNumber}");
         levelCleared = PlayerPrefs.GetInt($"Level {currentLevelNumber}");
     }
 
@@ -131,7 +131,14 @@ public class StatisticsController : MonoBehaviour
         }        
 
         PlayerPrefs.SetInt($"Level {currentLevelNumber}", 1);
-        PlayerPrefs.SetInt($"LevelStar {currentLevelNumber}", getStarCount);
+
+        Debug.Log(savedLevelStarCount + ":savedLevelStarCount");
+        Debug.Log(getStarCount + ":getStarCount");
+
+        if (savedLevelStarCount < getStarCount)
+        {
+            PlayerPrefs.SetInt($"LevelStar {currentLevelNumber}", getStarCount);
+        }
 
         yield return new WaitForSeconds(getStarCount > 1 ? 1.5f : 0.7f);
         buttons.transform.GetChild(0).gameObject.GetComponent<Animator>().enabled = true;

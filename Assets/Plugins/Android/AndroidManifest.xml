@@ -11,4 +11,5 @@
     </activity>
     <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-7188592076082444~4062404569" />
   </application>
+  <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="29" />
 </manifest>
