@@ -30,7 +30,10 @@ public class PauseController : MonoBehaviour
         foreach (var block in blocks) {
             block.HideTooltip();
         }
-        PauseCanvas.GetComponent<Canvas>().sortingOrder = 103;
+        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL)
+        {
+            PauseCanvas.GetComponent<Canvas>().sortingOrder = 103;
+        }
         PauseCanvas.SetActive(true);
     }
 

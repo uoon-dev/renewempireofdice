@@ -29,7 +29,7 @@ public class NewHeartController : MonoBehaviour
     public static Timer timer;
     private const int timerInterval = 500;
     private int heartRechargeSpeed = 1;
-    private int heartAmount;
+    private static int heartAmount;
     public static bool isHeartAmountUpdated = false;
     private int heartTargetTimeStamp;
     private bool isNetworkConnected;
@@ -223,6 +223,7 @@ public class NewHeartController : MonoBehaviour
 
     public bool CanUseHeart()
     {
+        Debug.Log(GetHeartAmount() + ":GetHeartAmount()");
         if (GetHeartAmount() <= 0) {
             UIController.ToggleNoHeartCanvas(true);
             return false;
