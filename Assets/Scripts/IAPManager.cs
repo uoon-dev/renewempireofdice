@@ -246,31 +246,37 @@ public class IAPManager : MonoBehaviour, IStoreListener
             case Constants.DIAMOND_1: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                 diamondController.AddDiamondAmount(22);
+                afterPurchaseEffectController.ShowScreen("4");
                 break;
             }
             case Constants.DIAMOND_2: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                 diamondController.AddDiamondAmount(55);
+                afterPurchaseEffectController.ShowScreen("4");
                 break;
             }
             case Constants.DIAMOND_3: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                 diamondController.AddDiamondAmount(121);
+                afterPurchaseEffectController.ShowScreen("4");
                 break;
             }
             case Constants.DIAMOND_4: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                 diamondController.AddDiamondAmount(396);
+                afterPurchaseEffectController.ShowScreen("4");
                 break;
             }
             case Constants.DIAMOND_5: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                 diamondController.AddDiamondAmount(858);
+                afterPurchaseEffectController.ShowScreen("4");
                 break;
             }
             case Constants.DIAMOND_6: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                 diamondController.AddDiamondAmount(1337);
+                afterPurchaseEffectController.ShowScreen("4");
                 break;
             }
             default: {

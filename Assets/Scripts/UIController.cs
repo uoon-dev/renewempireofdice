@@ -222,7 +222,7 @@ public class UIController : MonoBehaviour
 
     public void TogglePurchaseButtonInDiamondShop(bool isActive)
     {
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 6; i++)
         {
             string targetDiamond = Constants.SAVED_DATA.DIAMOND + (i + 1);
             diamondShopController.TogglePurchaseButton(isActive, targetDiamond);
