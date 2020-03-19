@@ -11,8 +11,10 @@ public class UIController : MonoBehaviour
     GameObject noHeartCanvas;
     GameObject afterPurchaseEffectCanvas;
     HeartShopController heartShopController;
+    DiamondShopController diamondShopController;
     StartController startController;
     NewHeartController newHeartController;
+    DiamondController diamondController;
     LevelLoader levelLoader;
     IAPManager iAPManager;
     Text heartTimerText;
@@ -41,19 +43,21 @@ public class UIController : MonoBehaviour
     {
         bool newIsNetworkConnected = Utils.IsNetworkConnected();
         isIAPInitialized = iAPManager.isIAPInitialized();
-
+        
+        // 네트워크 핸들링
         if (isNetworkConnected && !newIsNetworkConnected) 
         {
             DeactivePurchaseButtonInHeartShop();
-            Debug.Log("DeactivePurchaseButtonInHeartShop");
+            TogglePurchaseButtonInDiamondShop(true);
         }
 
         if (!isNetworkConnected && newIsNetworkConnected && isIAPInitialized) 
         {
             ActivePurchaseButtonInHeartShop();
-            Debug.Log("ActivePurchaseButtonInHeartShop");
+            TogglePurchaseButtonInDiamondShop(false);
         }
 
+        // 하트 충전속도 핸들링
         if (isIAPInitialized && !isSetSpeedUp 
             && IAPManager.Instance.HadPurchased(Constants.HeartRechargeSpeedUp))
         {
@@ -66,6 +70,7 @@ public class UIController : MonoBehaviour
 
         UpdateTimerText();
         
+        // 하트바 핸들링
         if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
         {
             HandleHeartBarUI();
@@ -77,6 +82,9 @@ public class UIController : MonoBehaviour
         {
             ToggleNoHeartCanvas(false);
         }
+
+        // 다이아몬드 핸들링
+        HandleDiamondBar();
     }
 
     private void Initialize()
@@ -84,8 +92,10 @@ public class UIController : MonoBehaviour
         bool newIsNetworkConnected = Utils.IsNetworkConnected();
 
         heartShopController = FindObjectOfType<HeartShopController>();
+        diamondShopController = FindObjectOfType<DiamondShopController>();
         startController = FindObjectOfType<StartController>();
         newHeartController = FindObjectOfType<NewHeartController>();
+        diamondController = FindObjectOfType<DiamondController>();
         levelLoader = FindObjectOfType<LevelLoader>();
         iAPManager = FindObjectOfType<IAPManager>();
         
@@ -106,17 +116,15 @@ public class UIController : MonoBehaviour
         if (newIsNetworkConnected && isIAPInitialized)
         {
             ActivePurchaseButtonInHeartShop();
+            TogglePurchaseButtonInDiamondShop(false);
         }
-        else {
+        else 
+        {
             DeactivePurchaseButtonInHeartShop();
+            TogglePurchaseButtonInDiamondShop(true);
         }
     }
 
-    // public void TimeTest()
-    // {
-    //     GameObject.Find("IsDeviceTimeValid Test").GetComponent<Text>().text = newHeartController.GetIsDeviceTimeValidTest().ToString();
-    //     GameObject.Find("targetDeltaCount Test").GetComponent<Text>().text = newHeartController.GetTargetDeltaCountTest().ToString();
-    // }
 
     public void UpdateTimerText()
     {
@@ -127,13 +135,6 @@ public class UIController : MonoBehaviour
         if (Utils.IsNetworkConnected())
         {
             string remainTime = string.Format("{0:0}:{1:00}", heartCharteRemainSecond / 60, heartCharteRemainSecond % 60);
-            // Debug.Log(remainTime);
-
-            // if (heartCharteRemainSecond < 0)
-            // {
-            //     newHeartController.StartTimer();
-            //     // Invoke("TimeTest", 0.5f);
-            // }
 
             if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
             {
@@ -216,6 +217,15 @@ public class UIController : MonoBehaviour
         if (heartRechargeSpeedPurchased != 2) 
         {
             heartShopController.TogglePurchaseButton(true, Constants.HeartRechargeSpeedUp);
+        }
+    }
+
+    public void TogglePurchaseButtonInDiamondShop(bool isActive)
+    {
+        for (int i = 0; i < 1; i++)
+        {
+            string targetDiamond = Constants.SAVED_DATA.DIAMOND + (i + 1);
+            diamondShopController.TogglePurchaseButton(isActive, targetDiamond);
         }
     }
 
@@ -318,5 +328,11 @@ public class UIController : MonoBehaviour
 
         body.transform.DOMoveY(-Screen.height/2, 0.25f);
         return;
-    }    
+    }
+
+    public void HandleDiamondBar()
+    {
+        Text diamondAmount = GameObject.Find(Constants.GAME_OBJECT_NAME.DIAMOND_AMOUNT).GetComponent<Text>();
+        diamondAmount.text = diamondController.GetDiamondAmount().ToString();
+    }
 }

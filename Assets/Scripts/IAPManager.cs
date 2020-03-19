@@ -44,6 +44,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
     public bool IsInitialized => storeController != null && storeExtensionProvider != null;
     NewHeartController newHeartController;
+    DiamondController diamondController;
     AfterPurchaseEffectController afterPurchaseEffectController;
     HeartShopController heartShopController;
     UIController UIController;
@@ -62,6 +63,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
     private void Initialize()
     {
         newHeartController = FindObjectOfType<NewHeartController>();
+        diamondController = FindObjectOfType<DiamondController>();
         afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
         heartShopController = FindObjectOfType<HeartShopController>();
         UIController = FindObjectOfType<UIController>();
@@ -88,6 +90,8 @@ public class IAPManager : MonoBehaviour, IStoreListener
                 { AndroidGoldrushDiceId, GooglePlay.Name },
             }
             );
+
+        // 하트   
         builder.AddProduct(
             Constants.SmallHeart, ProductType.Consumable,
             new IDs()
@@ -113,6 +117,56 @@ public class IAPManager : MonoBehaviour, IStoreListener
             }
             );
 
+        // 다이아몬드
+        builder.AddProduct(
+            Constants.DIAMOND_1, ProductType.NonConsumable,
+            new IDs()
+            {
+                { Constants.DIAMOND_1, AppleAppStore.Name },
+                { Constants.DIAMOND_1, GooglePlay.Name },
+            }
+            );
+        builder.AddProduct(
+            Constants.DIAMOND_2, ProductType.NonConsumable,
+            new IDs()
+            {
+                { Constants.DIAMOND_2, AppleAppStore.Name },
+                { Constants.DIAMOND_2, GooglePlay.Name },
+            }
+            );
+        builder.AddProduct(
+            Constants.DIAMOND_3, ProductType.NonConsumable,
+            new IDs()
+            {
+                { Constants.DIAMOND_3, AppleAppStore.Name },
+                { Constants.DIAMOND_3, GooglePlay.Name },
+            }
+            );
+        builder.AddProduct(
+            Constants.DIAMOND_4, ProductType.NonConsumable,
+            new IDs()
+            {
+                { Constants.DIAMOND_4, AppleAppStore.Name },
+                { Constants.DIAMOND_4, GooglePlay.Name },
+            }
+            );
+        builder.AddProduct(
+            Constants.DIAMOND_5, ProductType.NonConsumable,
+            new IDs()
+            {
+                { Constants.DIAMOND_5, AppleAppStore.Name },
+                { Constants.DIAMOND_5, GooglePlay.Name },
+            }
+            );
+        builder.AddProduct(
+            Constants.DIAMOND_6, ProductType.NonConsumable,
+            new IDs()
+            {
+                { Constants.DIAMOND_6, AppleAppStore.Name },
+                { Constants.DIAMOND_6, GooglePlay.Name },
+            }
+            );            
+
         UnityPurchasing.Initialize(this, builder);
     }
 
@@ -127,6 +181,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
         if (isNetworkConnected)
         {
             UIController.ActivePurchaseButtonInHeartShop();
+            UIController.TogglePurchaseButtonInDiamondShop(false);
         }
     }
 
@@ -139,7 +194,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
     {
         Debug.Log($"구매 성공 - ID : {args.purchasedProduct.definition.id}");
         var heartShopController = FindObjectOfType<HeartShopController>();
-        heartShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
+        var diamondShopController = FindObjectOfType<DiamondShopController>();
 
         switch(args.purchasedProduct.definition.id)
         {
@@ -165,6 +220,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
                 {
                     Debug.Log("하트 구매...");
 
+                    heartShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                     newHeartController.AddHeartAmount(15);
                     afterPurchaseEffectController.ShowScreen("0");
                     break;
@@ -173,6 +229,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
                 {
                     Debug.Log("하트 많이 구매...");
 
+                    heartShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                     newHeartController.AddHeartAmount(75);
                     afterPurchaseEffectController.ShowScreen("0");
                     break;
@@ -180,12 +237,45 @@ public class IAPManager : MonoBehaviour, IStoreListener
             case Constants.HeartRechargeSpeedUp:
                 {
                     Debug.Log("하트 충전 속도 업...");
+                    heartShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                     newHeartController.UpgradeHeartRechargeSpeed(2);
                     afterPurchaseEffectController.ShowScreen("1");
                     heartShopController.SetSpeedUpText();
                     break;
                 }
-            default: break;
+            case Constants.DIAMOND_1: {
+                diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
+                diamondController.AddDiamondAmount(22);
+                break;
+            }
+            case Constants.DIAMOND_2: {
+                diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
+                diamondController.AddDiamondAmount(55);
+                break;
+            }
+            case Constants.DIAMOND_3: {
+                diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
+                diamondController.AddDiamondAmount(121);
+                break;
+            }
+            case Constants.DIAMOND_4: {
+                diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
+                diamondController.AddDiamondAmount(396);
+                break;
+            }
+            case Constants.DIAMOND_5: {
+                diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
+                diamondController.AddDiamondAmount(858);
+                break;
+            }
+            case Constants.DIAMOND_6: {
+                diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
+                diamondController.AddDiamondAmount(1337);
+                break;
+            }
+            default: {
+                break;
+            };
         }
         return PurchaseProcessingResult.Complete;
     }
@@ -209,8 +299,6 @@ public class IAPManager : MonoBehaviour, IStoreListener
             Debug.Log($"구매 시도 - {product.definition.id}");
             if (product.definition.id == Constants.HeartRechargeSpeedUp && RestorePurchase())
             {
-                // todo
-                // var heartController = FindObjectOfType<HeartController>();
                 newHeartController.UpgradeHeartRechargeSpeed(2);
                 afterPurchaseEffectController.ShowScreen("1");
             }

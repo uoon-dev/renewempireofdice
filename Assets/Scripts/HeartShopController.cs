@@ -89,12 +89,6 @@ public class HeartShopController : MonoBehaviour
 
     public void HandleClick(string targetProductId)
     {
-        // if (IAPManager.Instance.HadPurchased(targetProductId))
-        // {
-        //     Debug.Log("이미 구매한 상품입니다.");
-        //     return;
-        // }
-
         TogglePurchaseButton(true, targetProductId);
         IAPManager.Instance.Purchase(targetProductId);
     }

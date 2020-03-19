@@ -9,6 +9,7 @@ public class StorageController
         public const string BLOCKS_BY_LEVEL_TYPE = "blockByLevelType";
         public const string BLOCKS_BY_LEVEL_TEXT = "blockByLevelText";
         public const string BACKGROUND_INDEX_BY_LEVEL = "backgroundIndexByLevel";
+        public const string DIAMOND_AMOUNT = "diamondAmount";
     }
 
     public static class STORAGE_TYPE
@@ -45,6 +46,11 @@ public class StorageController
         ES3.Save<int>(STORAGE_KEY.BACKGROUND_INDEX_BY_LEVEL + level, index);
     }
 
+    public static void SaveDiamondAmount(int targetAmount)
+    {
+        ES3.Save<int>(STORAGE_KEY.DIAMOND_AMOUNT, targetAmount);
+    }
+
     public static List<string> LoadBlocksType(int level)
     {
         return ES3.Load<List<string>>(STORAGE_KEY.BLOCKS_BY_LEVEL_TYPE + level);
@@ -58,6 +64,11 @@ public class StorageController
     public static int LoadBackgroundImageIndex(int level)
     {
         return ES3.Load<int>(STORAGE_KEY.BACKGROUND_INDEX_BY_LEVEL + level);
+    }
+
+    public static int LoadDiamondAmount()
+    {
+        return ES3.Load<int>(STORAGE_KEY.DIAMOND_AMOUNT);
     }
 
     

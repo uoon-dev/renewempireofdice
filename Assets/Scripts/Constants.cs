@@ -43,6 +43,18 @@ public class Constants : MonoBehaviour
         public const string DICES = "Dices";
         public const string NUMBER_TEXT = "Number Text";
         public const string IMAGE = "Image";
+
+        public const string DIAMOND_AMOUNT = "Diamond Amount";
+        public static class SHOP {
+            public const string DIAMOND_1 = "Diamond (1)";
+            public const string DIAMOND_2 = "Diamond (2)";
+            public const string DIAMOND_3 = "Diamond (3)";
+            public const string DIAMOND_4 = "Diamond (4)";
+            public const string DIAMOND_5 = "Diamond (5)";
+            public const string DIAMOND_6 = "Diamond (6)";
+            public const string PRICE = "Price";
+            public const string TEXT = "Text";
+        }
     }
 
     public static class TUTORIAL {
@@ -81,18 +93,29 @@ public class Constants : MonoBehaviour
         }
     }
 
+
     public static class TYPE {
         public const string LAST_BLOCK = "lastBlock";
         public const string FIRST_BLOCK = "firstBlock";
         public const string MIDDLE_BLOCK = "middleBlock";
         public const string LEFT_MIDDLE_BLOCK = "leftMiddleBlock";
         public const string BOTTOM_MIDDLE_BLOCK = "bottomMiddleBlock";
+    }
+
+    public static class SAVED_DATA {
+        public const string DIAMOND = "Diamond"; 
     }    
 
     public const string MaldivesDice = "maldivesdice";
     public const string GoldrushDice = "goldrushdice";
     public const string SmallHeart = "smallheart";
     public const string LargeHeart = "largeheart";
+    public const string DIAMOND_1 = "Diamond1";
+    public const string DIAMOND_2 = "Diamond2";
+    public const string DIAMOND_3 = "Diamond3";
+    public const string DIAMOND_4 = "Diamond4";
+    public const string DIAMOND_5 = "Diamond5";
+    public const string DIAMOND_6 = "Diamond6";
     public const string HeartRechargeSpeedUp = "speedupheartrecharge1";
     public const int HEART_MAX_CHARGE_COUNT = 5;
     public const int TIMESTAMP_VALID_OFFSET_SECONDS = 20;
