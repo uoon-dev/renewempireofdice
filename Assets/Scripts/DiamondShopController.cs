@@ -69,18 +69,23 @@ public class DiamondShopController : MonoBehaviour
                 .transform.Find(Constants.GAME_OBJECT_NAME.SHOP.PRICE);
         Transform priceText = 
             purchaseButton.transform.Find(Constants.GAME_OBJECT_NAME.SHOP.TEXT);
+        Transform loadingImage = 
+            GameObject.Find(targetProductId)
+                .transform.Find(Constants.GAME_OBJECT_NAME.SHOP.LOADING_IMAGE);
 
         if (isLoading) 
         {
             // purchaseButton.GetComponent<Image>().sprite = loadingButtonImage;
-            priceText.GetComponent<Text>().text = "";
             purchaseButton.GetComponent<Button>().interactable = false;
+            priceText.GetComponent<Text>().text = "";
+            loadingImage.gameObject.SetActive(true);
         }
         else 
         {
             purchaseButton.GetComponent<Image>().sprite = defaultPurchaseButtonImage;
             purchaseButton.GetComponent<Button>().interactable = true;
             priceText.GetComponent<Text>().text = IAPManager.Instance.GetPrice(targetProductId);
+            loadingImage.gameObject.SetActive(false);
         }
     }
 

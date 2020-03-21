@@ -54,6 +54,7 @@ public class Constants : MonoBehaviour
             public const string DIAMOND_6 = "Diamond (6)";
             public const string PRICE = "Price";
             public const string TEXT = "Text";
+            public const string LOADING_IMAGE = "Loading Image";
         }
     }
 
