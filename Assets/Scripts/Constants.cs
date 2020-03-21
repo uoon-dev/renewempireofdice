@@ -48,6 +48,14 @@ public class Constants : MonoBehaviour
         public const string IMAGE = "Image";
 
         public const string DIAMOND_AMOUNT = "Diamond Amount";
+        public static class STAGE {
+            public const string COST_IMAGE = "Cost Image";
+            public const string MONEY_TEXT = "Money Text";
+            public const string MONEY_AREA = "Money Area";
+            public const string MONEY_ICON = "Money Icon";
+            public const string COST_TEXT = "Cost Text";
+            public const string ATTACK_POWER_TEXT = "Attack Power Text";
+        }
         public static class SHOP {
             public const string PRICE = "Price";
             public const string TEXT = "Text";
@@ -85,7 +93,7 @@ public class Constants : MonoBehaviour
             public const string COST_IMAGE = "Cost Image";
             public const string MONEY_TEXT = "Money Text";
             public const string MONEY_AREA = "Money Area";
-            public const string COST_ICON = "Cost Icon";
+            public const string MONEY_ICON = "Money Icon";
             public const string COST_TEXT = "Cost Text";
             public const string ATTACK_POWER_TEXT = "Attack Power Text";
             public const string ATTACK_POWER_IMAGE = "Attack Power Image";
@@ -102,7 +110,7 @@ public class Constants : MonoBehaviour
     }
 
     public static class SAVED_DATA {
-        public const string DIAMOND = "Diamond"; 
+        public const string DIAMOND = "diamond"; 
     }    
 
     public const string MaldivesDice = "maldivesdice";

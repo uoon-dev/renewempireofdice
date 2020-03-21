@@ -498,7 +498,7 @@ public class NewTutorialController : MonoBehaviour
                 {
                     Sequence sequence = DOTween.Sequence();
                     var moneyArea = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.MONEY_AREA);
-                    var costIcon = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.COST_ICON);
+                    var costIcon = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.MONEY_ICON);
                     var costText = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.COST_TEXT);
                     var costImage = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.COST_IMAGE);
                     var moneyText = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.MONEY_TEXT);
@@ -538,7 +538,7 @@ public class NewTutorialController : MonoBehaviour
                 {
                     Sequence sequence = DOTween.Sequence();
                     var moneyArea = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.MONEY_AREA);
-                    var costIcon = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.COST_ICON);
+                    var costIcon = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.MONEY_ICON);
                     var costText = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.COST_TEXT);
                     var costImage = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.COST_IMAGE);
                     var moneyText = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.MONEY_TEXT);

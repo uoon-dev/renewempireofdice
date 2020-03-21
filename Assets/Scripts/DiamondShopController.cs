@@ -65,7 +65,6 @@ public class DiamondShopController : MonoBehaviour
 
     public void TogglePurchaseButton(bool isLoading, string targetProductId)
     {
-
         Transform purchaseButton = 
             GameObject.Find(targetProductId)
                 .transform.Find(Constants.GAME_OBJECT_NAME.SHOP.PRICE);
