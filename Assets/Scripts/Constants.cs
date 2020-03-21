@@ -36,6 +36,8 @@ public class Constants : MonoBehaviour
         public const string HEART_TIMER_TEXT_IN_SHOP = "Heart Timer Text in Shop";
         public const string HEART_RECHARGE_SPEED_UP_ITEM = "Heart Recharge Speed Up Item";
         public const string HEART_COUNT_TEXT = "Heart Count Text";
+        public const string HEART_STATUS = "Heart Status";
+        public const string HEART_IMAGE = "Heart Image";
         public const string HEART_CONTROLLER = "HeartController";
         public const string STAGE_TEXT = "StageText";
         public const string START_BUTTON = "Start Button";

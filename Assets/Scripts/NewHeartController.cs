@@ -86,7 +86,7 @@ public class NewHeartController : MonoBehaviour
 
     private void InitializeHeartBar() {
         UIController.HandleHeartBarUI();
-        UIController.HandleHeartBarInEffectUI();
+        // UIController.HandleHeartBarInEffectUI();
     }
 
     private void InitializeTimer() {

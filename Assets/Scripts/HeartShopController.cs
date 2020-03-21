@@ -7,7 +7,7 @@ using DG.Tweening;
 public class HeartShopController : MonoBehaviour
 {
     [SerializeField] GameObject rechargeItemPrice;
-    [SerializeField] GameObject heartButton;
+    [SerializeField] GameObject rechargeItemPurchaseButton;
     [SerializeField] Sprite defaultPurchaseButtonImage;
     [SerializeField] Sprite loadingButtonImage;
 
@@ -39,8 +39,8 @@ public class HeartShopController : MonoBehaviour
     public void SetSpeedUpText()
     {
         Text rechargeItemPriceText = rechargeItemPrice.GetComponent<Text>();
-        Image heartRechargeSpeedImage = heartButton.GetComponent<Image>();
-        Button purchaseButton = heartButton.GetComponent<Button>();
+        Image heartRechargeSpeedImage = rechargeItemPurchaseButton.GetComponent<Image>();
+        Button purchaseButton = rechargeItemPurchaseButton.GetComponent<Button>();
         Image diamondImage = 
             GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_RECHARGE_SPEED_UP_ITEM)
             .transform.Find(Constants.GAME_OBJECT_NAME.SHOP.DIAMOND_IMAGE).GetComponent<Image>();
