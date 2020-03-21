@@ -23,7 +23,7 @@ public class AfterPurchaseEffectController : MonoBehaviour
 
     public void ShowScreen(string type, int targetAmount)
     {
-        HideHeartShopController();
+        // HideHeartShopController();
 
         Text effectText = AfterPurchaseEffectCanvas.transform.GetChild(0).GetComponentInChildren<Text>();
         GameObject effectImage = AfterPurchaseEffectCanvas.transform.GetChild(0).GetChild(4).gameObject;

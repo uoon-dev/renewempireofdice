@@ -11,6 +11,7 @@ public class DiamondShopController : MonoBehaviour
     LevelLoader levelLoader;
     UIController UIController;
     IAPManager iAPManager;
+    HeartShopController heartShopController;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +23,7 @@ public class DiamondShopController : MonoBehaviour
     {
         levelLoader = FindObjectOfType<LevelLoader>();
         UIController = FindObjectOfType<UIController>();
-        iAPManager = FindObjectOfType<IAPManager>();
+        heartShopController = FindObjectOfType<HeartShopController>();
     }
 
     public void ToggleDiamondShopCanvas(bool isShow) {
@@ -30,8 +31,9 @@ public class DiamondShopController : MonoBehaviour
 
         if (isShow) {
             this.gameObject.GetComponent<Image>().raycastTarget = true;
+            heartShopController.ToggleHeartShopCanvas(false);
  
-            UIController.ToggleNoHeartCanvas(false);
+            // UIController.ToggleNoHeartCanvas(false);
 
             if(levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) {
                 this.gameObject.transform.DOMoveY(0, 0.25f);
@@ -75,7 +77,6 @@ public class DiamondShopController : MonoBehaviour
 
         if (isLoading) 
         {
-            // purchaseButton.GetComponent<Image>().sprite = loadingButtonImage;
             purchaseButton.GetComponent<Button>().interactable = false;
             priceText.GetComponent<Text>().text = "";
             loadingImage.gameObject.SetActive(true);

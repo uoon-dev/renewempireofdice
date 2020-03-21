@@ -34,6 +34,7 @@ public class Constants : MonoBehaviour
         public const string TITLE_IN_SHOP = "Title in Shop";
         public const string HEART_TIMER_TEXT_IN_NO_HEART_CANVAS = "Heart Timer Text in No Heart Canvas";
         public const string HEART_TIMER_TEXT_IN_SHOP = "Heart Timer Text in Shop";
+        public const string HEART_RECHARGE_SPEED_UP_ITEM = "Heart Recharge Speed Up Item";
         public const string HEART_COUNT_TEXT = "Heart Count Text";
         public const string HEART_CONTROLLER = "HeartController";
         public const string STAGE_TEXT = "StageText";
@@ -55,6 +56,7 @@ public class Constants : MonoBehaviour
             public const string PRICE = "Price";
             public const string TEXT = "Text";
             public const string LOADING_IMAGE = "Loading Image";
+            public const string DIAMOND_IMAGE = "Diamond Image";
         }
     }
 

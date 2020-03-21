@@ -47,13 +47,13 @@ public class UIController : MonoBehaviour
         // 네트워크 핸들링
         if (isNetworkConnected && !newIsNetworkConnected) 
         {
-            DeactivePurchaseButtonInHeartShop();
+            // DeactivePurchaseButtonInHeartShop();
             TogglePurchaseButtonInDiamondShop(true);
         }
 
         if (!isNetworkConnected && newIsNetworkConnected && isIAPInitialized) 
         {
-            ActivePurchaseButtonInHeartShop();
+            // ActivePurchaseButtonInHeartShop();
             TogglePurchaseButtonInDiamondShop(false);
         }
 
@@ -115,12 +115,12 @@ public class UIController : MonoBehaviour
 
         if (newIsNetworkConnected && isIAPInitialized)
         {
-            ActivePurchaseButtonInHeartShop();
+            // ActivePurchaseButtonInHeartShop();
             TogglePurchaseButtonInDiamondShop(false);
         }
         else 
         {
-            DeactivePurchaseButtonInHeartShop();
+            // DeactivePurchaseButtonInHeartShop();
             TogglePurchaseButtonInDiamondShop(true);
         }
     }
@@ -196,29 +196,29 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void ActivePurchaseButtonInHeartShop()
-    {
-        heartShopController.TogglePurchaseButton(false, Constants.SmallHeart);
-        heartShopController.TogglePurchaseButton(false, Constants.LargeHeart);
+    // public void ActivePurchaseButtonInHeartShop()
+    // {
+    //     heartShopController.TogglePurchaseButton(false, Constants.SmallHeart);
+    //     heartShopController.TogglePurchaseButton(false, Constants.LargeHeart);
 
-        int heartRechargeSpeedPurchased = PlayerPrefs.GetInt("HeartRechargeSpeed");
-        if (heartRechargeSpeedPurchased != 2) 
-        {
-            heartShopController.TogglePurchaseButton(false, Constants.HeartRechargeSpeedUp);
-        }
-    }
+    //     int heartRechargeSpeedPurchased = PlayerPrefs.GetInt("HeartRechargeSpeed");
+    //     if (heartRechargeSpeedPurchased != 2) 
+    //     {
+    //         heartShopController.TogglePurchaseButton(false, Constants.HeartRechargeSpeedUp);
+    //     }
+    // }
 
-    public void DeactivePurchaseButtonInHeartShop()
-    {
-        heartShopController.TogglePurchaseButton(true, Constants.SmallHeart);
-        heartShopController.TogglePurchaseButton(true, Constants.LargeHeart);
+    // public void DeactivePurchaseButtonInHeartShop()
+    // {
+    //     heartShopController.TogglePurchaseButton(true, Constants.SmallHeart);
+    //     heartShopController.TogglePurchaseButton(true, Constants.LargeHeart);
 
-        int heartRechargeSpeedPurchased = PlayerPrefs.GetInt("HeartRechargeSpeed");
-        if (heartRechargeSpeedPurchased != 2) 
-        {
-            heartShopController.TogglePurchaseButton(true, Constants.HeartRechargeSpeedUp);
-        }
-    }
+    //     int heartRechargeSpeedPurchased = PlayerPrefs.GetInt("HeartRechargeSpeed");
+    //     if (heartRechargeSpeedPurchased != 2) 
+    //     {
+    //         heartShopController.TogglePurchaseButton(true, Constants.HeartRechargeSpeedUp);
+    //     }
+    // }
 
     public void TogglePurchaseButtonInDiamondShop(bool isActive)
     {

@@ -180,7 +180,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
         if (isNetworkConnected)
         {
-            UIController.ActivePurchaseButtonInHeartShop();
+            // UIController.ActivePurchaseButtonInHeartShop();
             UIController.TogglePurchaseButtonInDiamondShop(false);
         }
     }
@@ -216,33 +216,33 @@ public class IAPManager : MonoBehaviour, IStoreListener
                     PlayerPrefs.SetInt($"purchased-{Constants.GoldrushDice}", 1);
                     break;
                 }
-            case Constants.SmallHeart:
-                {
-                    Debug.Log("하트 구매...");
+            // case Constants.SmallHeart:
+            //     {
+            //         Debug.Log("하트 구매...");
 
-                    heartShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
-                    newHeartController.AddHeartAmount(15);
-                    afterPurchaseEffectController.ShowScreen("0", 15);
-                    break;
-                }
-            case Constants.LargeHeart:
-                {
-                    Debug.Log("하트 많이 구매...");
+            //         heartShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
+            //         newHeartController.AddHeartAmount(15);
+            //         afterPurchaseEffectController.ShowScreen("0", 15);
+            //         break;
+            //     }
+            // case Constants.LargeHeart:
+            //     {
+            //         Debug.Log("하트 많이 구매...");
 
-                    heartShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
-                    newHeartController.AddHeartAmount(75);
-                    afterPurchaseEffectController.ShowScreen("0", 75);
-                    break;
-                }
-            case Constants.HeartRechargeSpeedUp:
-                {
-                    Debug.Log("하트 충전 속도 업...");
-                    heartShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
-                    newHeartController.UpgradeHeartRechargeSpeed(2);
-                    afterPurchaseEffectController.ShowScreen("1", 0);
-                    heartShopController.SetSpeedUpText();
-                    break;
-                }
+            //         heartShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
+            //         newHeartController.AddHeartAmount(75);
+            //         afterPurchaseEffectController.ShowScreen("0", 75);
+            //         break;
+            //     }
+            // case Constants.HeartRechargeSpeedUp:
+            //     {
+            //         Debug.Log("하트 충전 속도 업...");
+            //         heartShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
+            //         newHeartController.UpgradeHeartRechargeSpeed(2);
+            //         afterPurchaseEffectController.ShowScreen("1", 0);
+            //         heartShopController.SetSpeedUpText();
+            //         break;
+            //     }
             case Constants.DIAMOND_1: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                 diamondController.AddDiamondAmount(22);
@@ -288,8 +288,8 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
     public void OnPurchaseFailed(Product product, PurchaseFailureReason reason)
     {
-        var heartShopController = FindObjectOfType<HeartShopController>();
-        heartShopController.TogglePurchaseButton(false, product.definition.id);
+        // var heartShopController = FindObjectOfType<HeartShopController>();
+        // heartShopController.TogglePurchaseButton(false, product.definition.id);
         // GameObject.Find("IAP Error Reason").GetComponent<Text>().text = reason.ToString();
         Debug.LogWarning($"구매 실패 - {product.definition.id}, {reason}");
     }

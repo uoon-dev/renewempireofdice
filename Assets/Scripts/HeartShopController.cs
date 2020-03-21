@@ -6,8 +6,8 @@ using DG.Tweening;
 
 public class HeartShopController : MonoBehaviour
 {
-    [SerializeField] GameObject HeartText;
-    [SerializeField] GameObject HeartButton;
+    [SerializeField] GameObject rechargeItemPrice;
+    [SerializeField] GameObject heartButton;
     [SerializeField] Sprite defaultPurchaseButtonImage;
     [SerializeField] Sprite loadingButtonImage;
 
@@ -15,6 +15,9 @@ public class HeartShopController : MonoBehaviour
     UIController UIController;
     IAPManager iAPManager;
     NewHeartController newHeartController;
+    DiamondController diamondController;
+    DiamondShopController diamondShopController;
+    AfterPurchaseEffectController afterPurchaseEffectController;
 
     void Awake()
     {
@@ -28,31 +31,39 @@ public class HeartShopController : MonoBehaviour
         UIController = FindObjectOfType<UIController>();
         iAPManager = FindObjectOfType<IAPManager>();
         newHeartController = FindObjectOfType<NewHeartController>();
+        diamondController = FindObjectOfType<DiamondController>();
+        diamondShopController = FindObjectOfType<DiamondShopController>();
+        afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
     }    
 
     public void SetSpeedUpText()
     {
-        Text HeartRechargeSpeedText = HeartText.GetComponent<Text>();
-        Image HeartRechargeSpeedImage = HeartButton.GetComponent<Image>();
-        Button HeartRechargeSpeedButton = HeartButton.GetComponent<Button>();
+        Text rechargeItemPriceText = rechargeItemPrice.GetComponent<Text>();
+        Image heartRechargeSpeedImage = heartButton.GetComponent<Image>();
+        Button purchaseButton = heartButton.GetComponent<Button>();
+        Image diamondImage = 
+            GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_RECHARGE_SPEED_UP_ITEM)
+            .transform.Find(Constants.GAME_OBJECT_NAME.SHOP.DIAMOND_IMAGE).GetComponent<Image>();
 
-        if (HeartRechargeSpeedText != null) {
+        if (rechargeItemPriceText != null) {
             int heartRechargeSpeed = PlayerPrefs.GetInt("HeartRechargeSpeed");
             if (heartRechargeSpeed == 2 || IAPManager.Instance.HadPurchased(Constants.HeartRechargeSpeedUp))
             {
-                HeartRechargeSpeedText.text = "구매함";
-                HeartRechargeSpeedText.color = new Color32(0, 0, 0, 100);
+                rechargeItemPriceText.text = "구매함";
+                rechargeItemPriceText.color = new Color32(0, 0, 0, 100);
                 if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
                 {
-                    HeartRechargeSpeedText.fontSize = 20;
-                } 
+                    rechargeItemPriceText.fontSize = 18;
+                    rechargeItemPriceText.transform.DOLocalMoveX(120.5f ,0);
+                }
                 else
                 {
-                    HeartRechargeSpeedText.fontSize = 10;
+                    rechargeItemPriceText.fontSize = 10;
                 }
                 
-                HeartRechargeSpeedImage.color = new Color32(255, 255, 255, 100);
-                HeartRechargeSpeedButton.interactable = false;
+                heartRechargeSpeedImage.color = new Color32(255, 255, 255, 100);
+                diamondImage.color = new Color32(255, 255, 255, 100);
+                purchaseButton.interactable = false;
             }
         }   
     }
@@ -62,7 +73,8 @@ public class HeartShopController : MonoBehaviour
 
         if (isShow) {
             this.gameObject.GetComponent<Image>().raycastTarget = true;
- 
+
+            diamondShopController.ToggleDiamondShopCanvas(false);
             UIController.ToggleNoHeartCanvas(false);
 
             if(levelLoader.GetCurrentSceneName() == "Map System") {
@@ -89,57 +101,99 @@ public class HeartShopController : MonoBehaviour
 
     public void HandleClick(string targetProductId)
     {
-        TogglePurchaseButton(true, targetProductId);
-        IAPManager.Instance.Purchase(targetProductId);
-    }
-
-    public void TogglePurchaseButton(bool isLoading, string targetProductId)
-    {
-        GameObject purchaseButton = null;
-        Transform closeButton = this.transform.Find("Body").transform.Find("Header").transform.Find("Close Button");
-        Transform priceText = null;
-        int heartRechargeSpeedPurchased = PlayerPrefs.GetInt("HeartRechargeSpeed");
-
-        switch (targetProductId) {
-            case Constants.SmallHeart: {
-                purchaseButton = GameObject.Find("Small Heart Purchase Button");
-                priceText = GameObject.Find("Small Heart").transform.Find("Price");
-                break;
-            }
-            case Constants.LargeHeart: {
-                purchaseButton = GameObject.Find("Large Heart Purchase Button");
-                priceText = GameObject.Find("Large Heart").transform.Find("Price");
-                break;
-            }
-            case Constants.HeartRechargeSpeedUp: {
-                purchaseButton = GameObject.Find("HeartRechargeSpeedButton");
-                priceText = GameObject.Find("Heart Recharge Speed").transform.Find("Price");
-                break;
-            }
-        }
-
-        if (isLoading) 
+        int currentDiamondAmount = diamondController.GetDiamondAmount();
+        switch (targetProductId)
         {
-            purchaseButton.GetComponent<Image>().sprite = loadingButtonImage;
-            priceText.GetComponent<Text>().text = "";
-            purchaseButton.GetComponent<Button>().interactable = false;
-        }
-        else 
-        {
-            purchaseButton.GetComponent<Image>().sprite = defaultPurchaseButtonImage;
-            purchaseButton.GetComponent<Button>().interactable = true;
-            // iAPManager.SetPricesInShop();
-            if (targetProductId == Constants.HeartRechargeSpeedUp)
+            case Constants.SmallHeart: 
             {
-                if (heartRechargeSpeedPurchased != 2)
+                if(currentDiamondAmount < 15)
                 {
-                    priceText.GetComponent<Text>().text = iAPManager.GetPrice(targetProductId);
+                    return;
                 }
+                
+                diamondController.SubtractDiamondAmount(15);
+                newHeartController.AddHeartAmount(5);
+                afterPurchaseEffectController.ShowScreen("0", 5);
+                break;
             }
-            else
+            case Constants.LargeHeart: 
             {
-                priceText.GetComponent<Text>().text = iAPManager.GetPrice(targetProductId);
+                if(currentDiamondAmount < 120)
+                {
+                    return;
+                }
+
+                diamondController.SubtractDiamondAmount(120);
+                newHeartController.AddHeartAmount(50);
+                afterPurchaseEffectController.ShowScreen("0", 50);
+                break;
+            }
+            case Constants.HeartRechargeSpeedUp: 
+            {
+                if(currentDiamondAmount < 20)
+                {
+                    return;
+                }
+
+                diamondController.SubtractDiamondAmount(20);
+                newHeartController.UpgradeHeartRechargeSpeed(2);
+                afterPurchaseEffectController.ShowScreen("1", 0);
+                SetSpeedUpText();
+                break;
             }
         }
+        
+        // TogglePurchaseButton(true, targetProductId);
+        // IAPManager.Instance.Purchase(targetProductId);
     }
+
+    // public void TogglePurchaseButton(bool isLoading, string targetProductId)
+    // {
+    //     GameObject purchaseButton = null;
+    //     Transform closeButton = this.transform.Find("Body").transform.Find("Header").transform.Find("Close Button");
+    //     Transform priceText = null;
+    //     int heartRechargeSpeedPurchased = PlayerPrefs.GetInt("HeartRechargeSpeed");
+
+    //     switch (targetProductId) {
+    //         case Constants.SmallHeart: {
+    //             purchaseButton = GameObject.Find("Small Heart Purchase Button");
+    //             priceText = GameObject.Find("Small Heart").transform.Find("Price");
+    //             break;
+    //         }
+    //         case Constants.LargeHeart: {
+    //             purchaseButton = GameObject.Find("Large Heart Purchase Button");
+    //             priceText = GameObject.Find("Large Heart").transform.Find("Price");
+    //             break;
+    //         }
+    //         case Constants.HeartRechargeSpeedUp: {
+    //             purchaseButton = GameObject.Find("HeartRechargeSpeedButton");
+    //             priceText = GameObject.Find("Heart Recharge Speed").transform.Find("Price");
+    //             break;
+    //         }
+    //     }
+
+    //     if (isLoading)
+    //     {
+    //         purchaseButton.GetComponent<Image>().sprite = loadingButtonImage;
+    //         priceText.GetComponent<Text>().text = "";
+    //         purchaseButton.GetComponent<Button>().interactable = false;
+    //     }
+    //     else 
+    //     {
+    //         purchaseButton.GetComponent<Image>().sprite = defaultPurchaseButtonImage;
+    //         purchaseButton.GetComponent<Button>().interactable = true;
+    //         // iAPManager.SetPricesInShop();
+    //         if (targetProductId == Constants.HeartRechargeSpeedUp)
+    //         {
+    //             if (heartRechargeSpeedPurchased != 2)
+    //             {
+    //                 priceText.GetComponent<Text>().text = iAPManager.GetPrice(targetProductId);
+    //             }
+    //         }
+    //         else
+    //         {
+    //             priceText.GetComponent<Text>().text = iAPManager.GetPrice(targetProductId);
+    //         }
+    //     }
+    // }
 }
