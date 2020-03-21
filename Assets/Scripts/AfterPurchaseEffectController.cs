@@ -21,7 +21,7 @@ public class AfterPurchaseEffectController : MonoBehaviour
         diamondController = FindObjectOfType<DiamondController>();
     }
 
-    public void ShowScreen(string type)
+    public void ShowScreen(string type, int targetAmount)
     {
         HideHeartShopController();
 
@@ -35,10 +35,12 @@ public class AfterPurchaseEffectController : MonoBehaviour
 
         if (type == "0") {
             effectText.text = "하트가 충전됐어요!";
-            heartBar.SetActive(true);
+            effectText.transform.DOLocalMoveY(41f, 0);
+            heartBar.SetActive(false);
             effectImage.SetActive(false);
-            heartReward.SetActive(false);
+            heartReward.SetActive(true);
             diamondAmount.SetActive(false);
+            heartRewardAmount.GetComponent<Text>().text = $"+{targetAmount}";
         } else if (type == "1") {
             effectText.text = "충전 속도가 빨라집니다";
             heartBar.SetActive(false);
@@ -66,7 +68,7 @@ public class AfterPurchaseEffectController : MonoBehaviour
             effectImage.SetActive(false);
             heartReward.SetActive(false);
             diamondAmount.SetActive(true);
-            diamondRewardAmount.GetComponent<Text>().text = $"+{diamondController.GetDiamondAmount()}";
+            diamondRewardAmount.GetComponent<Text>().text = $"+{targetAmount}";
         }
 
         AfterPurchaseEffectCanvas.GetComponent<CanvasGroup>().DOFade(1, 0.2f).OnComplete(() => {

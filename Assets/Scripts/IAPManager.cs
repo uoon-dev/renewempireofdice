@@ -222,7 +222,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
                     heartShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                     newHeartController.AddHeartAmount(15);
-                    afterPurchaseEffectController.ShowScreen("0");
+                    afterPurchaseEffectController.ShowScreen("0", 15);
                     break;
                 }
             case Constants.LargeHeart:
@@ -231,7 +231,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
                     heartShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                     newHeartController.AddHeartAmount(75);
-                    afterPurchaseEffectController.ShowScreen("0");
+                    afterPurchaseEffectController.ShowScreen("0", 75);
                     break;
                 }
             case Constants.HeartRechargeSpeedUp:
@@ -239,44 +239,44 @@ public class IAPManager : MonoBehaviour, IStoreListener
                     Debug.Log("하트 충전 속도 업...");
                     heartShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                     newHeartController.UpgradeHeartRechargeSpeed(2);
-                    afterPurchaseEffectController.ShowScreen("1");
+                    afterPurchaseEffectController.ShowScreen("1", 0);
                     heartShopController.SetSpeedUpText();
                     break;
                 }
             case Constants.DIAMOND_1: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                 diamondController.AddDiamondAmount(22);
-                afterPurchaseEffectController.ShowScreen("4");
+                afterPurchaseEffectController.ShowScreen("4", 22);
                 break;
             }
             case Constants.DIAMOND_2: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                 diamondController.AddDiamondAmount(55);
-                afterPurchaseEffectController.ShowScreen("4");
+                afterPurchaseEffectController.ShowScreen("4", 55);
                 break;
             }
             case Constants.DIAMOND_3: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                 diamondController.AddDiamondAmount(121);
-                afterPurchaseEffectController.ShowScreen("4");
+                afterPurchaseEffectController.ShowScreen("4", 121);
                 break;
             }
             case Constants.DIAMOND_4: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                 diamondController.AddDiamondAmount(396);
-                afterPurchaseEffectController.ShowScreen("4");
+                afterPurchaseEffectController.ShowScreen("4", 396);
                 break;
             }
             case Constants.DIAMOND_5: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                 diamondController.AddDiamondAmount(858);
-                afterPurchaseEffectController.ShowScreen("4");
+                afterPurchaseEffectController.ShowScreen("4", 858);
                 break;
             }
             case Constants.DIAMOND_6: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
                 diamondController.AddDiamondAmount(1337);
-                afterPurchaseEffectController.ShowScreen("4");
+                afterPurchaseEffectController.ShowScreen("4", 1337);
                 break;
             }
             default: {
@@ -306,7 +306,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
             if (product.definition.id == Constants.HeartRechargeSpeedUp && RestorePurchase())
             {
                 newHeartController.UpgradeHeartRechargeSpeed(2);
-                afterPurchaseEffectController.ShowScreen("1");
+                afterPurchaseEffectController.ShowScreen("1", 0);
             }
             else {
                 storeController.InitiatePurchase(product);

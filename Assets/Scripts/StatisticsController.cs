@@ -102,12 +102,12 @@ public class StatisticsController : MonoBehaviour
                         {
                             isHeartFullReward = true;
                             yield return new WaitForSeconds(0.7f);
-                            afterPurchaseEffectController.ShowScreen("3");
+                            afterPurchaseEffectController.ShowScreen("3", 0);
                         }
                         if (savedLevelStarCount < 3)
                         {
                             yield return new WaitForSeconds(isHeartFullReward ? 2f : 0.7f);
-                            afterPurchaseEffectController.ShowScreen("2");
+                            afterPurchaseEffectController.ShowScreen("2", 0);
                         }
                     }
                 }
@@ -127,9 +127,8 @@ public class StatisticsController : MonoBehaviour
             {
                 if (currentLevelNumber % 10 == 0)
                 {
-                    Debug.Log("afterPurchaseEffectController.ShowScreen('3')");
                     yield return new WaitForSeconds(0.7f);
-                    afterPurchaseEffectController.ShowScreen("3");
+                    afterPurchaseEffectController.ShowScreen("3", 0);
                 }
             }
         }
