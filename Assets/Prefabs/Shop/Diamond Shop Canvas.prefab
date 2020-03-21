@@ -113,8 +113,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 49, y: 0}
-  m_SizeDelta: {x: 98, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7341162130503666004
 CanvasRenderer:
@@ -349,7 +349,7 @@ GameObject:
   - component: {fileID: 2618241659512063306}
   - component: {fileID: 4065632739711485191}
   m_Layer: 0
-  m_Name: Diamond3
+  m_Name: diamond3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -694,8 +694,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 49, y: 0}
-  m_SizeDelta: {x: 98, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1776737128519393095
 CanvasRenderer:
@@ -783,7 +783,7 @@ GameObject:
   - component: {fileID: 2133639493648491746}
   - component: {fileID: 5465671264461160396}
   m_Layer: 0
-  m_Name: Diamond2
+  m_Name: diamond2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -977,7 +977,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Diamond6
+          m_StringArgument: diamond6
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &6249257137957393242
@@ -1262,7 +1262,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Diamond4
+          m_StringArgument: diamond4
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &8334680911296748812
@@ -1340,8 +1340,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 49, y: 0}
-  m_SizeDelta: {x: 98, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &543770744247616165
 CanvasRenderer:
@@ -1681,8 +1681,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 49, y: 0}
-  m_SizeDelta: {x: 98, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6291164475322233258
 CanvasRenderer:
@@ -2291,7 +2291,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Diamond5
+          m_StringArgument: diamond5
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &5116961767888767535
@@ -2461,7 +2461,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Diamond2
+          m_StringArgument: diamond2
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2559595847827331781
@@ -2799,8 +2799,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 49, y: 0}
-  m_SizeDelta: {x: 98, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &412844089562394248
 CanvasRenderer:
@@ -2962,7 +2962,7 @@ GameObject:
   - component: {fileID: 3779515931083484743}
   - component: {fileID: 6826792876745818833}
   m_Layer: 0
-  m_Name: Diamond5
+  m_Name: diamond5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3113,7 +3113,7 @@ GameObject:
   - component: {fileID: 2978985545199183338}
   - component: {fileID: 1669428168294924490}
   m_Layer: 0
-  m_Name: Diamond4
+  m_Name: diamond4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3307,7 +3307,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Diamond3
+          m_StringArgument: diamond3
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2095839587501383678
@@ -3435,7 +3435,7 @@ GameObject:
   - component: {fileID: 6410045450704282083}
   - component: {fileID: 7050737313741234247}
   m_Layer: 0
-  m_Name: Diamond6
+  m_Name: diamond6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3508,11 +3508,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 481247617964470493}
     m_Modifications:
+    - target: {fileID: 3911846760237587119, guid: fb5d64fd1246640029fce1ca0edfaffb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3911846760237587119, guid: fb5d64fd1246640029fce1ca0edfaffb,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3911846761067611824, guid: fb5d64fd1246640029fce1ca0edfaffb,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2288303089837852165}
+    - target: {fileID: 3911846761067611824, guid: fb5d64fd1246640029fce1ca0edfaffb,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: diamond1
+      objectReference: {fileID: 0}
     - target: {fileID: 3911846761409657441, guid: fb5d64fd1246640029fce1ca0edfaffb,
         type: 3}
       propertyPath: m_SortingOrder
@@ -3521,7 +3536,7 @@ PrefabInstance:
     - target: {fileID: 3911846761409657442, guid: fb5d64fd1246640029fce1ca0edfaffb,
         type: 3}
       propertyPath: m_Name
-      value: Diamond1
+      value: diamond1
       objectReference: {fileID: 0}
     - target: {fileID: 3911846761409657443, guid: fb5d64fd1246640029fce1ca0edfaffb,
         type: 3}

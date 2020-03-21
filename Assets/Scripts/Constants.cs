@@ -49,12 +49,6 @@ public class Constants : MonoBehaviour
 
         public const string DIAMOND_AMOUNT = "Diamond Amount";
         public static class SHOP {
-            public const string DIAMOND_1 = "Diamond (1)";
-            public const string DIAMOND_2 = "Diamond (2)";
-            public const string DIAMOND_3 = "Diamond (3)";
-            public const string DIAMOND_4 = "Diamond (4)";
-            public const string DIAMOND_5 = "Diamond (5)";
-            public const string DIAMOND_6 = "Diamond (6)";
             public const string PRICE = "Price";
             public const string TEXT = "Text";
             public const string LOADING_IMAGE = "Loading Image";
@@ -115,12 +109,12 @@ public class Constants : MonoBehaviour
     public const string GoldrushDice = "goldrushdice";
     public const string SmallHeart = "smallheart";
     public const string LargeHeart = "largeheart";
-    public const string DIAMOND_1 = "Diamond1";
-    public const string DIAMOND_2 = "Diamond2";
-    public const string DIAMOND_3 = "Diamond3";
-    public const string DIAMOND_4 = "Diamond4";
-    public const string DIAMOND_5 = "Diamond5";
-    public const string DIAMOND_6 = "Diamond6";
+    public const string DIAMOND_1 = "diamond1";
+    public const string DIAMOND_2 = "diamond2";
+    public const string DIAMOND_3 = "diamond3";
+    public const string DIAMOND_4 = "diamond4";
+    public const string DIAMOND_5 = "diamond5";
+    public const string DIAMOND_6 = "diamond6";
     public const string HeartRechargeSpeedUp = "speedupheartrecharge1";
     public const int HEART_MAX_CHARGE_COUNT = 5;
     public const int TIMESTAMP_VALID_OFFSET_SECONDS = 20;
