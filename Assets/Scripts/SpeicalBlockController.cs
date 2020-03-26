@@ -25,10 +25,6 @@ public class SpeicalBlockController : MonoBehaviour
     public static int horizontalCount = 0;
     public static int verticalCount = 0;
     public static int bombCount = 0;
-<<<<<<< HEAD
-    public int lastBlockCount = 0;
-=======
->>>>>>> master
     private static int createdMineCount = 0;
     private static int createdArmyCount = 0;
     private static int createdWizardCount = 0;
@@ -168,13 +164,4 @@ public class SpeicalBlockController : MonoBehaviour
     //    relicsCount = (int)speicalBlocks.GetPropertyValue("relics");
     //    lastBlockCount = (int)speicalBlocks.GetPropertyValue("lastblock");
     //}
-<<<<<<< HEAD
-
-    public int GetLastBlockNumber()
-    {
-        Debug.Log(lastBlockCount + ":lastBlockCount");
-        return lastBlockCount;
-    }
-=======
->>>>>>> master
 }
