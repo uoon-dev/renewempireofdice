@@ -13,13 +13,12 @@ public class ResetDiceController : MonoBehaviour
     [SerializeField] Sprite disabledResetDiceButtonImage = null;
     [SerializeField] Sprite abledResetDiceButtonImage = null;
 
-    Text[] money; 
     GameObject moneyArea;
     Image moneyIconImage;
-    Text moneyText;
     Text costText;
+    Text moneyText;
     Text attackPowerText;
-    int cost = 5;
+    int money = 5;
     int attackPower = 6;
     LevelLoader levelLoader;
     TutorialDialogueController tutorialDialogueController;
@@ -29,14 +28,14 @@ public class ResetDiceController : MonoBehaviour
         Initialize();
 
         if (levelLoader.GetCurrentLevelNumber() <= 5) {
-            costText.text = "25";
+            moneyText.text = "25";
         } else if (levelLoader.GetCurrentLevelNumber() <= 19) {
-            costText.text = "20";
+            moneyText.text = "20";
         } else {
-            costText.text = "15";
+            moneyText.text = "15";
         }
 
-        moneyText.text = cost.ToString();
+        costText.text = money.ToString();
         attackPowerText.text = "1-6";
 
 
@@ -47,28 +46,25 @@ public class ResetDiceController : MonoBehaviour
     private void Initialize()
     {
         levelLoader = FindObjectOfType<LevelLoader>();
-        // tutorialDialogueController = FindObjectOfType<TutorialDialogueController>();
-        // Debug.Log(tutorialDialogueController);
-        money = GetComponentsInChildren<Text>();
         moneyArea = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.MONEY_AREA);
-        moneyText = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.MONEY_TEXT).GetComponent<Text>();
-        moneyIconImage = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.MONEY_ICON).GetComponent<Image>();
         costText = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.COST_TEXT).GetComponent<Text>();
+        moneyIconImage = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.COST_ICON).GetComponent<Image>();
+        moneyText = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.MONEY_TEXT).GetComponent<Text>();
         attackPowerText = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.ATTACK_POWER_TEXT).GetComponent<Text>();
     }
 
     public void AddMoneyAfterKill()
     {
-        costText.text = (int.Parse(costText.text) + 1).ToString();
+        moneyText.text = (int.Parse(moneyText.text) + 1).ToString();
     }
 
     public void OnClickButton() {
-        int currentMoney = int.Parse(costText.text);
-        if (currentMoney >= cost)
+        int currentMoney = int.Parse(moneyText.text);
+        if (currentMoney >= money)
         {
             if (EffectSoundController.instance != null)
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_NEW_DICE);
-            costText.text = (int.Parse(costText.text) - cost).ToString();
+            moneyText.text = (int.Parse(moneyText.text) - money).ToString();
             ResetDices();
 
             if (TutorialDialogueController.dialogueTurn == 19)
@@ -186,7 +182,7 @@ public class ResetDiceController : MonoBehaviour
 
     public void ToggleResetDiceButton()
     {
-        if (GetDestroyedDiceCount() > 0 && GetCurrentMoney() >= cost)
+        if (GetDestroyedDiceCount() > 0 && GetCurrentMoney() >= money)
         {
             AbleResetDiceButton();
         } 
@@ -198,27 +194,33 @@ public class ResetDiceController : MonoBehaviour
 
     public void SetCost(int newCost)
     {
-        cost = newCost;
-        moneyText.text = cost.ToString();
+        money = newCost;
+        costText.text = money.ToString();
     }
 
     public int GetCost()
     {
-        return cost;
+        return money;
     }
 
+    public void AddMoney(int targetAmount)
+    {
+        int currentMoney = int.Parse(moneyText.text);
+        moneyText.text = (int.Parse(moneyText.text) + targetAmount).ToString();
+    }
+    
     public void SpendCurrentMoney(int spendedCost)
     {
-        int currentMoney = int.Parse(costText.text);
+        int currentMoney = int.Parse(moneyText.text);
         if (currentMoney >= spendedCost)
         {
-            costText.text = (int.Parse(costText.text) - spendedCost).ToString();
+            moneyText.text = (int.Parse(moneyText.text) - spendedCost).ToString();
         }
     }
 
     public int GetCurrentMoney()
     {
-        return int.Parse(costText.text);
+        return int.Parse(moneyText.text);
     }
 
     public void SetAttackPower(int power)
@@ -234,7 +236,7 @@ public class ResetDiceController : MonoBehaviour
             moneyArea.GetComponent<Button>().enabled = false;
             moneyArea.GetComponent<Image>().color = new Color32(255, 255, 255, 100);
             moneyIconImage.color = new Color32(255, 255, 255, 100);
-            moneyText.color = new Color32(82, 77, 74, 80);
+            costText.color = new Color32(82, 77, 74, 80);
         }
     }
     public void AbleResetDiceButton()
@@ -244,7 +246,7 @@ public class ResetDiceController : MonoBehaviour
             moneyArea.GetComponent<Button>().enabled = true;
             moneyArea.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             moneyIconImage.color = new Color32(255, 255, 255, 255);
-            moneyText.color = new Color32(0, 0, 0, 255);
+            costText.color = new Color32(0, 0, 0, 255);
         }
     }
 } 

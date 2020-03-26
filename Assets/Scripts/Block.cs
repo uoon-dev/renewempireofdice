@@ -36,6 +36,9 @@ public class Block : MonoBehaviour
     [SerializeField] GameObject tooltip = null;
     [SerializeField] GameObject ddackBody = null;
     [SerializeField] GameObject specialBlockEffect = null;
+    [SerializeField] Image backgroundImage = null;
+    [SerializeField] Image backgroundImageWrapper = null;
+    [SerializeField] Image specialBlockImage = null;
     int minNumber = 1;
     int maxNumber = 6;
     int posX, posY;
@@ -50,13 +53,12 @@ public class Block : MonoBehaviour
     private static int slotOrder2 = 0;
     private static Vector3 firstBlockPosition;
     private static Vector3 lastBlockPosition;
-    private Image backgroundImage;
-    private Image specialBlockImage;
     private static int relicsAnimationTurn = 0;
     private GameObject wizardAnimationImage;
     private GameObject armyAnimationImage;
     LevelLoader levelLoader;
     DiceController diceController;
+    ItemController itemController;
 
     void Awake()
     {
@@ -69,7 +71,7 @@ public class Block : MonoBehaviour
         {
             HideTooltip();
         }
-        
+
         slotOrder1 = 0;
         slotOrder2 = 0;
     }
@@ -78,10 +80,7 @@ public class Block : MonoBehaviour
     {
         levelLoader = FindObjectOfType<LevelLoader>();
         diceController = FindObjectOfType<DiceController>();
-        Image[] images = GetComponentsInChildren<Image>();
-
-        backgroundImage = images[0];
-        specialBlockImage = images[1];
+        itemController = FindObjectOfType<ItemController>();
         wizardAnimationImage = GameObject.Find("Wizard Image");
         armyAnimationImage = GameObject.Find("Army Image");
     }
@@ -119,8 +118,6 @@ public class Block : MonoBehaviour
             blockText.text = randomNum.ToString();
         }
 
-        Debug.Log(blockText.text + ":" + posX + ":" + posY);
-
         UpdateBlocksUI();
     }
 
@@ -140,8 +137,8 @@ public class Block : MonoBehaviour
         if (posX == 1 && posY == 1)
         {
             isClickable = true;
-            GetComponentsInChildren<Image>()[0].sprite = destroyableBlockImage;
-            GetComponentsInChildren<Image>()[0].color = new Color32(255, 255, 255, 255);
+            backgroundImage.sprite = destroyableBlockImage;
+            backgroundImage.color = new Color32(255, 255, 255, 255);
             GetComponentInChildren<Text>().color = new Color32(32, 32, 32, 255);
             firstBlockPosition = transform.position;
         }
@@ -149,9 +146,9 @@ public class Block : MonoBehaviour
         // Set Last block text
         if (posX == blocksLength && posY == blocksLength)
         {
-            GetComponentsInChildren<Image>()[0].sprite = lastBlockImage;
-            GetComponentsInChildren<Image>()[0].color = new Color32(255, 255, 255, 255);
-            GetComponentsInChildren<Image>()[0].transform.localPosition = new Vector3(0.7f, 3.8f, 1);
+            backgroundImage.sprite = lastBlockImage;
+            backgroundImage.color = new Color32(255, 255, 255, 255);
+            backgroundImage.transform.localPosition = new Vector3(0.7f, 3.8f, 1);
             lastBlockPosition = transform.position;
             blocksType = "마왕성";
         }
@@ -207,22 +204,21 @@ public class Block : MonoBehaviour
         return 1;
     }
 
-    private void OnMouseDown()
-    {
-        var attackGageDisplay = FindObjectOfType<AttackGageDisplay>();
-        ReduceBlockGage(attackGageDisplay.GetAttackGage());
-    }
-
     public void OnClickButton()
     {
         var diceController = FindObjectOfType<DiceController>();
+        var attackGageDisplay = FindObjectOfType<AttackGageDisplay>();
         int clickedDiceCount = diceController.GetClickedDiceCount();
 
         if (isClickable == true)
         {
-            if (clickedDiceCount > 0)
+            if(itemController.onClickedType != string.Empty)
             {
-                var attackGageDisplay = FindObjectOfType<AttackGageDisplay>();
+                diceController.UnbounceDices();
+                ReduceBlockGage(blockText.text, true);
+            }
+            else if (clickedDiceCount > 0)
+            {
                 ReduceBlockGage(attackGageDisplay.GetAttackGage());
             }
             else
@@ -350,7 +346,7 @@ public class Block : MonoBehaviour
         });
     }
 
-    private void ReduceBlockGage(string attackGage)
+    public void ReduceBlockGage(string attackGage, bool isItemEffect = false)
     {
         var diceController = FindObjectOfType<DiceController>();
         var resetDiceController = FindObjectOfType<ResetDiceController>();
@@ -367,10 +363,13 @@ public class Block : MonoBehaviour
         int resultGage = int.Parse(blockText.text) - int.Parse(attackGage);
         if (resultGage <= 0)
         {
-            ChangeDestroyedBlockDisplay(resultGage);
+            ChangeDestroyedBlockDisplay(resultGage, isItemEffect);
             MakeNextBlockClickable();
 
-            resetDiceController.AddMoneyAfterKill();
+            if (!isItemEffect)
+            {
+                resetDiceController.AddMoneyAfterKill();
+            }
             isClickable = false;
         }
         else
@@ -384,7 +383,11 @@ public class Block : MonoBehaviour
         {
             speicalBlockController.IncreaseLastBlockGage();
         }
-        resetDiceController.IncreaseTurnCount();
+        
+        if (!isItemEffect)
+        {
+            resetDiceController.IncreaseTurnCount();
+        }
         resetDiceController.ToggleResetDiceButton();
 
         // 남은 주사위 개수가 0이고 돈이 없으면 No Dice Screen 띄우기
@@ -421,7 +424,7 @@ public class Block : MonoBehaviour
         }        
     }
 
-    private void ChangeDestroyedBlockDisplay(int resultGage)
+    private void ChangeDestroyedBlockDisplay(int resultGage, bool isItemEffect = false)
     {
         isDestroyed = true;
 
@@ -432,25 +435,33 @@ public class Block : MonoBehaviour
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_LAND_PERFECT);
             //EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_LAND_PERFECT_HUMAN_VOICE);
             int randomNumber = Random.Range(0, 8);
-            GetComponentsInChildren<Image>()[0].sprite = clearLandOccupiedImage;
+            backgroundImage.color = new Color32(255, 255 , 255, 255);
+            backgroundImage.sprite = clearLandOccupiedImage;
             ddackBody.GetComponentsInChildren<Image>()[randomNumber].enabled = true;
             ddackBody.GetComponentsInChildren<Image>()[randomNumber].color = new Color32(255, 255 , 255, 255);
             FindObjectOfType<StatisticsController>().UpdateFactor01();
             FindObjectOfType<ResetDiceController>().ResetOneDice();
 
             SetDdackEffectAnimation();
+            if (itemController.onClickedType != string.Empty)
+            {
+                GetItemReward();
+            }
         }
         else
         {
             if (EffectSoundController.instance != null)
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_LAND);
-            GetComponentsInChildren<Image>()[0].sprite = clearLandImage;
+            backgroundImage.sprite = clearLandImage;
             FindObjectOfType<StatisticsController>().UpdateFactor02();
         }
         
         blockText.text = "";
         GetComponentsInChildren<Text>()[1].text = "";
-        GetSpecialBlockReward();
+        if (!isItemEffect)
+        {
+            GetSpecialBlockReward();
+        }
     }
 
     public void SetDdackEffectAnimation()
@@ -626,6 +637,11 @@ public class Block : MonoBehaviour
         }
     }
 
+    public void GetItemReward()
+    {
+        itemController.GetItemReward(this);
+    }
+
     public void AnimateDungeon()
     {
         // ResetDdackDemEffectAnimation();
@@ -743,7 +759,7 @@ public class Block : MonoBehaviour
 
         if (posX == (int)Mathf.Sqrt(blocks.Length) && posY == (int)Mathf.Sqrt(blocks.Length))
         {
-            GetComponentsInChildren<Image>()[0].transform.localPosition = new Vector3(0, 0, 1);
+            backgroundImage.transform.localPosition = new Vector3(0, 0, 1);
             FindObjectOfType<LevelController>().WinLastBlock();
         }
         else
@@ -763,8 +779,8 @@ public class Block : MonoBehaviour
                         // 마왕성을 제외하고 나머지만 이미지 변경
                         if (!(block.GetPosX() == blocksLength && block.GetPosY() == blocksLength))
                         {
-                            block.GetComponentsInChildren<Image>()[0].color = new Color32(255, 255, 255, 255);
-                            block.GetComponentsInChildren<Image>()[0].sprite = destroyableBlockImage;
+                            block.backgroundImage.color = new Color32(255, 255, 255, 255);
+                            block.backgroundImage.sprite = destroyableBlockImage;
                             if (block.blocksType == string.Empty) {
                                 block.GetComponentInChildren<Text>().color = new Color32(32, 32, 32, 255);
                             }
@@ -772,8 +788,8 @@ public class Block : MonoBehaviour
                         }
                         else
                         {
-                            block.GetComponentsInChildren<Image>()[0].color = new Color32(255, 255, 255, 255);
-                            block.GetComponentsInChildren<Image>()[0].sprite = lastBlockFinalImage;
+                            block.backgroundImage.color = new Color32(255, 255, 255, 255);
+                            block.backgroundImage.sprite = lastBlockFinalImage;
                             block.GetComponentInChildren<Text>().color = new Color32(255, 255, 255, 255);
                             block.transform.Find("Last Block Oval").gameObject.SetActive(true);
                         }
@@ -864,49 +880,49 @@ public class Block : MonoBehaviour
         {
             case "광산":
                 specialBlockImage.sprite = mineImage;
-                GetComponentsInChildren<Image>()[0].sprite = mineBackgroundImage;
+                backgroundImage.sprite = mineBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(191, 155, 48, 255);
                 blockTexts[0].text = (int.Parse(blockTexts[0].text) + 6).ToString();
                 break;
             case "던전":
                 specialBlockImage.sprite = dungeonImage;
-                GetComponentsInChildren<Image>()[0].sprite = dungeonBackgroundImage;
+                backgroundImage.sprite = dungeonBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(231, 134, 134, 255);
                 blockTexts[0].text = (int.Parse(blockTexts[0].text) + 4).ToString();
                 break;
             case "용병":
                 specialBlockImage.sprite = armyImage;
-                GetComponentsInChildren<Image>()[0].sprite = armyBackgroundImage;
+                backgroundImage.sprite = armyBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(113, 110, 110, 255);
                 blockTexts[0].text = (int.Parse(blockTexts[0].text) + 4).ToString();
                 break;
             case "마법사":
                 specialBlockImage.sprite = wizardImage;
-                GetComponentsInChildren<Image>()[0].sprite = wizardBackgroundImage;
+                backgroundImage.sprite = wizardBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(146, 100, 172, 255);
                 blockTexts[0].text = (int.Parse(blockTexts[0].text) + 6).ToString();
                 break;
             case "유물":
                 specialBlockImage.sprite = relicsImage;
-                GetComponentsInChildren<Image>()[0].sprite = relicsBackgroundImage;
+                backgroundImage.sprite = relicsBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(82, 119, 132, 255);
                 blockTexts[0].text = (int.Parse(blockTexts[0].text) + 3).ToString();
                 break;
             case "기병대":
                 specialBlockImage.sprite = horizontalImage;
-                GetComponentsInChildren<Image>()[0].sprite = horizontalBackgroundImage;
+                backgroundImage.sprite = horizontalBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(128, 120, 168, 255);
                 blockTexts[0].text = (int.Parse(blockTexts[0].text) + 6).ToString();
                 break;
             case "공습":
                 specialBlockImage.sprite = verticalImage;
-                GetComponentsInChildren<Image>()[0].sprite = verticalBackgroundImage;
+                backgroundImage.sprite = verticalBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(128, 120, 168, 255);
                 blockTexts[0].text = (int.Parse(blockTexts[0].text) + 6).ToString();
                 break;
             case "폭탄":
                 specialBlockImage.sprite = bombImage;
-                GetComponentsInChildren<Image>()[0].sprite = bombBackgroundImage;
+                backgroundImage.sprite = bombBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(128, 120, 168, 255);
                 blockTexts[0].text = (int.Parse(blockTexts[0].text) + 5).ToString();
                 break;

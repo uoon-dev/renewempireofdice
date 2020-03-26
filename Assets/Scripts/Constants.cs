@@ -53,7 +53,7 @@ public class Constants : MonoBehaviour
             public const string COST_IMAGE = "Cost Image";
             public const string MONEY_TEXT = "Money Text";
             public const string MONEY_AREA = "Money Area";
-            public const string MONEY_ICON = "Money Icon";
+            public const string COST_ICON = "Cost Icon";
             public const string COST_TEXT = "Cost Text";
             public const string ATTACK_POWER_TEXT = "Attack Power Text";
         }

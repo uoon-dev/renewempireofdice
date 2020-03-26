@@ -7,8 +7,8 @@ using UnityEngine.Analytics;
 public class BlockController : MonoBehaviour
 {
     [SerializeField] GameObject block = null;
-    [SerializeField] Sprite goldMineBackgroundImageWrapper;
-    [SerializeField] Sprite explosiveWarehouseBackgroundImageWrapper;
+    [SerializeField] Sprite goldMineBackgroundImage;
+    [SerializeField] Sprite explosiveWarehouseBackgroundImage;
 
     public static int boardWidth = 1;
     public static int boardHeight = 1;
@@ -547,14 +547,15 @@ public class BlockController : MonoBehaviour
             if (block.isClickable)
             {
                 GameObject backgroundImageWrapper = block.transform.Find(Constants.GAME_OBJECT_NAME.BACKGROUND_IMAGE_WRAPPER).gameObject;
+                Image bgimage = backgroundImageWrapper.GetComponent<Image>();
                 backgroundImageWrapper.SetActive(isActive);
                 if (type == ItemController.TYPE.GOLD_MINE)
                 {
-                    backgroundImageWrapper.GetComponent<Image>().sprite = goldMineBackgroundImageWrapper;
+                    bgimage.GetComponent<Image>().sprite = goldMineBackgroundImage;
                 }
                 else if (type == ItemController.TYPE.EXPLOSIVE_WAREHOUSE)
                 {
-                    backgroundImageWrapper.GetComponent<Image>().sprite = explosiveWarehouseBackgroundImageWrapper;
+                    bgimage.GetComponent<Image>().sprite = explosiveWarehouseBackgroundImage;
                 }
                 block.GetComponent<Canvas>().overrideSorting = isActive;
                 block.GetComponent<Canvas>().sortingOrder = isActive == true ? 6 : 5;
