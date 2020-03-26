@@ -69,7 +69,7 @@ public class Block : MonoBehaviour
         {
             HideTooltip();
         }
-
+        
         slotOrder1 = 0;
         slotOrder2 = 0;
     }
@@ -95,7 +95,7 @@ public class Block : MonoBehaviour
         posY = (int)transform.localPosition.y / blockSize;
         
         blocksLength = (int)Mathf.Sqrt(blocks.Length);
-
+        
         if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL)
         {
             // todo tutorial
@@ -118,6 +118,8 @@ public class Block : MonoBehaviour
         {
             blockText.text = randomNum.ToString();
         }
+
+        Debug.Log(blockText.text + ":" + posX + ":" + posY);
 
         UpdateBlocksUI();
     }

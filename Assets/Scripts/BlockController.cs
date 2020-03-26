@@ -99,6 +99,7 @@ public class BlockController : MonoBehaviour
 
                 if (i < blockTexts.Count) {
                     tmpBlock.blockText.text = blockTexts[i];
+                    // Debug.Log(tmpBlock.blockText.text + ":" + i);
                     tmpBlock.SetBlocksValue(false);
                 }
             }
@@ -143,7 +144,8 @@ public class BlockController : MonoBehaviour
                 blocks.Add(clonedBlock);
             }
         }
-        block.SetActive(false);
+
+        Destroy(block);
     }
 
     private void SetBoardType(int currentLevelNumber)
