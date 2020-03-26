@@ -151,13 +151,6 @@ public class Block : MonoBehaviour
             GetComponentsInChildren<Image>()[0].color = new Color32(255, 255, 255, 255);
             GetComponentsInChildren<Image>()[0].transform.localPosition = new Vector3(0.7f, 3.8f, 1);
             lastBlockPosition = transform.position;
-
-            int lastBlockCount = FindObjectOfType<SpeicalBlockController>().GetLastBlockNumber();
-            if (lastBlockCount > 0)
-            {
-                Debug.Log(lastBlockCount + ":lastBlockCount");
-                blockText.text = lastBlockCount.ToString();
-            }
             blocksType = "마왕성";
         }
     }
