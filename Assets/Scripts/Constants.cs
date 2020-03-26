@@ -48,6 +48,7 @@ public class Constants : MonoBehaviour
         public const string IMAGE = "Image";
 
         public const string DIAMOND_AMOUNT = "Diamond Amount";
+        public const string BACKGROUND_IMAGE_WRAPPER = "Background Image Wrapper";
         public static class STAGE {
             public const string COST_IMAGE = "Cost Image";
             public const string MONEY_TEXT = "Money Text";

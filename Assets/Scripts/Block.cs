@@ -155,6 +155,7 @@ public class Block : MonoBehaviour
             int lastBlockCount = FindObjectOfType<SpeicalBlockController>().GetLastBlockNumber();
             if (lastBlockCount > 0)
             {
+                Debug.Log(lastBlockCount + ":lastBlockCount");
                 blockText.text = lastBlockCount.ToString();
             }
             blocksType = "마왕성";

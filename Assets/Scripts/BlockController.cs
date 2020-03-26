@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Analytics;
 
 public class BlockController : MonoBehaviour
 {
     [SerializeField] GameObject block = null;
+    [SerializeField] Sprite goldMineBackgroundImageWrapper;
+    [SerializeField] Sprite explosiveWarehouseBackgroundImageWrapper;
 
     public static int boardWidth = 1;
     public static int boardHeight = 1;
@@ -15,6 +18,7 @@ public class BlockController : MonoBehaviour
     List<GameObject> blocks;
     LevelLoader levelLoader;
     SpeicalBlockController speicalBlockController;
+    ItemController itemController;
 
     private void Awake()
     {
@@ -50,6 +54,7 @@ public class BlockController : MonoBehaviour
     {
         levelLoader = FindObjectOfType<LevelLoader>();
         speicalBlockController = FindObjectOfType<SpeicalBlockController>();
+        itemController = FindObjectOfType<ItemController>();
     }
 
     void OnApplicationQuit()
@@ -529,5 +534,29 @@ public class BlockController : MonoBehaviour
         }
 
         return oneBlock;
+    }
+
+    public void ToggleBounceClickableBlocks(bool isActive, string type)
+    {
+        var blocks = FindObjectsOfType<Block>();
+
+        foreach (Block block in blocks)
+        {
+            if (block.isClickable)
+            {
+                GameObject backgroundImageWrapper = block.transform.Find(Constants.GAME_OBJECT_NAME.BACKGROUND_IMAGE_WRAPPER).gameObject;
+                backgroundImageWrapper.SetActive(isActive);
+                if (type == ItemController.TYPE.GOLD_MINE)
+                {
+                    backgroundImageWrapper.GetComponent<Image>().sprite = goldMineBackgroundImageWrapper;
+                }
+                else if (type == ItemController.TYPE.EXPLOSIVE_WAREHOUSE)
+                {
+                    backgroundImageWrapper.GetComponent<Image>().sprite = explosiveWarehouseBackgroundImageWrapper;
+                }
+                block.GetComponent<Canvas>().overrideSorting = isActive;
+                block.GetComponent<Canvas>().sortingOrder = isActive == true ? 6 : 5;
+            }
+        }
     }
 }
