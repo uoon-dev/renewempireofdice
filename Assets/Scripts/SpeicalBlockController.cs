@@ -25,7 +25,6 @@ public class SpeicalBlockController : MonoBehaviour
     public static int horizontalCount = 0;
     public static int verticalCount = 0;
     public static int bombCount = 0;
-    public static int lastBlockCount = 0;
     private static int createdMineCount = 0;
     private static int createdArmyCount = 0;
     private static int createdWizardCount = 0;
@@ -34,6 +33,7 @@ public class SpeicalBlockController : MonoBehaviour
     private static int createdHorizontalCount = 0;
     private static int createdVerticalCount = 0;
     private static int createdBombCount = 0;
+    public static int lastBlockNumber = 0;
     static List<int> blockNumberList = null;
 
     static string[] blocksType = { "광산", "던전", "용병", "기병대", "공습", "폭탄", "마법사", "유물" };
@@ -64,12 +64,13 @@ public class SpeicalBlockController : MonoBehaviour
             bombCount = (int)speicalBlocks.GetPropertyValue("bomb");
             wizardCount = (int)speicalBlocks.GetPropertyValue("wizard");
             relicsCount = (int)speicalBlocks.GetPropertyValue("relics");
-            lastBlockCount = (int)speicalBlocks.GetPropertyValue("lastblock");
+            lastBlockNumber = (int)speicalBlocks.GetPropertyValue("lastblock");
         }
 
         var blocks = FindObjectsOfType<Block>();
+        int maxSize = (int)Math.Floor(Math.Sqrt(blocks.Length));
 
-        if (blocks.Length > 0&& placeSpecialBlock)
+        if (blocks.Length > 0 && placeSpecialBlock)
         {
             int[] blockNumbers = new int[blocks.Length];
             for (int i = 0; i < blockNumbers.Length; i++)
@@ -92,6 +93,10 @@ public class SpeicalBlockController : MonoBehaviour
         foreach (Block block in blocks)
         {
             block.SetTooltipInfo();
+            if (block.GetPosX() == maxSize && block.GetPosY() == maxSize)
+            {
+                block.blockText.text = lastBlockNumber.ToString();
+            }
         }
     }
 
@@ -159,9 +164,4 @@ public class SpeicalBlockController : MonoBehaviour
     //    relicsCount = (int)speicalBlocks.GetPropertyValue("relics");
     //    lastBlockCount = (int)speicalBlocks.GetPropertyValue("lastblock");
     //}
-
-    public int GetLastBlockNumber()
-    {
-        return lastBlockCount;
-    }
 }
