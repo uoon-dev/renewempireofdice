@@ -115,7 +115,7 @@ public class Block : MonoBehaviour
         blockText = GetComponentInChildren<Text>();
         if (setNumber)
         {
-            blockText.text = randomNum.ToString();
+            SetBlockValue(randomNum.ToString());
         }
 
         UpdateBlocksUI();
@@ -212,7 +212,7 @@ public class Block : MonoBehaviour
 
         if (isClickable == true)
         {
-            if(itemController.onClickedType != string.Empty)
+            if(itemController.onClickedType.Length > 0 && blocksType != "마왕성")
             {
                 diceController.UnbounceDices();
                 ReduceBlockGage(blockText.text, true);
@@ -376,7 +376,8 @@ public class Block : MonoBehaviour
         {
             if (EffectSoundController.instance != null)
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.ATTACK_BLOCK);
-            blockText.text = resultGage.ToString();
+
+            SetBlockValue(resultGage.ToString());
         }
 
         if (blocksType != "마왕성")
@@ -443,25 +444,34 @@ public class Block : MonoBehaviour
             FindObjectOfType<ResetDiceController>().ResetOneDice();
 
             SetDdackEffectAnimation();
-            if (itemController.onClickedType != string.Empty)
+
+            if (itemController.onClickedType.Length > 0)
             {
                 GetItemReward();
+                GetSpecialBlockReward();                
             }
+
+            if (!isItemEffect)
+            {
+                GetSpecialBlockReward();
+            }            
         }
         else
         {
             if (EffectSoundController.instance != null)
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_LAND);
             backgroundImage.sprite = clearLandImage;
+            GetSpecialBlockReward();
+            SetBlockValue(string.Empty);
             FindObjectOfType<StatisticsController>().UpdateFactor02();
         }
         
-        blockText.text = "";
-        GetComponentsInChildren<Text>()[1].text = "";
-        if (!isItemEffect)
-        {
-            GetSpecialBlockReward();
-        }
+        // GetComponentsInChildren<Text>()[1].text = "";
+    }
+
+    private void SetBlockValue(string targetValue)
+    {
+        blockText.text = targetValue;
     }
 
     public void SetDdackEffectAnimation()
@@ -583,8 +593,8 @@ public class Block : MonoBehaviour
                         if (block.GetPosY() == posY)
                         {
                             blockText = block.GetComponentsInChildren<Text>()[0];
-                            blockText.text =
-                                Mathf.Ceil(float.Parse(blockText.text) / 2f).ToString();
+                            string targetValue = Mathf.Ceil(float.Parse(blockText.text) / 2f).ToString();
+                            SetBlockValue(targetValue);
                         }
                     }
                 }
@@ -600,8 +610,8 @@ public class Block : MonoBehaviour
                         if (block.GetPosX() == posX)
                         {
                             blockText = block.GetComponentsInChildren<Text>()[0];
-                            blockText.text =
-                                Mathf.Ceil(float.Parse(blockText.text) / 2f).ToString();
+                            string targetValue = Mathf.Ceil(float.Parse(blockText.text) / 2f).ToString();
+                            SetBlockValue(targetValue);
                         }
                     }
                 }
@@ -626,8 +636,8 @@ public class Block : MonoBehaviour
                         )
                         {
                             blockText = block.GetComponentsInChildren<Text>()[0];
-                            blockText.text =
-                                Mathf.Ceil(float.Parse(blockText.text) / 2f).ToString();
+                            string targetValue = Mathf.Ceil(float.Parse(blockText.text) / 2f).ToString();
+                            SetBlockValue(targetValue);
                         }
                     }
                 }

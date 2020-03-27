@@ -544,7 +544,7 @@ public class BlockController : MonoBehaviour
 
         foreach (Block block in blocks)
         {
-            if (block.isClickable)
+            if (block.isClickable && block.blocksType != "마왕성")
             {
                 GameObject backgroundImageWrapper = block.transform.Find(Constants.GAME_OBJECT_NAME.BACKGROUND_IMAGE_WRAPPER).gameObject;
                 Image bgimage = backgroundImageWrapper.GetComponent<Image>();
