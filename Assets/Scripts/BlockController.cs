@@ -538,7 +538,7 @@ public class BlockController : MonoBehaviour
         return oneBlock;
     }
 
-    public void ToggleBounceClickableBlocks(bool isActive, string type)
+    public void ToggleBounceClickableBlocks(bool isActive, string type = null)
     {
         var blocks = FindObjectsOfType<Block>();
 
@@ -561,5 +561,13 @@ public class BlockController : MonoBehaviour
                 block.GetComponent<Canvas>().sortingOrder = isActive == true ? 6 : 5;
             }
         }
+    }
+
+    public void ToggleBounceClickableBlock(bool isActive, Block targetBlock)
+    {
+        GameObject backgroundImageWrapper = targetBlock.transform.Find(Constants.GAME_OBJECT_NAME.BACKGROUND_IMAGE_WRAPPER).gameObject;
+        backgroundImageWrapper.SetActive(isActive);
+        targetBlock.GetComponent<Canvas>().overrideSorting = isActive;
+        targetBlock.GetComponent<Canvas>().sortingOrder = isActive == true ? 6 : 5;
     }
 }

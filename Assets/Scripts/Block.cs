@@ -364,7 +364,6 @@ public class Block : MonoBehaviour
         if (resultGage <= 0)
         {
             ChangeDestroyedBlockDisplay(resultGage, isItemEffect);
-            MakeNextBlockClickable();
 
             if (!isItemEffect)
             {
@@ -432,19 +431,6 @@ public class Block : MonoBehaviour
         // todo ddack!
         if (resultGage == 0)
         {
-            if (EffectSoundController.instance != null)
-                EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_LAND_PERFECT);
-            //EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_LAND_PERFECT_HUMAN_VOICE);
-            int randomNumber = Random.Range(0, 8);
-            backgroundImage.color = new Color32(255, 255 , 255, 255);
-            backgroundImage.sprite = clearLandOccupiedImage;
-            ddackBody.GetComponentsInChildren<Image>()[randomNumber].enabled = true;
-            ddackBody.GetComponentsInChildren<Image>()[randomNumber].color = new Color32(255, 255 , 255, 255);
-            FindObjectOfType<StatisticsController>().UpdateFactor01();
-            FindObjectOfType<ResetDiceController>().ResetOneDice();
-
-            SetDdackEffectAnimation();
-
             if (itemController.onClickedType.Length > 0)
             {
                 GetItemReward();
@@ -454,19 +440,41 @@ public class Block : MonoBehaviour
             if (!isItemEffect)
             {
                 GetSpecialBlockReward();
-            }            
+            }
+
+            if (EffectSoundController.instance != null)
+                EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_LAND_PERFECT);
+
+            Sequence sequence = DOTween.Sequence();
+            sequence.AppendInterval(isItemEffect ? 0.4f : 0);
+            sequence.AppendCallback(() => {
+                int randomNumber = Random.Range(0, 8);
+                backgroundImage.color = new Color32(255, 255 , 255, 255);
+                backgroundImage.sprite = clearLandOccupiedImage;
+                SetBlockValue(string.Empty);
+                MakeNextBlockClickable();
+
+                ddackBody.GetComponentsInChildren<Image>()[randomNumber].enabled = true;
+                ddackBody.GetComponentsInChildren<Image>()[randomNumber].color = new Color32(255, 255 , 255, 255);
+                SetDdackEffectAnimation();
+
+                FindObjectOfType<StatisticsController>().UpdateFactor01();
+                FindObjectOfType<ResetDiceController>().ResetOneDice();
+
+            });
+            sequence.Play();
         }
         else
         {
             if (EffectSoundController.instance != null)
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_LAND);
+
             backgroundImage.sprite = clearLandImage;
-            GetSpecialBlockReward();
             SetBlockValue(string.Empty);
+            MakeNextBlockClickable();
+            GetSpecialBlockReward();
             FindObjectOfType<StatisticsController>().UpdateFactor02();
         }
-        
-        // GetComponentsInChildren<Text>()[1].text = "";
     }
 
     private void SetBlockValue(string targetValue)
@@ -478,7 +486,7 @@ public class Block : MonoBehaviour
     {
         var ddack = GameObject.Find("Ddack");
         ddack.GetComponent<Animator>().SetTrigger("isAnimated");
-        Invoke("SetDemEffectAnimation", 0.3f);
+        Invoke("SetDemEffectAnimation", 0.3f);        
     }
 
     public void SetDemEffectAnimation()
@@ -592,9 +600,8 @@ public class Block : MonoBehaviour
                     {
                         if (block.GetPosY() == posY)
                         {
-                            blockText = block.GetComponentsInChildren<Text>()[0];
-                            string targetValue = Mathf.Ceil(float.Parse(blockText.text) / 2f).ToString();
-                            SetBlockValue(targetValue);
+                            string targetValue = Mathf.Ceil(float.Parse(block.GetBlockValue()) / 2f).ToString();
+                            block.SetBlockValue(targetValue);
                         }
                     }
                 }
@@ -609,9 +616,8 @@ public class Block : MonoBehaviour
                     {
                         if (block.GetPosX() == posX)
                         {
-                            blockText = block.GetComponentsInChildren<Text>()[0];
-                            string targetValue = Mathf.Ceil(float.Parse(blockText.text) / 2f).ToString();
-                            SetBlockValue(targetValue);
+                            string targetValue = Mathf.Ceil(float.Parse(block.GetBlockValue()) / 2f).ToString();
+                            block.SetBlockValue(targetValue);
                         }
                     }
                 }
@@ -635,9 +641,8 @@ public class Block : MonoBehaviour
                             (block.GetPosX() + 1 == posX && block.GetPosY() - 1 == posY)
                         )
                         {
-                            blockText = block.GetComponentsInChildren<Text>()[0];
-                            string targetValue = Mathf.Ceil(float.Parse(blockText.text) / 2f).ToString();
-                            SetBlockValue(targetValue);
+                            string targetValue = Mathf.Ceil(float.Parse(block.GetBlockValue()) / 2f).ToString();
+                            block.SetBlockValue(targetValue);
                         }
                     }
                 }
@@ -879,10 +884,8 @@ public class Block : MonoBehaviour
     public void SetBlockType(string type)
     {
         if(blocksType=="마왕성")return;
-        blocksType = type;
-        Text[] blockTexts = GetComponentsInChildren<Text>();
-        blockTexts[1].text = type;
 
+        blocksType = type;
         specialBlockImage.color = new Color32(255, 255, 255, 255);
         backgroundImage.color = new Color32(255, 255, 255, 255);
 
@@ -892,49 +895,49 @@ public class Block : MonoBehaviour
                 specialBlockImage.sprite = mineImage;
                 backgroundImage.sprite = mineBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(191, 155, 48, 255);
-                blockTexts[0].text = (int.Parse(blockTexts[0].text) + 6).ToString();
+                blockText.text = (int.Parse(blockText.text) + 6).ToString();
                 break;
             case "던전":
                 specialBlockImage.sprite = dungeonImage;
                 backgroundImage.sprite = dungeonBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(231, 134, 134, 255);
-                blockTexts[0].text = (int.Parse(blockTexts[0].text) + 4).ToString();
+                blockText.text = (int.Parse(blockText.text) + 4).ToString();
                 break;
             case "용병":
                 specialBlockImage.sprite = armyImage;
                 backgroundImage.sprite = armyBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(113, 110, 110, 255);
-                blockTexts[0].text = (int.Parse(blockTexts[0].text) + 4).ToString();
+                blockText.text = (int.Parse(blockText.text) + 4).ToString();
                 break;
             case "마법사":
                 specialBlockImage.sprite = wizardImage;
                 backgroundImage.sprite = wizardBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(146, 100, 172, 255);
-                blockTexts[0].text = (int.Parse(blockTexts[0].text) + 6).ToString();
+                blockText.text = (int.Parse(blockText.text) + 6).ToString();
                 break;
             case "유물":
                 specialBlockImage.sprite = relicsImage;
                 backgroundImage.sprite = relicsBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(82, 119, 132, 255);
-                blockTexts[0].text = (int.Parse(blockTexts[0].text) + 3).ToString();
+                blockText.text = (int.Parse(blockText.text) + 3).ToString();
                 break;
             case "기병대":
                 specialBlockImage.sprite = horizontalImage;
                 backgroundImage.sprite = horizontalBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(128, 120, 168, 255);
-                blockTexts[0].text = (int.Parse(blockTexts[0].text) + 6).ToString();
+                blockText.text = (int.Parse(blockText.text) + 6).ToString();
                 break;
             case "공습":
                 specialBlockImage.sprite = verticalImage;
                 backgroundImage.sprite = verticalBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(128, 120, 168, 255);
-                blockTexts[0].text = (int.Parse(blockTexts[0].text) + 6).ToString();
+                blockText.text = (int.Parse(blockText.text) + 6).ToString();
                 break;
             case "폭탄":
                 specialBlockImage.sprite = bombImage;
                 backgroundImage.sprite = bombBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(128, 120, 168, 255);
-                blockTexts[0].text = (int.Parse(blockTexts[0].text) + 5).ToString();
+                blockText.text = (int.Parse(blockText.text) + 5).ToString();
                 break;
         }
     }
@@ -942,6 +945,11 @@ public class Block : MonoBehaviour
     public string GetBlockType()
     {
         return blocksType;
+    }
+
+    public string GetBlockValue()
+    {
+        return blockText.text;
     }
 
     public void IncreaseDiceNumberBySpeicalBlock(int powerUpGage, Transform slot)
