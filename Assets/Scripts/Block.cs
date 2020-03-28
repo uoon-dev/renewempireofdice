@@ -434,19 +434,14 @@ public class Block : MonoBehaviour
             if (itemController.onClickedType.Length > 0)
             {
                 GetItemReward();
-                GetSpecialBlockReward();                
-            }
-
-            if (!isItemEffect)
-            {
-                GetSpecialBlockReward();
+                Invoke("GetSpecialBlockReward", 0.4f);
             }
 
             if (EffectSoundController.instance != null)
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_LAND_PERFECT);
 
             Sequence sequence = DOTween.Sequence();
-            sequence.AppendInterval(isItemEffect ? 0.4f : 0);
+            sequence.AppendInterval(isItemEffect ? 0.2f : 0);
             sequence.AppendCallback(() => {
                 int randomNumber = Random.Range(0, 8);
                 backgroundImage.color = new Color32(255, 255 , 255, 255);
@@ -457,6 +452,10 @@ public class Block : MonoBehaviour
                 ddackBody.GetComponentsInChildren<Image>()[randomNumber].enabled = true;
                 ddackBody.GetComponentsInChildren<Image>()[randomNumber].color = new Color32(255, 255 , 255, 255);
                 SetDdackEffectAnimation();
+                if (!isItemEffect)
+                {
+                    GetSpecialBlockReward();
+                }
 
                 FindObjectOfType<StatisticsController>().UpdateFactor01();
                 FindObjectOfType<ResetDiceController>().ResetOneDice();

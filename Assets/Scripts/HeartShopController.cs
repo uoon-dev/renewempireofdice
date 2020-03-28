@@ -142,58 +142,5 @@ public class HeartShopController : MonoBehaviour
                 break;
             }
         }
-        
-        // TogglePurchaseButton(true, targetProductId);
-        // IAPManager.Instance.Purchase(targetProductId);
     }
-
-    // public void TogglePurchaseButton(bool isLoading, string targetProductId)
-    // {
-    //     GameObject purchaseButton = null;
-    //     Transform closeButton = this.transform.Find("Body").transform.Find("Header").transform.Find("Close Button");
-    //     Transform priceText = null;
-    //     int heartRechargeSpeedPurchased = PlayerPrefs.GetInt("HeartRechargeSpeed");
-
-    //     switch (targetProductId) {
-    //         case Constants.SmallHeart: {
-    //             purchaseButton = GameObject.Find("Small Heart Purchase Button");
-    //             priceText = GameObject.Find("Small Heart").transform.Find("Price");
-    //             break;
-    //         }
-    //         case Constants.LargeHeart: {
-    //             purchaseButton = GameObject.Find("Large Heart Purchase Button");
-    //             priceText = GameObject.Find("Large Heart").transform.Find("Price");
-    //             break;
-    //         }
-    //         case Constants.HeartRechargeSpeedUp: {
-    //             purchaseButton = GameObject.Find("HeartRechargeSpeedButton");
-    //             priceText = GameObject.Find("Heart Recharge Speed").transform.Find("Price");
-    //             break;
-    //         }
-    //     }
-
-    //     if (isLoading)
-    //     {
-    //         purchaseButton.GetComponent<Image>().sprite = loadingButtonImage;
-    //         priceText.GetComponent<Text>().text = "";
-    //         purchaseButton.GetComponent<Button>().interactable = false;
-    //     }
-    //     else 
-    //     {
-    //         purchaseButton.GetComponent<Image>().sprite = defaultPurchaseButtonImage;
-    //         purchaseButton.GetComponent<Button>().interactable = true;
-    //         // iAPManager.SetPricesInShop();
-    //         if (targetProductId == Constants.HeartRechargeSpeedUp)
-    //         {
-    //             if (heartRechargeSpeedPurchased != 2)
-    //             {
-    //                 priceText.GetComponent<Text>().text = iAPManager.GetPrice(targetProductId);
-    //             }
-    //         }
-    //         else
-    //         {
-    //             priceText.GetComponent<Text>().text = iAPManager.GetPrice(targetProductId);
-    //         }
-    //     }
-    // }
 }

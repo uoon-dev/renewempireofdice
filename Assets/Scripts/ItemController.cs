@@ -17,7 +17,11 @@ public class ItemController : MonoBehaviour
     [SerializeField] SuperTextMesh guideText;
     BlockController blockController;
     ResetDiceController resetDiceController;
+    ItemShopController itemShopController;
     public string onClickedType;
+    private int goldMineAmount;
+    private int explosiveWarehouseAmount;
+
     public static class TYPE {
         public const string GOLD_MINE = "GOLD_MINE";
         public const string EXPLOSIVE_WAREHOUSE = "EXPLOSIVE_WAREHOUSE";
@@ -32,12 +36,39 @@ public class ItemController : MonoBehaviour
 
     private void Initialize()
     {
+        itemShopController = FindObjectOfType<ItemShopController>();
         blockController = FindObjectOfType<BlockController>();
         resetDiceController = FindObjectOfType<ResetDiceController>();
+
+        LoadItem();
     }
+
+    private void OnDestroy()
+    {
+        SaveItem(TYPE.GOLD_MINE, goldMineAmount);
+        SaveItem(TYPE.EXPLOSIVE_WAREHOUSE, explosiveWarehouseAmount);
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveItem(TYPE.GOLD_MINE, goldMineAmount);
+        SaveItem(TYPE.EXPLOSIVE_WAREHOUSE, explosiveWarehouseAmount);
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        SaveItem(TYPE.GOLD_MINE, goldMineAmount);
+        SaveItem(TYPE.EXPLOSIVE_WAREHOUSE, explosiveWarehouseAmount);
+    }    
 
     public void OnClickedGoldMine()
     {
+        if (goldMineAmount < 1)
+        {
+            itemShopController.ToggleItemShopCanvas(true, TYPE.GOLD_MINE);
+            return;
+        }
+
         guideCharacter.sprite = goldMineIllust;
         itemGuideCanvas.SetActive(true);
         guideText.text = "<b>황금 광산으로 만들 땅을 고르세요!</b><br><br><s=0.7><c=dimgray>딱뎀으로 땅을 즉시 점령하고 표시된 방어력 만큼 골드를 얻습니다.</c></s>";
@@ -49,6 +80,12 @@ public class ItemController : MonoBehaviour
 
     public void OnClickedExplosiveWarehouse()
     {
+        if (explosiveWarehouseAmount < 1)
+        {
+            itemShopController.ToggleItemShopCanvas(true, TYPE.EXPLOSIVE_WAREHOUSE);
+            return;
+        }
+
         guideCharacter.sprite = explosiveWarehouseIllust;
         itemGuideCanvas.SetActive(true);
         guideText.text = "<b>화약고를 터트릴 땅을 고르세요!</b><br><br><s=0.7><c=dimgray>선택된 땅에 사방으로 폭격기를 보내 모두 딱뎀으로 점령합니다. (단,마왕성은 점령되지 않습니다)</c></s>";
@@ -72,14 +109,15 @@ public class ItemController : MonoBehaviour
             case TYPE.GOLD_MINE: 
             {
                 CloseItemGuide();
-                int targetAmount = int.Parse(targetBlock.blockText.text);
-                resetDiceController.AddMoney(targetAmount);
+                SubtractItemAmount(TYPE.GOLD_MINE, 1);
                 EffectGoldMine(targetBlock);
                 break;
             }
             case TYPE.EXPLOSIVE_WAREHOUSE: 
             {
                 CloseItemGuide();
+                SubtractItemAmount(TYPE.EXPLOSIVE_WAREHOUSE, 1);
+
                 var blocks = FindObjectsOfType<Block>();
                 foreach (Block block in blocks)
                 {
@@ -100,43 +138,123 @@ public class ItemController : MonoBehaviour
 
     private void EffectGoldMine(Block targetBlock)
     {
-        blockController.ToggleBounceClickableBlock(true, targetBlock);
+        int targetAmount = int.Parse(targetBlock.blockText.text);
         Sequence sequence = DOTween.Sequence();
+
+        blockController.ToggleBounceClickableBlock(true, targetBlock);
         sequence.Append(goldMineCircle.transform.DOMove(targetBlock.transform.position, 0));
         sequence.AppendCallback(() => goldMineCircle.gameObject.SetActive(true));
         sequence.Append(goldMineCircle.transform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f));
         sequence.Append(goldMineCircle.transform.DOScale(new Vector3(1, 1, 1), 0.1f));
-        sequence.AppendInterval(0.1f);
+        sequence.AppendInterval(0.3f);
         sequence.AppendCallback(() => { 
             goldMineCircle.gameObject.SetActive(false); 
             goldMineCircle.transform.DOScale(new Vector3(0, 0, 0), 0);
             blockController.ToggleBounceClickableBlock(false, targetBlock);
+            resetDiceController.AddMoney(targetAmount);
             });
         sequence.Play();
-        StartCoroutine(CloneCoin(targetBlock.transform));
+        StartCoroutine(CloneCoin(targetBlock));
     }
 
-    private IEnumerator CloneCoin(Transform targetBlockPosition)
+    private IEnumerator CloneCoin(Block targetBlock)
     {
+        Transform targetBlockPosition = targetBlock.transform;
+
         float distance = Mathf.Sqrt(Mathf.Pow(moneyText.position.x - targetBlockPosition.position.x, 2f) + Mathf.Pow(moneyText.position.y - targetBlockPosition.position.y, 2));
         float coinSize = 23;
-        int coinAmount = (int)(distance / coinSize) / 4;
+        float coinAmount = (distance / coinSize) / 4;
+        coinAmount = int.Parse(targetBlock.blockText.text);
 
         coins.SetActive(true);
 
         for (int i = 0; i < coinAmount; i++)
         {
             Sequence sequence = DOTween.Sequence();
+
             GameObject clonedCoin = Instantiate(coin.gameObject, targetBlockPosition.position, targetBlockPosition.rotation);
             clonedCoin.transform.SetParent(coins.transform, false);
-
+            
+                        
             sequence.Append(clonedCoin.transform.DOMove(new Vector2(targetBlockPosition.position.x, targetBlockPosition.position.y), 0));
-            sequence.AppendCallback(() => clonedCoin.SetActive(true));
-            sequence.Append(clonedCoin.transform.DOMove(new Vector2(moneyText.position.x, moneyText.position.y), 0.5f));
+            sequence.AppendCallback(() => { 
+                clonedCoin.SetActive(true); 
+                });
+            sequence.Append(clonedCoin.transform.DOMoveX(moneyText.position.x, 0.4f).SetEase(Ease.Linear));
+            sequence.Join(clonedCoin.transform.DOMoveY(moneyText.position.y, 0.4f).SetEase(Ease.InCubic));
             sequence.AppendCallback(() => Destroy(clonedCoin));
             sequence.Play();
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(1 / (coinAmount * 5));
+        }
+    }
+
+    private void LoadItem()
+    {
+        if (StorageController.IsKeyExists(TYPE.GOLD_MINE))
+        {
+            goldMineAmount = StorageController.LoadItemAmount(TYPE.GOLD_MINE);
+        }
+
+        if (StorageController.IsKeyExists(TYPE.EXPLOSIVE_WAREHOUSE))
+        {
+            explosiveWarehouseAmount = StorageController.LoadItemAmount(TYPE.EXPLOSIVE_WAREHOUSE);
+        }
+    }
+
+    public int GetItemAmount(string type)
+    {
+        switch (type)
+        {
+            case TYPE.GOLD_MINE: 
+            {
+                return goldMineAmount;
+            }
+            case TYPE.EXPLOSIVE_WAREHOUSE: 
+            {
+                return explosiveWarehouseAmount;
+            }
+        }
+
+        return 0;
+    }
+
+    public void SaveItem(string type, int targetAmount)
+    {
+        StorageController.SaveItemAmount(type, targetAmount);
+    }
+
+    public void AddItemAmount(string type, int targetAmount)
+    {
+        switch (type)
+        {
+            case TYPE.GOLD_MINE: 
+            {
+                goldMineAmount += targetAmount;
+                break;
+            }
+            case TYPE.EXPLOSIVE_WAREHOUSE: 
+            {
+                explosiveWarehouseAmount += targetAmount;
+                break;
+            }
+        }
+    }
+
+    public void SubtractItemAmount(string type, int targetAmount)
+    {
+        switch (type)
+        {
+            case TYPE.GOLD_MINE: 
+            {
+                goldMineAmount -= targetAmount;
+                break;
+            }
+            case TYPE.EXPLOSIVE_WAREHOUSE: 
+            {
+                explosiveWarehouseAmount -= targetAmount;
+                break;
+            }
         }
     }
 }

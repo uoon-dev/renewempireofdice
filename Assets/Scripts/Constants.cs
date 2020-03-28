@@ -112,7 +112,7 @@ public class Constants : MonoBehaviour
 
     public static class SAVED_DATA {
         public const string DIAMOND = "diamond"; 
-    }    
+    }
 
     public const string MaldivesDice = "maldivesdice";
     public const string GoldrushDice = "goldrushdice";
@@ -124,9 +124,20 @@ public class Constants : MonoBehaviour
     public const string DIAMOND_4 = "diamond4";
     public const string DIAMOND_5 = "diamond5";
     public const string DIAMOND_6 = "diamond6";
+    public const string GOLD_MINE_1 = "goldmine1";
+    public const string GOLD_MINE_5 = "goldmine5";
+    public const string EXPLOSIVE_WAREHOUSE_1 = "explosivewarehouse1";
+    public const string EXPLOSIVE_WAREHOUSE_5 = "explosivewarehouse5";
+    public const string EXPLOSIVE_WAREHOUSE = "explosivewarehouse";
     public const string HeartRechargeSpeedUp = "speedupheartrecharge1";
     public const int HEART_MAX_CHARGE_COUNT = 5;
     public const int TIMESTAMP_VALID_OFFSET_SECONDS = 20;
     // public const int HEART_CHARGE_SECONDS = 10;
     public const int HEART_CHARGE_SECONDS = 20 * 60;// 20 min
+    public static class TEXT {
+        public const string GOLD_ITEM_TITLE = "황금 광산"; 
+        public const string GOLD_ITEM_DESC = "딱뎀으로 땅을 바로 점령하고 땅의 방어력 만큼\n골드를 얻습니다. "; 
+        public const string EXPLOSIVE_WAREHOUSE_ITEM_TITLE = "화약고"; 
+        public const string EXPLOSIVE_WAREHOUSE_ITEM_DESC = "선택한 땅에 사방으로 폭격기를 모두 딱뎀으로 점령합니다.\n단, 이  때 특수 땅 점령 보너스는 받지 못합니다. \n마왕성은 점령할 수 없습니다.";
+    }
 }

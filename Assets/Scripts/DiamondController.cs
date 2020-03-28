@@ -5,7 +5,7 @@ using UnityEngine;
 public class DiamondController : MonoBehaviour
 {
     public static DiamondController Instance;
-    private static int diamondAmount; 
+    private static int diamondAmount;
 
     // Start is called before the first frame update
     void Awake()
@@ -25,12 +25,6 @@ public class DiamondController : MonoBehaviour
     private void Initialize()
     {
         diamondAmount = StorageController.LoadDiamondAmount();
-        Debug.Log(ES3.KeyExists("diamondAmount"));
-        Debug.Log(StorageController.LoadDiamondAmount() + ":StorageController.LoadDiamondAmount()");
-        // if (PlayerPrefs.HasKey(Constants.SAVED_DATA.DIAMOND))
-        // {
-        //     Debug.Log(diamondAmount + ":diamondAmount");
-        // }
     }
         
     private void OnDestroy()
@@ -50,10 +44,7 @@ public class DiamondController : MonoBehaviour
 
     public void SaveDiamondAmount(int targetAmount)
     {
-        // PlayerPrefs.SetInt(Constants.SAVED_DATA.DIAMOND, targetAmount);
-        // PlayerPrefs.Save();
         StorageController.SaveDiamondAmount(targetAmount);
-        Debug.Log(StorageController.LoadDiamondAmount() + ":StorageController.LoadDiamondAmount()");
     }
 
     public int GetDiamondAmount()

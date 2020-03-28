@@ -14,7 +14,7 @@ public class ResetDiceController : MonoBehaviour
     [SerializeField] Sprite abledResetDiceButtonImage = null;
 
     GameObject moneyArea;
-    Image moneyIconImage;
+    // Image moneyIconImage;
     Text costText;
     Text moneyText;
     Text attackPowerText;
@@ -48,7 +48,7 @@ public class ResetDiceController : MonoBehaviour
         levelLoader = FindObjectOfType<LevelLoader>();
         moneyArea = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.MONEY_AREA);
         costText = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.COST_TEXT).GetComponent<Text>();
-        moneyIconImage = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.COST_ICON).GetComponent<Image>();
+        // moneyIconImage = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.COST_ICON).GetComponent<Image>();
         moneyText = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.MONEY_TEXT).GetComponent<Text>();
         attackPowerText = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.ATTACK_POWER_TEXT).GetComponent<Text>();
     }
@@ -235,7 +235,7 @@ public class ResetDiceController : MonoBehaviour
         {
             moneyArea.GetComponent<Button>().enabled = false;
             moneyArea.GetComponent<Image>().color = new Color32(255, 255, 255, 100);
-            moneyIconImage.color = new Color32(255, 255, 255, 100);
+            // moneyIconImage.color = new Color32(255, 255, 255, 100);
             costText.color = new Color32(82, 77, 74, 80);
         }
     }
@@ -245,7 +245,7 @@ public class ResetDiceController : MonoBehaviour
         {
             moneyArea.GetComponent<Button>().enabled = true;
             moneyArea.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-            moneyIconImage.color = new Color32(255, 255, 255, 255);
+            // moneyIconImage.color = new Color32(255, 255, 255, 255);
             costText.color = new Color32(0, 0, 0, 255);
         }
     }

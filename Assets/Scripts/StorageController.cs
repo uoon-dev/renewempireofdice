@@ -51,6 +51,11 @@ public class StorageController
         ES3.Save<int>(STORAGE_KEY.DIAMOND_AMOUNT, targetAmount);
     }
 
+    public static void SaveItemAmount(string type, int targetAmount)
+    {
+        ES3.Save<int>(type, targetAmount);
+    }
+
     public static List<string> LoadBlocksType(int level)
     {
         return ES3.Load<List<string>>(STORAGE_KEY.BLOCKS_BY_LEVEL_TYPE + level);
@@ -71,6 +76,8 @@ public class StorageController
         return ES3.Load<int>(STORAGE_KEY.DIAMOND_AMOUNT);
     }
 
-    
-
+    public static int LoadItemAmount(string type)
+    {
+        return ES3.Load<int>(type);
+    }
 }
