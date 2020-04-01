@@ -19,6 +19,7 @@ public class BlockController : MonoBehaviour
     LevelLoader levelLoader;
     SpeicalBlockController speicalBlockController;
     ItemController itemController;
+    Block[] createdBlocks;
 
     private void Awake()
     {
@@ -33,6 +34,7 @@ public class BlockController : MonoBehaviour
         // ES3.DeleteKey("blockByLevelText3");
         Initialize();
         InitBlocks();
+        createdBlocks = FindObjectsOfType<Block>();
 
         // int blockLoadAdsCount = PlayerPrefs.GetInt("blockLoadAdsCount", 1);
         // Debug.Log("clockMapCount" + blockLoadAdsCount);
@@ -493,10 +495,9 @@ public class BlockController : MonoBehaviour
 
     public Block GetOneBlock(string type)
     {
-        var blocks = FindObjectsOfType<Block>();
         Block oneBlock = null;
 
-        foreach (Block block in blocks)
+        foreach (Block block in createdBlocks)
         {
             if (type == Constants.TYPE.LAST_BLOCK) 
             {
@@ -540,9 +541,7 @@ public class BlockController : MonoBehaviour
 
     public void ToggleBounceClickableBlocks(bool isActive, string type = null)
     {
-        var blocks = FindObjectsOfType<Block>();
-
-        foreach (Block block in blocks)
+        foreach (Block block in createdBlocks)
         {
             if (block.isClickable && block.blocksType != "마왕성")
             {
@@ -558,7 +557,7 @@ public class BlockController : MonoBehaviour
                     bgimage.GetComponent<Image>().sprite = explosiveWarehouseBackgroundImage;
                 }
                 block.GetComponent<Canvas>().overrideSorting = isActive;
-                block.GetComponent<Canvas>().sortingOrder = isActive == true ? 6 : 5;
+                block.GetComponent<Canvas>().sortingOrder = isActive ? 20 : 5;
             }
         }
     }
@@ -568,6 +567,6 @@ public class BlockController : MonoBehaviour
         GameObject backgroundImageWrapper = targetBlock.transform.Find(Constants.GAME_OBJECT_NAME.BACKGROUND_IMAGE_WRAPPER).gameObject;
         backgroundImageWrapper.SetActive(isActive);
         targetBlock.GetComponent<Canvas>().overrideSorting = isActive;
-        targetBlock.GetComponent<Canvas>().sortingOrder = isActive == true ? 6 : 5;
+        targetBlock.GetComponent<Canvas>().sortingOrder = isActive ? 20 : 5;
     }
 }

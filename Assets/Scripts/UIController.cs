@@ -8,6 +8,7 @@ public class UIController : MonoBehaviour
     [SerializeField] Sprite heartSpriteNormal;
     [SerializeField] Sprite heartSpriteEmpty;
     [SerializeField] Text goldMineAmountText;
+    [SerializeField] Text diamondAmount;
     [SerializeField] Text explosiveWarehouseAmountText;    
     GameObject noHeartCanvas;
     GameObject afterPurchaseEffectCanvas;
@@ -75,8 +76,8 @@ public class UIController : MonoBehaviour
         // 하트바 + 다이아몬드바 핸들링
         // if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
         // {
-            HandleHeartBarUI();
-            HandleDiamondBar();
+        HandleHeartBarUI();
+        HandleDiamondBar();
         // }
 
         if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.LEVEL) 
@@ -136,17 +137,9 @@ public class UIController : MonoBehaviour
         if (Utils.IsNetworkConnected())
         {
             string remainTime = string.Format("{0:0}:{1:00}", heartCharteRemainSecond / 60, heartCharteRemainSecond % 60);
-
-            // if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
-            // {
-                heartTimerText.text = (heartAmount < Constants.HEART_MAX_CHARGE_COUNT && heartCharteRemainSecond > 0) ? remainTime : "full";
-                // heartTimerText.color = new Color32(0, 0, 0, 255);
-            // }
-            // else
-            // {
-                heartTimerTextInNoHeartCanvas.fontSize = 14;
-                heartTimerTextInShop.fontSize = 14;
-            // }
+            heartTimerText.text = (heartAmount < Constants.HEART_MAX_CHARGE_COUNT && heartCharteRemainSecond > 0) ? remainTime : "full";
+            heartTimerTextInNoHeartCanvas.fontSize = 14;
+            heartTimerTextInShop.fontSize = 14;
 
             if (heartCharteRemainSecond > 0)
             {
@@ -183,7 +176,6 @@ public class UIController : MonoBehaviour
             if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
             {                
                 heartTimerText.fontSize = 24;
-                // heartTimerText.color = new Color32(193, 193, 193, 255);
             }
             else
             {
@@ -262,7 +254,6 @@ public class UIController : MonoBehaviour
 
     public void HandleDiamondBar()
     {
-        Text diamondAmount = GameObject.Find(Constants.GAME_OBJECT_NAME.DIAMOND_AMOUNT).GetComponent<Text>();
         diamondAmount.text = diamondController.GetDiamondAmount().ToString();
     }
 

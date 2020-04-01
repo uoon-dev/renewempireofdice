@@ -1,11 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+[Serializable]
+public class ExplosiveWarehouseEffect {
+    public Image dynamiteImage;
+    public Animator dynamiteAnimator;
+};
+
 public class ItemController : MonoBehaviour
 {
+    public ExplosiveWarehouseEffect explosiveWarehouseEffect;
     [SerializeField] GameObject itemGuideCanvas;
     [SerializeField] GameObject coins;
     [SerializeField] Transform moneyText;
@@ -27,7 +35,6 @@ public class ItemController : MonoBehaviour
         public const string EXPLOSIVE_WAREHOUSE = "EXPLOSIVE_WAREHOUSE";
     };
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +43,7 @@ public class ItemController : MonoBehaviour
 
     private void Initialize()
     {
+        
         itemShopController = FindObjectOfType<ItemShopController>();
         blockController = FindObjectOfType<BlockController>();
         resetDiceController = FindObjectOfType<ResetDiceController>();
@@ -117,6 +125,7 @@ public class ItemController : MonoBehaviour
             {
                 CloseItemGuide();
                 SubtractItemAmount(TYPE.EXPLOSIVE_WAREHOUSE, 1);
+                EffectExplosiveWarehouse(targetBlock);
 
                 var blocks = FindObjectsOfType<Block>();
                 foreach (Block block in blocks)
@@ -155,6 +164,21 @@ public class ItemController : MonoBehaviour
             });
         sequence.Play();
         StartCoroutine(CloneCoin(targetBlock));
+    }
+
+    private void EffectExplosiveWarehouse(Block targetBlock)
+    {
+
+        int targetAmount = int.Parse(targetBlock.blockText.text);
+        Sequence sequence = DOTween.Sequence();
+
+        sequence.Append(explosiveWarehouseEffect.dynamiteImage.transform.DOMove(new Vector2(targetBlock.transform.position.x, targetBlock.transform.position.y + 10), 0));
+        sequence.AppendCallback(() => explosiveWarehouseEffect.dynamiteImage.gameObject.SetActive(true));
+        sequence.AppendCallback(() => explosiveWarehouseEffect.dynamiteAnimator.SetTrigger("start"));
+        sequence.AppendInterval(0.4f);
+        sequence.AppendCallback(() => explosiveWarehouseEffect.dynamiteImage.gameObject.SetActive(false));
+        sequence.AppendCallback(() => explosiveWarehouseEffect.dynamiteAnimator.ResetTrigger("start"));
+        sequence.Play();
     }
 
     private IEnumerator CloneCoin(Block targetBlock)

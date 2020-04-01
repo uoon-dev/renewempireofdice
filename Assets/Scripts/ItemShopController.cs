@@ -1,11 +1,28 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+[Serializable]
+public class ItemShopCanvas {
+    public Image image;
+    public CanvasGroup canvasGroup;
+    
+}
+
+[Serializable]
+public class Header {
+    public GameObject diamondBar;
+    public GameObject heartBar;
+    
+}
+
 public class ItemShopController : MonoBehaviour
 {
+    public ItemShopCanvas itemShopCanvas;
+    public Header header;
     [SerializeField] Text title;
     [SerializeField] Text description;
     [SerializeField] Image itemImage1;
@@ -71,16 +88,20 @@ public class ItemShopController : MonoBehaviour
         }
 
         if (isShow) {
-            this.gameObject.GetComponent<Image>().raycastTarget = true;
-            this.gameObject.GetComponent<CanvasGroup>().DOFade(1, 0.1f);
-            this.gameObject.GetComponent<CanvasGroup>().interactable = true;
-            this.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
+            itemShopCanvas.image.raycastTarget = true;
+            itemShopCanvas.canvasGroup.DOFade(1, 0.1f);
+            itemShopCanvas.canvasGroup.interactable = true;
+            itemShopCanvas.canvasGroup.blocksRaycasts = true;
+            header.diamondBar.SetActive(true);
+            header.heartBar.SetActive(true);
             return;
         }
-        this.gameObject.GetComponent<Image>().raycastTarget = false;
-        this.gameObject.GetComponent<CanvasGroup>().DOFade(0, 0.01f);
-        this.gameObject.GetComponent<CanvasGroup>().interactable = false;
-        this.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = false;
+        itemShopCanvas.image.raycastTarget = false;
+        itemShopCanvas.canvasGroup.DOFade(0, 0.01f);
+        itemShopCanvas.canvasGroup.interactable = false;
+        itemShopCanvas.canvasGroup.blocksRaycasts = false;
+        header.diamondBar.SetActive(false);
+        header.heartBar.SetActive(false);        
         return;
     }
 
