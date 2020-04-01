@@ -441,7 +441,7 @@ public class Block : MonoBehaviour
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_LAND_PERFECT);
 
             Sequence sequence = DOTween.Sequence();
-            sequence.AppendInterval(isItemEffect ? 0.2f : 0);
+            sequence.AppendInterval(isItemEffect ? 0.3f : 0);
             sequence.AppendCallback(() => {
                 int randomNumber = Random.Range(0, 8);
                 backgroundImage.color = new Color32(255, 255 , 255, 255);

@@ -8,6 +8,10 @@ using DG.Tweening;
 [Serializable]
 public class ExplosiveWarehouseEffect {
     public Image dynamiteImage;
+    public Image smogX;
+    public Image smogY;
+    public CanvasGroup smogXCanvasGroup;
+    public CanvasGroup smogYCanvasGroup;
     public Animator dynamiteAnimator;
 };
 
@@ -170,14 +174,40 @@ public class ItemController : MonoBehaviour
     {
 
         int targetAmount = int.Parse(targetBlock.blockText.text);
+        Block middleBlock = blockController.GetOneBlock(Constants.TYPE.MIDDLE_BLOCK);
         Sequence sequence = DOTween.Sequence();
 
+        // dynamite
         sequence.Append(explosiveWarehouseEffect.dynamiteImage.transform.DOMove(new Vector2(targetBlock.transform.position.x, targetBlock.transform.position.y + 10), 0));
         sequence.AppendCallback(() => explosiveWarehouseEffect.dynamiteImage.gameObject.SetActive(true));
         sequence.AppendCallback(() => explosiveWarehouseEffect.dynamiteAnimator.SetTrigger("start"));
         sequence.AppendInterval(0.4f);
         sequence.AppendCallback(() => explosiveWarehouseEffect.dynamiteImage.gameObject.SetActive(false));
         sequence.AppendCallback(() => explosiveWarehouseEffect.dynamiteAnimator.ResetTrigger("start"));
+
+        // smog
+        sequence.Append(explosiveWarehouseEffect.smogX.transform.DOMove(new Vector2(middleBlock.transform.position.x, targetBlock.transform.position.y), 0));
+        sequence.Append(explosiveWarehouseEffect.smogY.transform.DOMove(new Vector2(targetBlock.transform.position.x, middleBlock.transform.position.y), 0));
+        sequence.AppendCallback(() => {
+            explosiveWarehouseEffect.smogX.gameObject.SetActive(true);
+            explosiveWarehouseEffect.smogY.gameObject.SetActive(true);
+        });
+        sequence.Append(explosiveWarehouseEffect.smogX.transform.DOScale(new Vector2(0.364f, 0.364f), 0.08f));
+        sequence.Join(explosiveWarehouseEffect.smogXCanvasGroup.DOFade(0.8f, 0.08f));
+        sequence.Join(explosiveWarehouseEffect.smogY.transform.DOScale(new Vector2(0.364f, 0.364f), 0.08f));
+        sequence.Join(explosiveWarehouseEffect.smogYCanvasGroup.DOFade(0.8f, 0.08f));
+
+        sequence.Append(explosiveWarehouseEffect.smogX.transform.DOScale(new Vector2(0.476f, 0.476f), 0.08f));
+        sequence.Join(explosiveWarehouseEffect.smogXCanvasGroup.DOFade(0.4f, 0.08f));
+        sequence.Join(explosiveWarehouseEffect.smogY.transform.DOScale(new Vector2(0.476f, 0.476f), 0.08f));
+        sequence.Join(explosiveWarehouseEffect.smogYCanvasGroup.DOFade(0.4f, 0.08f));
+
+        sequence.Append(explosiveWarehouseEffect.smogXCanvasGroup.DOFade(0f, 0.08f));
+        sequence.Join(explosiveWarehouseEffect.smogYCanvasGroup.DOFade(0f, 0.08f));        
+        sequence.AppendCallback(() => {
+            explosiveWarehouseEffect.smogX.gameObject.SetActive(false);
+            explosiveWarehouseEffect.smogY.gameObject.SetActive(false);
+        });
         sequence.Play();
     }
 
