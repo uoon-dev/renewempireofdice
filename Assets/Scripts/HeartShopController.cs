@@ -1,8 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+
+[Serializable]
+public class HeartShopCanvas {
+    public Image image;
+    public Canvas canvas;
+    public CanvasGroup canvasGroup;
+}
 
 public class HeartShopController : MonoBehaviour
 {
@@ -10,6 +18,7 @@ public class HeartShopController : MonoBehaviour
     [SerializeField] GameObject rechargeItemPurchaseButton;
     [SerializeField] Sprite defaultPurchaseButtonImage;
     [SerializeField] Sprite loadingButtonImage;
+    public HeartShopCanvas heartShopCanvas;
 
     LevelLoader levelLoader;
     UIController UIController;
@@ -18,6 +27,7 @@ public class HeartShopController : MonoBehaviour
     DiamondController diamondController;
     DiamondShopController diamondShopController;
     AfterPurchaseEffectController afterPurchaseEffectController;
+    PopupController popupController;
 
     void Awake()
     {
@@ -34,6 +44,7 @@ public class HeartShopController : MonoBehaviour
         diamondController = FindObjectOfType<DiamondController>();
         diamondShopController = FindObjectOfType<DiamondShopController>();
         afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
+        popupController = FindObjectOfType<PopupController>();
     }    
 
     public void SetSpeedUpText()
@@ -58,7 +69,9 @@ public class HeartShopController : MonoBehaviour
                 }
                 else
                 {
-                    rechargeItemPriceText.fontSize = 10;
+                    rechargeItemPriceText.fontSize = 9;
+                    rechargeItemPriceText.transform.DOLocalMoveX(120.5f ,0);
+                    rechargeItemPriceText.transform.DOLocalMoveY(2.3f ,0);
                 }
                 
                 heartRechargeSpeedImage.color = new Color32(255, 255, 255, 100);
@@ -72,32 +85,38 @@ public class HeartShopController : MonoBehaviour
         var body = this.gameObject.transform.GetChild(0);
 
         if (isShow) {
-            this.gameObject.GetComponent<Image>().raycastTarget = true;
+            heartShopCanvas.image.raycastTarget = true;
 
-            diamondShopController.ToggleDiamondShopCanvas(false);
             UIController.ToggleNoHeartCanvas(false);
 
+            SetCanvasOrder(11);
+            diamondShopController.SetCanvasOrder(10);
             if(levelLoader.GetCurrentSceneName() == "Map System") {
                 this.gameObject.transform.DOMoveY(0, 0.25f);
-                this.gameObject.GetComponent<CanvasGroup>().DOFade(1, 0.1f);
-                this.gameObject.GetComponent<CanvasGroup>().interactable = true;
-                this.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = true;                
+                heartShopCanvas.canvasGroup.DOFade(1, 0.1f);
+                heartShopCanvas.canvasGroup.interactable = true;
+                heartShopCanvas.canvasGroup.blocksRaycasts = true;                
                 return;
             }
             body.transform.DOMoveY(Screen.height/2, 0.25f);
             return;
         }
-        this.gameObject.GetComponent<Image>().raycastTarget = false;
+        heartShopCanvas.image.raycastTarget = false;
         if(levelLoader.GetCurrentSceneName() == "Map System") {
             this.gameObject.transform.DOMoveY(-4, 0.25f);
-            this.gameObject.GetComponent<CanvasGroup>().DOFade(0, 0.01f);
-            this.gameObject.GetComponent<CanvasGroup>().interactable = false;
-            this.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = false;
+            heartShopCanvas.canvasGroup.DOFade(0, 0.01f);
+            heartShopCanvas.canvasGroup.interactable = false;
+            heartShopCanvas.canvasGroup.blocksRaycasts = false;
             return;
         }
         body.transform.DOMoveY(-Screen.height/2, 0.25f);
         return;
     }
+
+    public void SetCanvasOrder(int order)
+    {
+        heartShopCanvas.canvas.sortingOrder = order;
+    }    
 
     public void HandleClick(string targetProductId)
     {
@@ -108,6 +127,7 @@ public class HeartShopController : MonoBehaviour
             {
                 if(currentDiamondAmount < 15)
                 {
+                    popupController.ToggleNoDiamindPopup(true);
                     return;
                 }
                 
@@ -120,6 +140,7 @@ public class HeartShopController : MonoBehaviour
             {
                 if(currentDiamondAmount < 120)
                 {
+                    popupController.ToggleNoDiamindPopup(true);
                     return;
                 }
 
@@ -132,6 +153,7 @@ public class HeartShopController : MonoBehaviour
             {
                 if(currentDiamondAmount < 20)
                 {
+                    popupController.ToggleNoDiamindPopup(true);
                     return;
                 }
 

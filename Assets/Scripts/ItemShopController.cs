@@ -9,6 +9,7 @@ using DG.Tweening;
 public class ItemShopCanvas {
     public Image image;
     public CanvasGroup canvasGroup;
+    public Canvas canvas;
     
 }
 
@@ -36,6 +37,7 @@ public class ItemShopController : MonoBehaviour
     DiamondController diamondController;
     ItemController itemController;
     AfterPurchaseEffectController afterPurchaseEffectController;    
+    PopupController popupController;    
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +51,8 @@ public class ItemShopController : MonoBehaviour
         diamondController = FindObjectOfType<DiamondController>();
         itemController = FindObjectOfType<ItemController>();
         afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
+        popupController = FindObjectOfType<PopupController>();
+        
         closeButton.onClick.AddListener(() => ToggleItemShopCanvas(false));
         ToggleItemShopCanvas(false);
     }
@@ -92,6 +96,7 @@ public class ItemShopController : MonoBehaviour
             itemShopCanvas.canvasGroup.DOFade(1, 0.1f);
             itemShopCanvas.canvasGroup.interactable = true;
             itemShopCanvas.canvasGroup.blocksRaycasts = true;
+            itemShopCanvas.canvas.sortingOrder = 7;
             header.diamondBar.SetActive(true);
             header.heartBar.SetActive(true);
             return;
@@ -100,6 +105,7 @@ public class ItemShopController : MonoBehaviour
         itemShopCanvas.canvasGroup.DOFade(0, 0.01f);
         itemShopCanvas.canvasGroup.interactable = false;
         itemShopCanvas.canvasGroup.blocksRaycasts = false;
+        itemShopCanvas.canvas.sortingOrder = 5;
         header.diamondBar.SetActive(false);
         header.heartBar.SetActive(false);        
         return;
@@ -114,6 +120,7 @@ public class ItemShopController : MonoBehaviour
             {
                 if(currentDiamondAmount < 10)
                 {
+                    popupController.ToggleNoDiamindPopup(true);
                     return;
                 }
                 itemController.AddItemAmount(ItemController.TYPE.GOLD_MINE, 1);
@@ -125,6 +132,7 @@ public class ItemShopController : MonoBehaviour
             {
                 if(currentDiamondAmount < 40)
                 {
+                    popupController.ToggleNoDiamindPopup(true);
                     return;
                 }
 
@@ -137,6 +145,7 @@ public class ItemShopController : MonoBehaviour
             {
                 if(currentDiamondAmount < 10)
                 {
+                    popupController.ToggleNoDiamindPopup(true);
                     return;
                 }
 
@@ -149,6 +158,7 @@ public class ItemShopController : MonoBehaviour
             {
                 if(currentDiamondAmount < 40)
                 {
+                    popupController.ToggleNoDiamindPopup(true);
                     return;
                 }
 

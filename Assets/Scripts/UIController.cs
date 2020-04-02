@@ -138,8 +138,6 @@ public class UIController : MonoBehaviour
         {
             string remainTime = string.Format("{0:0}:{1:00}", heartCharteRemainSecond / 60, heartCharteRemainSecond % 60);
             heartTimerText.text = (heartAmount < Constants.HEART_MAX_CHARGE_COUNT && heartCharteRemainSecond > 0) ? remainTime : "full";
-            heartTimerTextInNoHeartCanvas.fontSize = 14;
-            heartTimerTextInShop.fontSize = 14;
 
             if (heartCharteRemainSecond > 0)
             {
@@ -150,10 +148,14 @@ public class UIController : MonoBehaviour
                 if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
                 {
                     titleInHeartShop.transform.localPosition = new Vector2(titleInHeartShop.transform.localPosition.x, 27);
+                    heartTimerTextInNoHeartCanvas.fontSize = 26;
+                    heartTimerTextInShop.fontSize = 26;                    
                 }
                 else
                 {
                     titleInHeartShop.transform.localPosition = new Vector2(titleInHeartShop.transform.localPosition.x, 30);
+                    heartTimerTextInShop.fontSize = 14;                    
+                    heartTimerTextInNoHeartCanvas.fontSize = 14;
                 }
             }
             else
