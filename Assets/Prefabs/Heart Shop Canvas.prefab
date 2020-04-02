@@ -1779,7 +1779,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 17
+  m_SortingOrder: 8
   m_TargetDisplay: 0
 --- !u!114 &6942040518630178399
 MonoBehaviour:
@@ -1837,6 +1837,10 @@ MonoBehaviour:
   defaultPurchaseButtonImage: {fileID: 21300000, guid: 810304c71d76a405681f12ffe2b36e1e,
     type: 3}
   loadingButtonImage: {fileID: 21300000, guid: 69f16448d06f942938f28fcb37a8241d, type: 3}
+  heartShopCanvas:
+    image: {fileID: 774173176}
+    canvas: {fileID: 6942040518630178396}
+    canvasGroup: {fileID: 6259564577562154694}
 --- !u!222 &774173177
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -43,3 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 007d3827b860540ddbcf35243d0d5f51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  popupObjects:
+    noDiamondPopup: {fileID: 0}

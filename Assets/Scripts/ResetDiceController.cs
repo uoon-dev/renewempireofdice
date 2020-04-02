@@ -8,8 +8,7 @@ using Controllers.TutorialController;
 
 public class ResetDiceController : MonoBehaviour
 {
-    [SerializeField] GameObject diceBox = null;
-    [SerializeField] GameObject turnText = null;
+    [SerializeField] Text turnText = null;
     [SerializeField] Sprite disabledResetDiceButtonImage = null;
     [SerializeField] Sprite abledResetDiceButtonImage = null;
 
@@ -48,7 +47,6 @@ public class ResetDiceController : MonoBehaviour
         levelLoader = FindObjectOfType<LevelLoader>();
         moneyArea = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.MONEY_AREA);
         costText = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.COST_TEXT).GetComponent<Text>();
-        // moneyIconImage = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.COST_ICON).GetComponent<Image>();
         moneyText = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.MONEY_TEXT).GetComponent<Text>();
         attackPowerText = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.ATTACK_POWER_TEXT).GetComponent<Text>();
     }
@@ -103,14 +101,14 @@ public class ResetDiceController : MonoBehaviour
 
     public void IncreaseTurnCount() 
     {
-        int turnCount = int.Parse(turnText.GetComponent<Text>().text.Split('턴')[0]);
-        turnText.GetComponent<Text>().text = $"{(turnCount + 1).ToString()}턴째";
+        int turnCount = int.Parse(turnText.text.Split('턴')[0]);
+        turnText.text = $"{(turnCount + 1).ToString()}턴";
         FindObjectOfType<StatisticsController>().UpdateFactor03();
     }
 
     public int GetTurnCount()
     {
-        return int.Parse(turnText.GetComponent<Text>().text.Split('턴')[0]);
+        return int.Parse(turnText.text.Split('턴')[0]);
     }
 
     private static void SetSpeicalDice(Dice[] dices)

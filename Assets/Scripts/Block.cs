@@ -212,7 +212,7 @@ public class Block : MonoBehaviour
 
         if (isClickable == true)
         {
-            if(itemController.onClickedType.Length > 0 && blocksType != "마왕성")
+            if(itemController && itemController.onClickedType.Length > 0 && blocksType != "마왕성")
             {
                 diceController.UnbounceDices();
                 ReduceBlockGage(blockText.text, true);
@@ -431,7 +431,7 @@ public class Block : MonoBehaviour
         // todo ddack!
         if (resultGage == 0)
         {
-            if (itemController.onClickedType.Length > 0)
+            if (itemController && itemController.onClickedType.Length > 0)
             {
                 GetItemReward();
                 Invoke("GetSpecialBlockReward", 0.4f);

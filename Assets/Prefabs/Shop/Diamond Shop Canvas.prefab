@@ -269,7 +269,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 19
+  m_SortingOrder: 8
   m_TargetDisplay: 0
 --- !u!114 &7113682177183298378
 MonoBehaviour:
@@ -375,7 +375,7 @@ MonoBehaviour:
   loadingButtonImage: {fileID: 21300000, guid: cb1a4185f9de9493dade741168cbeaab, type: 3}
   diamondShopCanvas:
     image: {fileID: 102970957742811694}
-    canvas: {fileID: 0}
+    canvas: {fileID: 4937731829660905073}
     canvasGroup: {fileID: 6815752752889582491}
     loadingImages:
     - {fileID: 3288160031465505368}

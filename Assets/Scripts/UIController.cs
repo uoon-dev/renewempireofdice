@@ -74,11 +74,11 @@ public class UIController : MonoBehaviour
         UpdateTimerText();
         
         // 하트바 + 다이아몬드바 핸들링
-        // if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
-        // {
-        HandleHeartBarUI();
-        HandleDiamondBar();
-        // }
+        if (levelLoader.GetCurrentSceneName() != Constants.SCENE_NAME.TUTORIAL) 
+        {
+            HandleHeartBarUI();
+            HandleDiamondBar();
+        }
 
         if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.LEVEL) 
         {
@@ -108,9 +108,12 @@ public class UIController : MonoBehaviour
         afterPurchaseEffectCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.AFTER_PURCHASE_EFFECT_CANVAS);
         // if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
         // {
-        heartTimerText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT).GetComponent<Text>();
-        heartAmountText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_STATUS).GetComponent<Text>();
-        heartImage = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_IMAGE).GetComponent<Image>();
+        if (levelLoader.GetCurrentSceneName() != Constants.SCENE_NAME.TUTORIAL)
+        {
+            heartTimerText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT).GetComponent<Text>();
+            heartAmountText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_STATUS).GetComponent<Text>();
+            heartImage = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_IMAGE).GetComponent<Image>();
+        }
         // }
         heartTimerTextInNoHeartCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_NO_HEART_CANVAS).GetComponent<Text>();
         heartTimerTextInShop = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_SHOP).GetComponent<Text>();
@@ -137,8 +140,10 @@ public class UIController : MonoBehaviour
         if (Utils.IsNetworkConnected())
         {
             string remainTime = string.Format("{0:0}:{1:00}", heartCharteRemainSecond / 60, heartCharteRemainSecond % 60);
-            heartTimerText.text = (heartAmount < Constants.HEART_MAX_CHARGE_COUNT && heartCharteRemainSecond > 0) ? remainTime : "full";
-
+            if (levelLoader.GetCurrentSceneName() != Constants.SCENE_NAME.TUTORIAL)
+            {
+                heartTimerText.text = (heartAmount < Constants.HEART_MAX_CHARGE_COUNT && heartCharteRemainSecond > 0) ? remainTime : "full";
+            }
             if (heartCharteRemainSecond > 0)
             {
                 heartTimerTextInNoHeartCanvas.text = remainTime;
@@ -184,7 +189,11 @@ public class UIController : MonoBehaviour
                 heartTimerTextInNoHeartCanvas.fontSize = 12;
                 heartTimerTextInShop.fontSize = 12;
             }
-            heartTimerText.text = "오프라인";
+
+            if (levelLoader.GetCurrentSceneName() != Constants.SCENE_NAME.TUTORIAL)
+            {
+                heartTimerText.text = "오프라인";
+            }
             heartTimerTextInNoHeartCanvas.text = "오프라인";
             heartTimerTextInShop.text = "오프라인";
         }

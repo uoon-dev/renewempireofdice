@@ -24,8 +24,6 @@ public class PopupController : MonoBehaviour
     
     public void ToggleNoDiamindPopup(bool isActive)
     {
-        // CloseOtherPopups();
-
         popupObjects.noDiamondPopup.gameObject.SetActive(isActive);
     }
 

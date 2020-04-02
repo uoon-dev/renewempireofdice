@@ -89,8 +89,8 @@ public class HeartShopController : MonoBehaviour
 
             UIController.ToggleNoHeartCanvas(false);
 
-            SetCanvasOrder(11);
-            diamondShopController.SetCanvasOrder(10);
+            SetCanvasOrder(14);
+            diamondShopController.SetCanvasOrder(13);
             if(levelLoader.GetCurrentSceneName() == "Map System") {
                 this.gameObject.transform.DOMoveY(0, 0.25f);
                 heartShopCanvas.canvasGroup.DOFade(1, 0.1f);

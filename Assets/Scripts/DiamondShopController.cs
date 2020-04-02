@@ -50,8 +50,8 @@ public class DiamondShopController : MonoBehaviour
             // heartShopController.ToggleHeartShopCanvas(false);
             popupController.ToggleNoDiamindPopup(false);
  
-            SetCanvasOrder(12);
-            heartShopController.SetCanvasOrder(10);
+            SetCanvasOrder(14);
+            heartShopController.SetCanvasOrder(13);
             if(levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
             {
                 this.gameObject.transform.DOMoveY(0, 0.25f);
