@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class ProductController : MonoBehaviour
 {
-  protected virtual void GetReward()
+  public static string rewardType;
+
+  public virtual void GetReward(int targetAmount) 
   {
-    
+
   }
 }

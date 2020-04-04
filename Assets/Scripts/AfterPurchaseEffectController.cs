@@ -43,6 +43,7 @@ public class AfterPurchaseEffectController : MonoBehaviour
     public AfterPurchaseCanvas.UIText uiText;
     // [SerializeField] GameObject afterPurchaseEffectCanvas = null;
     [SerializeField] GameObject heartBar = null;
+    ProductController productController;
     DiamondController diamondController;
     LevelLoader levelLoader;
     Text effectText;
@@ -60,6 +61,7 @@ public class AfterPurchaseEffectController : MonoBehaviour
         body = afterPurchaseEffectCanvas.transform.GetChild(0);
         diamondController = FindObjectOfType<DiamondController>();
         levelLoader = FindObjectOfType<LevelLoader>();
+        productController = FindObjectOfType<ProductController>();
 
         effectText = body.GetComponentInChildren<Text>();
         effectImage = body.GetChild(4).gameObject;
@@ -79,10 +81,11 @@ public class AfterPurchaseEffectController : MonoBehaviour
                 childObject.gameObject.SetActive(false);
             }
         }
-
+        
         if (type == "0") {
             effectText.text = "하트가 충전됐어요!";
             effectText.transform.DOLocalMoveY(41f, 0);
+            uiImage.heartReward.sprite = rewardSprite.spHeart;
             uiImage.heartReward.gameObject.SetActive(true);
             uiText.heartRewardAmount.text = $"+{targetAmount}";
         } else if (type == "1") {
@@ -91,12 +94,15 @@ public class AfterPurchaseEffectController : MonoBehaviour
         } else if (type == "2") {
             effectText.text = "별 3개 랜덤 보상!";
             effectText.transform.DOLocalMoveY(45f, 0);
+            SetRewardSprite();
             uiImage.heartReward.gameObject.SetActive(true);
             uiText.heartRewardAmount.text = "+1";
         } else if (type == "3") {
-            effectText.text = "스테이지 보상!";
+            effectText.text = "특별 스테이지 랜덤 보상!!";
+            effectText.transform.DOLocalMoveY(45f, 0);
+            SetRewardSprite();
             uiImage.heartReward.gameObject.SetActive(true);
-            uiText.heartRewardAmount.text = "FULL";
+            uiText.heartRewardAmount.text = "+1";
         } else if (type == "4") {
             effectText.text = "다이아가 충전됐어요!";
             effectText.transform.DOLocalMoveY(41f, 0);
@@ -118,9 +124,37 @@ public class AfterPurchaseEffectController : MonoBehaviour
         });
     }
 
-    public void HideHeartShopController() {
+    public void HideHeartShopController() 
+    {
         var heartShopController = FindObjectOfType<HeartShopController>();
         if (heartShopController != null)
             heartShopController.ToggleHeartShopCanvas(false);
+    }
+
+    public void SetRewardSprite()
+    {
+        switch (ProductController.rewardType)
+        {
+            case Constants.REWARD_TYPE.HEART: 
+            {
+                uiImage.heartReward.sprite = rewardSprite.spHeart;
+                break;
+            }
+            case Constants.REWARD_TYPE.DIAMOND:
+            {
+                uiImage.heartReward.sprite = rewardSprite.spDiamond;
+                break;
+            }
+            case Constants.REWARD_TYPE.GOLD_MINE:
+            {
+                uiImage.heartReward.sprite = rewardSprite.spGoldMine;
+                break;
+            }
+            case Constants.REWARD_TYPE.EXPLOSIVE_WAREHOUSE:
+            {
+                uiImage.heartReward.sprite = rewardSprite.spDynamite;
+                break;
+            }
+        }
     }
 }

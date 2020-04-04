@@ -31,16 +31,19 @@ public class ItemController : ProductController
     ResetDiceController resetDiceController;
     ItemShopController itemShopController;
     public string onClickedType;
-    private int goldMineAmount;
-    private int explosiveWarehouseAmount;
+    private static int goldMineAmount;
+    private static int explosiveWarehouseAmount;
+
 
     public static class TYPE {
         public const string GOLD_MINE = "GOLD_MINE";
         public const string EXPLOSIVE_WAREHOUSE = "EXPLOSIVE_WAREHOUSE";
     };
 
+    String[] types = {TYPE.GOLD_MINE, TYPE.EXPLOSIVE_WAREHOUSE};
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Initialize();
     }
@@ -248,11 +251,13 @@ public class ItemController : ProductController
         if (StorageController.IsKeyExists(TYPE.GOLD_MINE))
         {
             goldMineAmount = StorageController.LoadItemAmount(TYPE.GOLD_MINE);
+            Debug.Log(goldMineAmount);
         }
 
         if (StorageController.IsKeyExists(TYPE.EXPLOSIVE_WAREHOUSE))
         {
             explosiveWarehouseAmount = StorageController.LoadItemAmount(TYPE.EXPLOSIVE_WAREHOUSE);
+            Debug.Log(explosiveWarehouseAmount);
         }
     }
 
@@ -275,6 +280,8 @@ public class ItemController : ProductController
 
     public void SaveItem(string type, int targetAmount)
     {
+        Debug.Log(type + ":type");
+        Debug.Log(targetAmount + ":targetAmount");
         StorageController.SaveItemAmount(type, targetAmount);
     }
 
@@ -310,5 +317,26 @@ public class ItemController : ProductController
                 break;
             }
         }
+    }
+
+    public override void GetReward(int targetAmount)
+    {
+        int randomIndex = UnityEngine.Random.Range(0, 2);
+
+        switch (types[randomIndex])
+        {
+            case TYPE.GOLD_MINE: 
+            {
+                rewardType = Constants.REWARD_TYPE.GOLD_MINE;
+                break;
+            }
+            case TYPE.EXPLOSIVE_WAREHOUSE: 
+            {
+                rewardType = Constants.REWARD_TYPE.EXPLOSIVE_WAREHOUSE;
+                break;
+            }
+        }
+
+        AddItemAmount(types[randomIndex], 1);
     }
 }

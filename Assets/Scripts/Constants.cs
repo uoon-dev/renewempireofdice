@@ -101,7 +101,13 @@ public class Constants : MonoBehaviour
         }
     }
 
-
+    public static class REWARD_TYPE {
+        public const string HEART = "heart";
+        public const string DIAMOND = "diamond";
+        public const string GOLD_MINE = "goldMine";
+        public const string EXPLOSIVE_WAREHOUSE = "explosiveWarehouse";
+    }
+    
     public static class TYPE {
         public const string LAST_BLOCK = "lastBlock";
         public const string FIRST_BLOCK = "firstBlock";

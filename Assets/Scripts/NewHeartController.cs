@@ -25,7 +25,6 @@ using UnityEngine;
 
 public class NewHeartController : ProductController
 {
-    public static NewHeartController Instance; 
     public static Timer timer;
     private const int timerInterval = 500;
     private int heartRechargeSpeed = 1;
@@ -37,21 +36,19 @@ public class NewHeartController : ProductController
     public static UIController UIController;
     public static LevelLoader levelLoader;
     public static HeartShopController heartShopController;
-    // public bool IsDeviceTimeValidTest = false;
-    // public int targetDeltaCountTest = 0;
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
+        // if (Instance == null)
+        // {
+        //     Instance = this;
             Initialize();
             
-        }
-        else if (Instance != this) {
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(gameObject);        
+        // }
+        // else if (Instance != this) {
+        //     Destroy(gameObject);
+        // }
+        // DontDestroyOnLoad(gameObject);        
     }
 
     private void Initialize()
@@ -299,11 +296,10 @@ public class NewHeartController : ProductController
         }
     }
 
-    // public bool GetIsDeviceTimeValidTest() {
-    //     return IsDeviceTimeValidTest;
-    // }
-
-    // public int GetTargetDeltaCountTest() {
-    //     return targetDeltaCountTest;
-    // }    
+    public override void GetReward(int targetAmount)
+    {
+        rewardType = Constants.REWARD_TYPE.HEART;
+        AddHeartAmount(targetAmount);
+        Debug.Log(rewardType + ":In child.rewardType");
+    } 
 }

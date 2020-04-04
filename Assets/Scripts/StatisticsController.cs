@@ -43,6 +43,7 @@ public class LevelCompleteCanvas {
 
 public class StatisticsController : MonoBehaviour
 {
+    public ProductController[] controllers;
     public LevelCompleteCanvas levelCompleteCanvas;
     public LevelCompleteCanvas.UIAnimator uiAnimator;
     public LevelCompleteCanvas.UIButton uiButton;
@@ -68,6 +69,7 @@ public class StatisticsController : MonoBehaviour
     ItemController itemController;
     AfterPurchaseEffectController afterPurchaseEffectController;
     ResetDiceController resetDiceController;
+    ProductController productController;
 
 
     void Start()
@@ -103,6 +105,7 @@ public class StatisticsController : MonoBehaviour
         itemController = FindObjectOfType<ItemController>();
         afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
         resetDiceController = FindObjectOfType<ResetDiceController>();
+        productController = FindObjectOfType<ProductController>();
 
         currentLevelNumber = levelLoader.GetCurrentLevelNumber();
         savedLevelStarCount = PlayerPrefs.GetInt($"LevelStar {currentLevelNumber}");
@@ -114,7 +117,6 @@ public class StatisticsController : MonoBehaviour
         bool inTurnLimit = resetDiceController.GetTurnCount() <= 30;
 
         SetStarCount();
-        SetRewardHeart();
 
         if (currentLevelNumber > 1)
         {
@@ -141,11 +143,13 @@ public class StatisticsController : MonoBehaviour
                         {
                             isHeartFullReward = true;
                             yield return new WaitForSeconds(0.7f);
-                            afterPurchaseEffectController.ShowScreen("2", 0);
+                            afterPurchaseEffectController.ShowScreen("3", 0);
+                            SetRewardAtSpecialStage();
                             // afterPurchaseEffectController.ShowScreen("3", 0);
                         }
                         if (savedLevelStarCount < 3)
                         {
+                            SetReward();
                             yield return new WaitForSeconds(isHeartFullReward ? 2f : 0.7f);
                             afterPurchaseEffectController.ShowScreen("2", 0);
                         }
@@ -217,16 +221,23 @@ public class StatisticsController : MonoBehaviour
         }
     }
 
-    public void SetRewardHeart()
+    public void SetRewardAtSpecialStage()
     {
         if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.LEVEL) {
             if (currentLevelNumber % 10 == 0 && newHeartController.GetHeartAmount() < Constants.HEART_MAX_CHARGE_COUNT && levelCleared != 1) {
-
-                // newHeartController.AddHeartAmount(Constants.HEART_MAX_CHARGE_COUNT - newHeartController.GetHeartAmount());
+                int randomIndex = UnityEngine.Random.Range(0, 4);
+                controllers[randomIndex].GetReward(1);
             }
+        }
+    }
+
+    public void SetReward()
+    {
+        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.LEVEL) {
             if (getStarCount == 3 && savedLevelStarCount < 3)
             {
-                // newHeartController.AddHeartAmount(2);
+                int randomIndex = UnityEngine.Random.Range(0, 4);
+                controllers[randomIndex].GetReward(1);
             }
         }
     }

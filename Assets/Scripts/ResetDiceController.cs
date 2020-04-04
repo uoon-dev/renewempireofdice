@@ -233,7 +233,6 @@ public class ResetDiceController : MonoBehaviour
         {
             moneyArea.GetComponent<Button>().enabled = false;
             moneyArea.GetComponent<Image>().color = new Color32(255, 255, 255, 100);
-            // moneyIconImage.color = new Color32(255, 255, 255, 100);
             costText.color = new Color32(82, 77, 74, 80);
         }
     }
@@ -243,7 +242,6 @@ public class ResetDiceController : MonoBehaviour
         {
             moneyArea.GetComponent<Button>().enabled = true;
             moneyArea.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-            // moneyIconImage.color = new Color32(255, 255, 255, 255);
             costText.color = new Color32(0, 0, 0, 255);
         }
     }

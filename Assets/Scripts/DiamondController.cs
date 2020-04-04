@@ -10,16 +10,16 @@ public class DiamondController : ProductController
     // Start is called before the first frame update
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
+        // if (Instance == null)
+        // {
+        //     Instance = this;
             Initialize();
             
-        }
-        else if (Instance != this) {
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(gameObject);
+        // }
+        // else if (Instance != this) {
+        //     Destroy(gameObject);
+        // }
+        // DontDestroyOnLoad(gameObject);
     }
 
     private void Initialize()
@@ -60,5 +60,11 @@ public class DiamondController : ProductController
     public void SubtractDiamondAmount(int targetAmount)
     {
         diamondAmount -= targetAmount;
+    }
+
+    public override void GetReward(int targetAmount)
+    {
+        rewardType = Constants.REWARD_TYPE.DIAMOND;
+        AddDiamondAmount(targetAmount);
     }
 }
