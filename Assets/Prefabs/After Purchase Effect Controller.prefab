@@ -43,5 +43,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a1a209e1a0064a4994597412c4e1832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AfterPurchaseEffectCanvas: {fileID: 0}
+  rewardSprite:
+    spHeart: {fileID: 21300000, guid: 1f03a93859bff4cdb9025a00054f8335, type: 3}
+    spDiamond: {fileID: 21300000, guid: ddd70609ab7d64da19d0fde90b717452, type: 3}
+    spGoldMine: {fileID: 21300000, guid: 4806bf88afc984153b518925cb7e0449, type: 3}
+    spDynamite: {fileID: 21300000, guid: fc5c7b775ab554b32b0544ce775b4498, type: 3}
+  afterPurchaseEffectCanvas:
+    canvasGroup: {fileID: 0}
+    transform: {fileID: 0}
+  uiImage:
+    heartReward: {fileID: 0}
+    diamondReward: {fileID: 0}
+    goldMineReward: {fileID: 0}
+    dynamiteReward: {fileID: 0}
+  uiText:
+    heartRewardAmount: {fileID: 0}
+    diamondRewardAmount: {fileID: 0}
+    goldMineRewardAmount: {fileID: 0}
+    dynamiteRewardAmount: {fileID: 0}
   heartBar: {fileID: 0}

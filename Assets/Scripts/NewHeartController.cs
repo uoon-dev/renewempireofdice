@@ -23,7 +23,7 @@ using UnityEngine;
     * 인터넷을 중간에 다시 연결해도 타이머가 동작하지 않는다. -> 플레이를 해야 동작하는데 10분으로 리셋된다. *
 */
 
-public class NewHeartController : MonoBehaviour
+public class NewHeartController : ProductController
 {
     public static NewHeartController Instance; 
     public static Timer timer;

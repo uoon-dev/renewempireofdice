@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DiamondController : MonoBehaviour
+public class DiamondController : ProductController
 {
     public static DiamondController Instance;
     private static int diamondAmount;

@@ -15,7 +15,7 @@ public class ExplosiveWarehouseEffect {
     public Animator dynamiteAnimator;
 };
 
-public class ItemController : MonoBehaviour
+public class ItemController : ProductController
 {
     public ExplosiveWarehouseEffect explosiveWarehouseEffect;
     [SerializeField] GameObject itemGuideCanvas;
