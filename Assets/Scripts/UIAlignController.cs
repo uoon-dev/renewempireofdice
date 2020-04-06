@@ -98,7 +98,7 @@ public class UIAlignController : MonoBehaviour
         var headerLeftSide = header.transform.Find("Left");
         var headerRightSide = header.transform.Find("Right");
 
-        headerLeftSide.position = new Vector3(leftPaddingAbsolutePositionX - 3.7f, 1.7f, 0);
+        headerLeftSide.position = new Vector3(leftPaddingAbsolutePositionX - 3.7f, 1.65f, 0);
         headerRightSide.position = new Vector3(3.7f - leftPaddingAbsolutePositionX, 1.7f, 0);
         
         var footer = mainCanvas.transform.Find("Footer");

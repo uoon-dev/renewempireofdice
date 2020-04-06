@@ -48,6 +48,8 @@ MonoBehaviour:
     spDiamond: {fileID: 21300000, guid: ddd70609ab7d64da19d0fde90b717452, type: 3}
     spGoldMine: {fileID: 21300000, guid: 4806bf88afc984153b518925cb7e0449, type: 3}
     spDynamite: {fileID: 21300000, guid: fc5c7b775ab554b32b0544ce775b4498, type: 3}
+    spPointYellow: {fileID: 21300000, guid: 31278fb06d8794a44b49729d4afdaabc, type: 3}
+    spPointBlue: {fileID: 21300000, guid: 008d60a356b8d43f6937b77c4ee6780a, type: 3}
   afterPurchaseEffectCanvas:
     canvasGroup: {fileID: 0}
     transform: {fileID: 0}
@@ -56,6 +58,7 @@ MonoBehaviour:
     diamondReward: {fileID: 0}
     goldMineReward: {fileID: 0}
     dynamiteReward: {fileID: 0}
+    dashPoint: {fileID: 0}
   uiText:
     heartRewardAmount: {fileID: 0}
     diamondRewardAmount: {fileID: 0}

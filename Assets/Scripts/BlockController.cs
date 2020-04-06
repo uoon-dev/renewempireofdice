@@ -57,6 +57,7 @@ public class BlockController : MonoBehaviour
         levelLoader = FindObjectOfType<LevelLoader>();
         speicalBlockController = FindObjectOfType<SpeicalBlockController>();
         itemController = FindObjectOfType<ItemController>();
+        // StorageController.DeleteBlocksText(282);
     }
 
     void OnApplicationQuit()

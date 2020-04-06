@@ -141,9 +141,13 @@ public class Constants : MonoBehaviour
     // public const int HEART_CHARGE_SECONDS = 10;
     public const int HEART_CHARGE_SECONDS = 20 * 60;// 20 min
     public static class TEXT {
-        public const string GOLD_ITEM_TITLE = "황금 광산"; 
-        public const string GOLD_ITEM_DESC = "딱뎀으로 땅을 바로 점령하고 땅의 방어력 만큼\n골드를 얻습니다. "; 
+        public const string GOLD_MINE_GUIDE_TITLE = "황금 광산을 만드세요!"; 
+        public const string GOLD_MINE_GUIDE_DESC = "선택한 땅을 즉시 딱뎀으로 점령하고, 그 땅의 방어력만큼 골드를 캐냅니다.";
+        public const string GOLD_MINE_ITEM_TITLE = "황금 광산"; 
+        public const string GOLD_MINE_ITEM_DESC = "선택한 땅(마왕성 제외)을 즉시 딱뎀으로 점령하고,\n그 땅의 방어력만큼 골드를 캐냅니다."; 
+        public const string EXPLOSIVE_WAREHOUSE_GUIDE_TITLE = "화약고를 터뜨리세요!"; 
+        public const string EXPLOSIVE_WAREHOUSE_GUIDE_DESC = "선택한 땅과 그 가로줄과 세로줄을 폭파시켜 즉시 딱뎀으로 점령합니다.";
         public const string EXPLOSIVE_WAREHOUSE_ITEM_TITLE = "화약고"; 
-        public const string EXPLOSIVE_WAREHOUSE_ITEM_DESC = "선택한 땅에 사방으로 폭격기를 모두 딱뎀으로 점령합니다.\n단, 이  때 특수 땅 점령 보너스는 받지 못합니다. \n마왕성은 점령할 수 없습니다.";
+        public const string EXPLOSIVE_WAREHOUSE_ITEM_DESC = "선택한 땅과 그 가로줄과 세로줄을 폭파시켜 즉시 딱뎀으로 점령합니다.\n(마왕성 제외). 사용된 땅을 제외한 땅의 특수 효과는 얻을 수 없습니다.";
     }
 }

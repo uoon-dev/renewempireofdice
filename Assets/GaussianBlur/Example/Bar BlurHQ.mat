@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BlurHQ 2
+  m_Name: Bar BlurHQ
   m_Shader: {fileID: 4800000, guid: 54d0ad70cd0c44037ad52d9697449988, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 5
@@ -65,7 +65,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Size: 20
+    - _Size: 18.45
     - _SrcBlend: 1
     - _Stencil: 0
     - _StencilComp: 8
@@ -80,4 +80,4 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 0}
     - _ColorMask: {r: 1, g: 1, b: 1, a: 0.2}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _TintColor: {r: 1, g: 1, b: 1, a: 0.0627451}
+    - _TintColor: {r: 1, g: 1, b: 1, a: 0}

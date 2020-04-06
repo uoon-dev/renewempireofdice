@@ -26,7 +26,8 @@ public class ItemController : ProductController
     [SerializeField] Image coin;
     [SerializeField] Sprite goldMineIllust;
     [SerializeField] Sprite explosiveWarehouseIllust;
-    [SerializeField] SuperTextMesh guideText;
+    [SerializeField] Text guideTitle;
+    [SerializeField] Text guideDescription;
     BlockController blockController;
     ResetDiceController resetDiceController;
     ItemShopController itemShopController;
@@ -86,9 +87,11 @@ public class ItemController : ProductController
 
         guideCharacter.sprite = goldMineIllust;
         itemGuideCanvas.SetActive(true);
-        guideText.text = "<b>황금 광산으로 만들 땅을 고르세요!</b><br><br><s=0.7><c=dimgray>딱뎀으로 땅을 즉시 점령하고 표시된 방어력 만큼 골드를 얻습니다.</c></s>";
-        guideText.gameObject.SetActive(false);
-        guideText.gameObject.SetActive(true);
+        guideTitle.text = Constants.TEXT.GOLD_MINE_GUIDE_TITLE;
+        guideDescription.text = Constants.TEXT.GOLD_MINE_GUIDE_DESC;
+        // guideText.text = "<b>황금 광산으로 만들 땅을 고르세요!</b><br><br><s=0.7><c=dimgray>딱뎀으로 땅을 즉시 점령하고 표시된 방어력 만큼 골드를 얻습니다.</c></s>";
+        // guideText.gameObject.SetActive(false);
+        // guideText.gameObject.SetActive(true);
         blockController.ToggleBounceClickableBlocks(true, TYPE.GOLD_MINE);
         onClickedType = TYPE.GOLD_MINE;
     }
@@ -103,9 +106,11 @@ public class ItemController : ProductController
 
         guideCharacter.sprite = explosiveWarehouseIllust;
         itemGuideCanvas.SetActive(true);
-        guideText.text = "<b>화약고를 터트릴 땅을 고르세요!</b><br><br><s=0.7><c=dimgray>선택된 땅에 사방으로 폭격기를 보내 모두 딱뎀으로 점령합니다. (단,마왕성은 점령되지 않습니다)</c></s>";
-        guideText.gameObject.SetActive(false);
-        guideText.gameObject.SetActive(true);        
+        guideTitle.text = Constants.TEXT.EXPLOSIVE_WAREHOUSE_GUIDE_TITLE;
+        guideDescription.text = Constants.TEXT.EXPLOSIVE_WAREHOUSE_GUIDE_DESC;
+        // guideText.text = "<b>화약고를 터트릴 땅을 고르세요!</b><br><br><s=0.7><c=dimgray>선택된 땅에 사방으로 폭격기를 보내 모두 딱뎀으로 점령합니다. (단,마왕성은 점령되지 않습니다)</c></s>";
+        // guideText.gameObject.SetActive(false);
+        // guideText.gameObject.SetActive(true);        
         blockController.ToggleBounceClickableBlocks(true, TYPE.EXPLOSIVE_WAREHOUSE);
         onClickedType = TYPE.EXPLOSIVE_WAREHOUSE;
     }
@@ -143,7 +148,7 @@ public class ItemController : ProductController
                             || block.GetPosX() == targetBlock.GetPosX())
                             {
                                 string targetNumber = block.blockText.text;
-                                block.ReduceBlockGage(targetNumber, true);
+                                block.ReduceBlockGage(targetNumber, true, true);
                             }
                     }
                 }
@@ -199,7 +204,7 @@ public class ItemController : ProductController
         sequence.Join(explosiveWarehouseEffect.smogXCanvasGroup.DOFade(0.8f, 0.08f));
         sequence.Join(explosiveWarehouseEffect.smogY.transform.DOScale(new Vector2(0.364f, 0.364f), 0.08f));
         sequence.Join(explosiveWarehouseEffect.smogYCanvasGroup.DOFade(0.8f, 0.08f));
-
+        
         sequence.Append(explosiveWarehouseEffect.smogX.transform.DOScale(new Vector2(0.476f, 0.476f), 0.08f));
         sequence.Join(explosiveWarehouseEffect.smogXCanvasGroup.DOFade(0.4f, 0.08f));
         sequence.Join(explosiveWarehouseEffect.smogY.transform.DOScale(new Vector2(0.476f, 0.476f), 0.08f));
@@ -237,8 +242,8 @@ public class ItemController : ProductController
             sequence.AppendCallback(() => { 
                 clonedCoin.SetActive(true); 
                 });
-            sequence.Append(clonedCoin.transform.DOMoveX(moneyText.position.x, 0.4f).SetEase(Ease.Linear));
-            sequence.Join(clonedCoin.transform.DOMoveY(moneyText.position.y, 0.4f).SetEase(Ease.InCubic));
+            sequence.Append(clonedCoin.transform.DOMoveX(moneyText.position.x, 0.4f).SetEase(Ease.InCubic));
+            sequence.Join(clonedCoin.transform.DOMoveY(moneyText.position.y, 0.4f).SetEase(Ease.Linear));
             sequence.AppendCallback(() => Destroy(clonedCoin));
             sequence.Play();
 
@@ -251,13 +256,11 @@ public class ItemController : ProductController
         if (StorageController.IsKeyExists(TYPE.GOLD_MINE))
         {
             goldMineAmount = StorageController.LoadItemAmount(TYPE.GOLD_MINE);
-            Debug.Log(goldMineAmount);
         }
 
         if (StorageController.IsKeyExists(TYPE.EXPLOSIVE_WAREHOUSE))
         {
             explosiveWarehouseAmount = StorageController.LoadItemAmount(TYPE.EXPLOSIVE_WAREHOUSE);
-            Debug.Log(explosiveWarehouseAmount);
         }
     }
 
@@ -280,8 +283,6 @@ public class ItemController : ProductController
 
     public void SaveItem(string type, int targetAmount)
     {
-        Debug.Log(type + ":type");
-        Debug.Log(targetAmount + ":targetAmount");
         StorageController.SaveItemAmount(type, targetAmount);
     }
 

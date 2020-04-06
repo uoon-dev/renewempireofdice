@@ -11,6 +11,8 @@ public class RewardSprite {
     public Sprite spDiamond; 
     public Sprite spGoldMine;
     public Sprite spDynamite; 
+    public Sprite spPointYellow; 
+    public Sprite spPointBlue; 
 }
 
 [Serializable]
@@ -24,6 +26,7 @@ public class AfterPurchaseCanvas {
         public Image diamondReward;
         public Image goldMineReward;
         public Image dynamiteReward;
+        public Image dashPoint;
     }
 
     [Serializable]
@@ -81,6 +84,8 @@ public class AfterPurchaseEffectController : MonoBehaviour
                 childObject.gameObject.SetActive(false);
             }
         }
+
+        uiImage.dashPoint.sprite = rewardSprite.spPointYellow;
         
         if (type == "0") {
             effectText.text = "하트가 충전됐어요!";
@@ -107,6 +112,7 @@ public class AfterPurchaseEffectController : MonoBehaviour
             effectText.text = "다이아가 충전됐어요!";
             effectText.transform.DOLocalMoveY(41f, 0);
             uiImage.diamondReward.gameObject.SetActive(true);
+            uiImage.dashPoint.sprite = rewardSprite.spPointBlue;
             uiText.diamondRewardAmount.text = $"+{targetAmount}";
         } else if (type == "5") {
             effectText.text = "황금광산이 충전됐어요!";

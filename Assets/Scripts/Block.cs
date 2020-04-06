@@ -102,21 +102,20 @@ public class Block : MonoBehaviour
         } 
         else
         {
-            if (posX == 1 && posY == 1)
-            {
-                randomNum = diceController.GetDiceNumberRandomly();
-            }
-            else
-            {
-                randomNum = Random.Range(1, posX + posY+2) * 2 + Random.Range(1, 7);
-            }
+            randomNum = Random.Range(1, posX + posY+2) * 2 + Random.Range(1, 7);
         }
-        // randomNum = GetTutorialBlocksValue(posX, posY);
+        
         blockText = GetComponentInChildren<Text>();
         if (setNumber)
         {
             SetBlockValue(randomNum.ToString());
         }
+
+        if (posX == 1 && posY == 1)
+        {
+            int randomNumInDices = diceController.GetDiceNumberRandomly();
+            SetBlockValue(randomNumInDices.ToString());
+        }        
 
         UpdateBlocksUI();
     }
@@ -346,7 +345,7 @@ public class Block : MonoBehaviour
         });
     }
 
-    public void ReduceBlockGage(string attackGage, bool isItemEffect = false)
+    public void ReduceBlockGage(string attackGage, bool isItemEffect = false, bool isBombed = false)
     {
         var diceController = FindObjectOfType<DiceController>();
         var resetDiceController = FindObjectOfType<ResetDiceController>();
@@ -363,7 +362,7 @@ public class Block : MonoBehaviour
         int resultGage = int.Parse(blockText.text) - int.Parse(attackGage);
         if (resultGage <= 0)
         {
-            ChangeDestroyedBlockDisplay(resultGage, isItemEffect);
+            ChangeDestroyedBlockDisplay(resultGage, isItemEffect, isBombed);
 
             if (!isItemEffect)
             {
@@ -424,14 +423,16 @@ public class Block : MonoBehaviour
         }        
     }
 
-    private void ChangeDestroyedBlockDisplay(int resultGage, bool isItemEffect = false)
+    private void ChangeDestroyedBlockDisplay(int resultGage, bool isItemEffect = false, bool isBombed = false)
     {
         isDestroyed = true;
 
         // todo ddack!
         if (resultGage == 0)
         {
-            if (itemController && itemController.onClickedType.Length > 0)
+            string onClickedItemType = itemController.onClickedType;
+
+            if (itemController && onClickedItemType.Length > 0)
             {
                 GetItemReward();
                 Invoke("GetSpecialBlockReward", 0.4f);
@@ -443,23 +444,22 @@ public class Block : MonoBehaviour
             Sequence sequence = DOTween.Sequence();
             sequence.AppendInterval(isItemEffect ? 0.3f : 0);
             sequence.AppendCallback(() => {
-                int randomNumber = Random.Range(0, 8);
                 backgroundImage.color = new Color32(255, 255 , 255, 255);
                 backgroundImage.sprite = clearLandOccupiedImage;
                 SetBlockValue(string.Empty);
                 MakeNextBlockClickable();
+                if (isBombed)
+                {
+                    onClickedItemType = ItemController.TYPE.EXPLOSIVE_WAREHOUSE;
+                }                
+                SetDdackEffectAnimation(onClickedItemType);
 
-                ddackBody.GetComponentsInChildren<Image>()[randomNumber].enabled = true;
-                ddackBody.GetComponentsInChildren<Image>()[randomNumber].color = new Color32(255, 255 , 255, 255);
-                SetDdackEffectAnimation();
                 if (!isItemEffect)
                 {
                     GetSpecialBlockReward();
+                    FindObjectOfType<ResetDiceController>().ResetOneDice();
                 }
-
                 FindObjectOfType<StatisticsController>().UpdateFactor01();
-                FindObjectOfType<ResetDiceController>().ResetOneDice();
-
             });
             sequence.Play();
         }
@@ -478,11 +478,29 @@ public class Block : MonoBehaviour
 
     private void SetBlockValue(string targetValue)
     {
+        if (posX == 1 && posY == 1)
+        {
+            Debug.Log(targetValue + ":targetValue");
+        }
         blockText.text = targetValue;
     }
 
-    public void SetDdackEffectAnimation()
+    public void SetDdackEffectAnimation(string onClickedItemType)
     {
+        int randomNumber = Random.Range(0, 8);
+
+        if (onClickedItemType == ItemController.TYPE.GOLD_MINE)
+        {
+            randomNumber = 9;
+        }
+        else if (onClickedItemType == ItemController.TYPE.EXPLOSIVE_WAREHOUSE)
+        {
+            randomNumber = 10;
+        }
+
+        ddackBody.GetComponentsInChildren<Image>()[randomNumber].enabled = true;
+        ddackBody.GetComponentsInChildren<Image>()[randomNumber].color = new Color32(255, 255 , 255, 255);
+
         var ddack = GameObject.Find("Ddack");
         ddack.GetComponent<Animator>().SetTrigger("isAnimated");
         Invoke("SetDemEffectAnimation", 0.3f);        

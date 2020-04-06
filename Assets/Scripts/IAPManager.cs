@@ -291,6 +291,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
         // var heartShopController = FindObjectOfType<HeartShopController>();
         // heartShopController.TogglePurchaseButton(false, product.definition.id);
         // GameObject.Find("IAP Error Reason").GetComponent<Text>().text = reason.ToString();
+        UIController.TogglePurchaseButtonInDiamondShop(false);
         Debug.LogWarning($"구매 실패 - {product.definition.id}, {reason}");
     }
 

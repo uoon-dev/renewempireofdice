@@ -220,7 +220,6 @@ public class NewHeartController : ProductController
 
     public bool CanUseHeart()
     {
-        Debug.Log(GetHeartAmount() + ":GetHeartAmount()");
         if (GetHeartAmount() <= 0) {
             UIController.ToggleNoHeartCanvas(true);
             return false;

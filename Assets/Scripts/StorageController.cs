@@ -37,8 +37,12 @@ public class StorageController
 
     public static void SaveBlocksText(int level, List<string> blockTexts)
     {
-
         ES3.Save<List<string>>(STORAGE_KEY.BLOCKS_BY_LEVEL_TEXT + level, blockTexts);
+    }
+
+    public static void DeleteBlocksText(int level)
+    {
+        ES3.DeleteKey(STORAGE_KEY.BLOCKS_BY_LEVEL_TEXT + level); 
     }
 
     public static void SaveBackgroundImageIndex(int level, int index)

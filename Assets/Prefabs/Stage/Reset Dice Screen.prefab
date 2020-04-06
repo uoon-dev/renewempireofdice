@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.475761, y: 0.44200003}
   m_AnchorMax: {x: 0.475761, y: 0.44200003}
-  m_AnchoredPosition: {x: 43.1, y: -12}
+  m_AnchoredPosition: {x: 44.9, y: -8.15}
   m_SizeDelta: {x: 85.7, y: 60.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7284596323096534088
@@ -65,7 +65,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 60d16a6194a324c40b12ad45de803359, type: 3}
-    m_FontSize: 13
+    m_FontSize: 10
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -103,7 +103,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7284596323180696569}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 4.422686}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -151,7 +151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1496add4e5f4e7faa3da9f1a96a996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diceBox: {fileID: 0}
   turnText: {fileID: 0}
   disabledResetDiceButtonImage: {fileID: 21300000, guid: 2bbc45a17b9c5424db151699a24e8153,
     type: 3}
@@ -282,8 +281,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 46, y: 0}
-  m_SizeDelta: {x: 60, y: 62}
+  m_AnchoredPosition: {x: 46, y: -0.4}
+  m_SizeDelta: {x: 45.5, y: 47}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7424644773939858311
 CanvasRenderer:

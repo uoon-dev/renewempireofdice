@@ -10,6 +10,7 @@ public class ItemShopCanvas {
     public Image image;
     public CanvasGroup canvasGroup;
     public Canvas canvas;
+    public Button panelSetting;
     
 }
 
@@ -53,6 +54,7 @@ public class ItemShopController : MonoBehaviour
         afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
         popupController = FindObjectOfType<PopupController>();
         
+        itemShopCanvas.panelSetting.onClick.AddListener(() => ToggleItemShopCanvas(false));
         closeButton.onClick.AddListener(() => ToggleItemShopCanvas(false));
         ToggleItemShopCanvas(false);
     }
@@ -63,8 +65,9 @@ public class ItemShopController : MonoBehaviour
         {
             case ItemController.TYPE.GOLD_MINE:
             {
-                title.text = Constants.TEXT.GOLD_ITEM_TITLE;
-                description.text = Constants.TEXT.GOLD_ITEM_DESC;
+                title.text = Constants.TEXT.GOLD_MINE_ITEM_TITLE;
+                description.text = Constants.TEXT.GOLD_MINE_ITEM_DESC;
+                description.lineSpacing = 1.4f;
 
                 itemImage1.sprite = goldMineItemIllust;
                 itemImage2.sprite = goldMineItemIllust;
@@ -79,6 +82,7 @@ public class ItemShopController : MonoBehaviour
             {
                 title.text = Constants.TEXT.EXPLOSIVE_WAREHOUSE_ITEM_TITLE;
                 description.text = Constants.TEXT.EXPLOSIVE_WAREHOUSE_ITEM_DESC;
+                description.lineSpacing = 1.1f;
 
                 itemImage1.sprite = explosiveWarehouseItemIllust;
                 itemImage2.sprite = explosiveWarehouseItemIllust;
