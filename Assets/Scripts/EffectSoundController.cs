@@ -22,6 +22,7 @@ public class EffectSoundController : MonoBehaviour
     [SerializeField] AudioSource finishOneRoundSourceHumanVoiceSource;
     [SerializeField] AudioSource attackBlockSource;
     [SerializeField] AudioSource getLandPerfectSource2;
+    [SerializeField] AudioSource goldMineUseSource;
 
     
     public static class SOUND_NAME {
@@ -41,6 +42,8 @@ public class EffectSoundController : MonoBehaviour
         public const string FINISH_ONE_ROUND_HUMAN_VOICE = "finishOneRoundHumanVoice";
         public const string ATTACK_BLOCK= "attackBlock";
         public const string GET_LAND_PERFECT_2 = "getLandPerfect2";
+        public const string GOLD_MINE_USE = "goldMineUse";
+        public const string DYNAMITE_USE = "dynamiteUse";
     }
 
     void Awake()
@@ -113,6 +116,12 @@ public class EffectSoundController : MonoBehaviour
                 break;
             case SOUND_NAME.GET_LAND_PERFECT_2:
                 getLandPerfectSource2.Play();
+                break;
+            case SOUND_NAME.GOLD_MINE_USE:
+                goldMineUseSource.Play();
+                break;
+            case SOUND_NAME.DYNAMITE_USE:
+                rewardHorseSource.Play();
                 break;
         }
     }

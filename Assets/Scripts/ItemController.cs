@@ -167,6 +167,10 @@ public class ItemController : ProductController
         sequence.AppendCallback(() => goldMineCircle.gameObject.SetActive(true));
         sequence.Append(goldMineCircle.transform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f));
         sequence.Append(goldMineCircle.transform.DOScale(new Vector3(1, 1, 1), 0.1f));
+        sequence.AppendCallback(() => { 
+            if (EffectSoundController.instance != null)
+                EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GOLD_MINE_USE);            
+        });
         sequence.AppendInterval(0.3f);
         sequence.AppendCallback(() => { 
             goldMineCircle.gameObject.SetActive(false); 
@@ -175,6 +179,7 @@ public class ItemController : ProductController
             resetDiceController.AddMoney(targetAmount);
             });
         sequence.Play();
+
         StartCoroutine(CloneCoin(targetBlock));
     }
 
@@ -197,6 +202,9 @@ public class ItemController : ProductController
         sequence.Append(explosiveWarehouseEffect.smogX.transform.DOMove(new Vector2(middleBlock.transform.position.x, targetBlock.transform.position.y), 0));
         sequence.Append(explosiveWarehouseEffect.smogY.transform.DOMove(new Vector2(targetBlock.transform.position.x, middleBlock.transform.position.y), 0));
         sequence.AppendCallback(() => {
+            if (EffectSoundController.instance != null)
+                EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.DYNAMITE_USE);        
+
             explosiveWarehouseEffect.smogX.gameObject.SetActive(true);
             explosiveWarehouseEffect.smogY.gameObject.SetActive(true);
         });

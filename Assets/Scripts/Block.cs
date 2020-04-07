@@ -111,7 +111,7 @@ public class Block : MonoBehaviour
             SetBlockValue(randomNum.ToString());
         }
 
-        if (posX == 1 && posY == 1)
+        if (posX == 1 && posY == 1 && levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.LEVEL)
         {
             int randomNumInDices = diceController.GetDiceNumberRandomly();
             SetBlockValue(randomNumInDices.ToString());
