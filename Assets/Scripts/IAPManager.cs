@@ -11,6 +11,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
 {
     [SerializeField] GameObject MaldivesButton = null;
     [SerializeField] GameObject GoldrushButton = null;
+    [SerializeField] Text iapErrorReason = null;
 
     private const string IOSMaldivesDiceId = "maldivesdice";
     private const string AndroidMaldivesDiceId = "maldivesdice";
@@ -119,7 +120,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
         // 다이아몬드
         builder.AddProduct(
-            Constants.DIAMOND_1, ProductType.NonConsumable,
+            Constants.DIAMOND_1, ProductType.Consumable,
             new IDs()
             {
                 { Constants.DIAMOND_1, AppleAppStore.Name },
@@ -127,7 +128,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
             }
             );
         builder.AddProduct(
-            Constants.DIAMOND_2, ProductType.NonConsumable,
+            Constants.DIAMOND_2, ProductType.Consumable,
             new IDs()
             {
                 { Constants.DIAMOND_2, AppleAppStore.Name },
@@ -135,7 +136,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
             }
             );
         builder.AddProduct(
-            Constants.DIAMOND_3, ProductType.NonConsumable,
+            Constants.DIAMOND_3, ProductType.Consumable,
             new IDs()
             {
                 { Constants.DIAMOND_3, AppleAppStore.Name },
@@ -143,7 +144,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
             }
             );
         builder.AddProduct(
-            Constants.DIAMOND_4, ProductType.NonConsumable,
+            Constants.DIAMOND_4, ProductType.Consumable,
             new IDs()
             {
                 { Constants.DIAMOND_4, AppleAppStore.Name },
@@ -151,7 +152,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
             }
             );
         builder.AddProduct(
-            Constants.DIAMOND_5, ProductType.NonConsumable,
+            Constants.DIAMOND_5, ProductType.Consumable,
             new IDs()
             {
                 { Constants.DIAMOND_5, AppleAppStore.Name },
@@ -159,7 +160,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
             }
             );
         builder.AddProduct(
-            Constants.DIAMOND_6, ProductType.NonConsumable,
+            Constants.DIAMOND_6, ProductType.Consumable,
             new IDs()
             {
                 { Constants.DIAMOND_6, AppleAppStore.Name },
@@ -245,38 +246,38 @@ public class IAPManager : MonoBehaviour, IStoreListener
             //     }
             case Constants.DIAMOND_1: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
-                diamondController.AddDiamondAmount(22);
-                afterPurchaseEffectController.ShowScreen("4", 22);
+                diamondController.AddDiamondAmount(20);
+                afterPurchaseEffectController.ShowScreen("4", 20);
                 break;
             }
             case Constants.DIAMOND_2: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
-                diamondController.AddDiamondAmount(55);
-                afterPurchaseEffectController.ShowScreen("4", 55);
+                diamondController.AddDiamondAmount(50);
+                afterPurchaseEffectController.ShowScreen("4", 50);
                 break;
             }
             case Constants.DIAMOND_3: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
-                diamondController.AddDiamondAmount(121);
-                afterPurchaseEffectController.ShowScreen("4", 121);
+                diamondController.AddDiamondAmount(120);
+                afterPurchaseEffectController.ShowScreen("4", 120);
                 break;
             }
             case Constants.DIAMOND_4: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
-                diamondController.AddDiamondAmount(396);
-                afterPurchaseEffectController.ShowScreen("4", 396);
+                diamondController.AddDiamondAmount(400);
+                afterPurchaseEffectController.ShowScreen("4", 400);
                 break;
             }
             case Constants.DIAMOND_5: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
-                diamondController.AddDiamondAmount(858);
-                afterPurchaseEffectController.ShowScreen("4", 858);
+                diamondController.AddDiamondAmount(800);
+                afterPurchaseEffectController.ShowScreen("4", 800);
                 break;
             }
             case Constants.DIAMOND_6: {
                 diamondShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
-                diamondController.AddDiamondAmount(1337);
-                afterPurchaseEffectController.ShowScreen("4", 1337);
+                diamondController.AddDiamondAmount(1300);
+                afterPurchaseEffectController.ShowScreen("4", 1300);
                 break;
             }
             default: {
@@ -292,6 +293,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
         // heartShopController.TogglePurchaseButton(false, product.definition.id);
         // GameObject.Find("IAP Error Reason").GetComponent<Text>().text = reason.ToString();
         UIController.TogglePurchaseButtonInDiamondShop(false);
+        // iapErrorReason.text = reason.ToString();
         Debug.LogWarning($"구매 실패 - {product.definition.id}, {reason}");
     }
 

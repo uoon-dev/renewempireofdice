@@ -145,7 +145,6 @@ public class StatisticsController : MonoBehaviour
                             yield return new WaitForSeconds(0.7f);
                             afterPurchaseEffectController.ShowScreen("3", 0);
                             SetRewardAtSpecialStage();
-                            // afterPurchaseEffectController.ShowScreen("3", 0);
                         }
                         if (savedLevelStarCount < 3)
                         {
@@ -225,8 +224,17 @@ public class StatisticsController : MonoBehaviour
     {
         if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.LEVEL) {
             if (currentLevelNumber % 10 == 0 && newHeartController.GetHeartAmount() < Constants.HEART_MAX_CHARGE_COUNT && levelCleared != 1) {
-                int randomIndex = UnityEngine.Random.Range(0, 4);
-                controllers[randomIndex].GetReward(1);
+                float randomValue = UnityEngine.Random.value;
+
+                if (randomValue <= 0.1f) {
+                    controllers[2].GetReward(1);
+                }
+                else if (randomValue <= 0.55) {
+                    controllers[1].GetReward(1);
+                }
+                else {
+                    controllers[0].GetReward(1);
+                }
             }
         }
     }
@@ -236,8 +244,17 @@ public class StatisticsController : MonoBehaviour
         if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.LEVEL) {
             if (getStarCount == 3 && savedLevelStarCount < 3)
             {
-                int randomIndex = UnityEngine.Random.Range(0, 4);
-                controllers[randomIndex].GetReward(1);
+                float randomValue = UnityEngine.Random.value;
+
+                if (randomValue <= 0.1f) {
+                    controllers[2].GetReward(1);
+                }
+                else if (randomValue <= 0.55) {
+                    controllers[1].GetReward(1);
+                }
+                else {
+                    controllers[0].GetReward(1);
+                }
             }
         }
     }

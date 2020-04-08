@@ -17,10 +17,11 @@ public class ResetDiceController : MonoBehaviour
     Text costText;
     Text moneyText;
     Text attackPowerText;
-    int money = 5;
+    int cost = 5;
     int attackPower = 6;
     LevelLoader levelLoader;
     TutorialDialogueController tutorialDialogueController;
+    NoDiceNoCoinController noDiceNoCoinController;
 
     void Start()
     {   
@@ -34,7 +35,7 @@ public class ResetDiceController : MonoBehaviour
             moneyText.text = "15";
         }
 
-        costText.text = money.ToString();
+        costText.text = cost.ToString();
         attackPowerText.text = "1-6";
 
 
@@ -45,6 +46,7 @@ public class ResetDiceController : MonoBehaviour
     private void Initialize()
     {
         levelLoader = FindObjectOfType<LevelLoader>();
+        noDiceNoCoinController = FindObjectOfType<NoDiceNoCoinController>();
         moneyArea = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.MONEY_AREA);
         costText = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.COST_TEXT).GetComponent<Text>();
         moneyText = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.MONEY_TEXT).GetComponent<Text>();
@@ -58,11 +60,11 @@ public class ResetDiceController : MonoBehaviour
 
     public void OnClickButton() {
         int currentMoney = int.Parse(moneyText.text);
-        if (currentMoney >= money)
+        if (currentMoney >= cost)
         {
             if (EffectSoundController.instance != null)
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_NEW_DICE);
-            moneyText.text = (int.Parse(moneyText.text) - money).ToString();
+            moneyText.text = (int.Parse(moneyText.text) - cost).ToString();
             ResetDices();
 
             if (TutorialDialogueController.dialogueTurn == 19)
@@ -180,7 +182,7 @@ public class ResetDiceController : MonoBehaviour
 
     public void ToggleResetDiceButton()
     {
-        if (GetDestroyedDiceCount() > 0 && GetCurrentMoney() >= money)
+        if (GetDestroyedDiceCount() > 0 && GetCurrentMoney() >= cost)
         {
             AbleResetDiceButton();
         } 
@@ -192,19 +194,26 @@ public class ResetDiceController : MonoBehaviour
 
     public void SetCost(int newCost)
     {
-        money = newCost;
-        costText.text = money.ToString();
+        cost = newCost;
+        costText.text = cost.ToString();
     }
 
     public int GetCost()
     {
-        return money;
+        return cost;
     }
 
     public void AddMoney(int targetAmount)
     {
         int currentMoney = int.Parse(moneyText.text);
-        moneyText.text = (int.Parse(moneyText.text) + targetAmount).ToString();
+        int appendedMoney = int.Parse(moneyText.text) + targetAmount;
+        moneyText.text = appendedMoney.ToString();
+
+        if (appendedMoney >= cost)
+        {
+            noDiceNoCoinController.ToggleScreen();
+            ToggleResetDiceButton();
+        }
     }
     
     public void SpendCurrentMoney(int spendedCost)

@@ -7,6 +7,7 @@ public class UIController : MonoBehaviour
     [SerializeField] Sprite heartSpriteFull;
     [SerializeField] Sprite heartSpriteNormal;
     [SerializeField] Sprite heartSpriteEmpty;
+    [SerializeField] Image heartImage;
     [SerializeField] Text goldMineAmountText;
     [SerializeField] Text diamondAmount;
     [SerializeField] Text explosiveWarehouseAmountText;    
@@ -20,7 +21,7 @@ public class UIController : MonoBehaviour
     LevelLoader levelLoader;
     IAPManager iAPManager;
     ItemController itemController;
-    Image heartImage;
+    
     Text heartTimerText;
     Text heartTimerTextInNoHeartCanvas;
     Text heartTimerTextInShop;
@@ -41,7 +42,6 @@ public class UIController : MonoBehaviour
         Initialize();
     }
 
-    // Update is called once per frame
     void Update()
     {
         bool newIsNetworkConnected = Utils.IsNetworkConnected();
@@ -106,13 +106,11 @@ public class UIController : MonoBehaviour
         itemController = FindObjectOfType<ItemController>();
         
         afterPurchaseEffectCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.AFTER_PURCHASE_EFFECT_CANVAS);
-        // if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
-        // {
+
         if (levelLoader.GetCurrentSceneName() != Constants.SCENE_NAME.TUTORIAL)
         {
             heartTimerText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT).GetComponent<Text>();
             heartAmountText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_STATUS).GetComponent<Text>();
-            heartImage = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_IMAGE).GetComponent<Image>();
         }
         // }
         heartTimerTextInNoHeartCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_NO_HEART_CANVAS).GetComponent<Text>();

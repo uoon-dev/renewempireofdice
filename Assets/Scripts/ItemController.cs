@@ -160,6 +160,10 @@ public class ItemController : ProductController
     private void EffectGoldMine(Block targetBlock)
     {
         int targetAmount = int.Parse(targetBlock.blockText.text);
+
+        if (EffectSoundController.instance != null)
+            EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GOLD_MINE_USE);        
+
         Sequence sequence = DOTween.Sequence();
 
         blockController.ToggleBounceClickableBlock(true, targetBlock);
@@ -167,10 +171,6 @@ public class ItemController : ProductController
         sequence.AppendCallback(() => goldMineCircle.gameObject.SetActive(true));
         sequence.Append(goldMineCircle.transform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f));
         sequence.Append(goldMineCircle.transform.DOScale(new Vector3(1, 1, 1), 0.1f));
-        sequence.AppendCallback(() => { 
-            if (EffectSoundController.instance != null)
-                EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GOLD_MINE_USE);            
-        });
         sequence.AppendInterval(0.3f);
         sequence.AppendCallback(() => { 
             goldMineCircle.gameObject.SetActive(false); 
