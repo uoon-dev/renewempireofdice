@@ -52,23 +52,26 @@ public class DiamondShopController : MonoBehaviour
  
             SetCanvasOrder(14);
             heartShopController.SetCanvasOrder(13);
+            diamondShopCanvas.canvasGroup.DOFade(1, 0.1f);
+            diamondShopCanvas.canvasGroup.interactable = true;
+            diamondShopCanvas.canvasGroup.blocksRaycasts = true;
+
             if(levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
             {
                 this.gameObject.transform.DOMoveY(0, 0.25f);
-                diamondShopCanvas.canvasGroup.DOFade(1, 0.1f);
-                diamondShopCanvas.canvasGroup.interactable = true;
-                diamondShopCanvas.canvasGroup.blocksRaycasts = true;                
                 return;
             }
             body.transform.DOMoveY(Screen.height/2, 0.25f);
             return;
         }
+        
         diamondShopCanvas.image.raycastTarget = false;
+        diamondShopCanvas.canvasGroup.DOFade(0, 0.01f);
+        diamondShopCanvas.canvasGroup.interactable = false;
+        diamondShopCanvas.canvasGroup.blocksRaycasts = false;
+
         if(levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) {
             this.gameObject.transform.DOMoveY(-4, 0.25f);
-            diamondShopCanvas.canvasGroup.DOFade(0, 0.01f);
-            diamondShopCanvas.canvasGroup.interactable = false;
-            diamondShopCanvas.canvasGroup.blocksRaycasts = false;
             return;
         }
         body.transform.DOMoveY(-Screen.height/2, 0.25f);

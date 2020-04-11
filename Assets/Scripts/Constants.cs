@@ -108,6 +108,12 @@ public class Constants : MonoBehaviour
         public const string EXPLOSIVE_WAREHOUSE = "explosiveWarehouse";
     }
     
+    public static class LAST_BLOCK_STATE {
+        public const string IS_NORMAL = "isNormal";
+        public const string IS_CLICKABLE = "isClickable";
+        public const string IS_DESTROYABLE = "isDestroyable";
+        public const string IS_DYING = "isDying";
+    }
     public static class TYPE {
         public const string LAST_BLOCK = "lastBlock";
         public const string FIRST_BLOCK = "firstBlock";
@@ -138,7 +144,7 @@ public class Constants : MonoBehaviour
     public const string HeartRechargeSpeedUp = "speedupheartrecharge1";
     public const int HEART_MAX_CHARGE_COUNT = 5;
     public const int TIMESTAMP_VALID_OFFSET_SECONDS = 20;
-    // public const int HEART_CHARGE_SECONDS = 10;
+    // public const int HEART_CHARGE_SECONDS = 20;
     public const int HEART_CHARGE_SECONDS = 20 * 60;// 20 min
     public static class TEXT {
         public const string GOLD_MINE_GUIDE_TITLE = "황금 광산을 만드세요!"; 

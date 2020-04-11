@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,8 +7,38 @@ using DG.Tweening;
 using RedBlueGames.Tools.TextTyper;
 using Controllers.TutorialController;
 
+[Serializable]
+public class BlockComponent {
+
+    [Serializable]
+    public class UIAnimator {
+        public Animator backgroundImageAnimator = null;
+    }
+
+
+    [Serializable]
+    public class UITransform {
+        public RectTransform backgroundImageRect = null;
+    }
+
+    [Serializable]
+    public class UISprite {
+        public Sprite lastBlockNormal = null;
+        public Sprite lastBlockClickable = null;
+        public Sprite lastBlockDestoryable = null;
+    }
+}
+
+
+
+
 public class Block : MonoBehaviour
 {
+
+    public BlockComponent blockComponent;
+    public BlockComponent.UIAnimator uiAnimator;
+    public BlockComponent.UISprite uiSprite;
+    public BlockComponent.UITransform uiTransform;
     [SerializeField] Sprite clearLandImage = null;
     [SerializeField] Sprite clearLandOccupiedImage = null;
     [SerializeField] Sprite destroyableBlockImage = null;
@@ -30,7 +61,6 @@ public class Block : MonoBehaviour
     [SerializeField] Sprite horizontalBackgroundImage = null;
     [SerializeField] Sprite verticalBackgroundImage = null;
     [SerializeField] Sprite bombBackgroundImage = null;
-    [SerializeField] Sprite lastBlockImage = null;
     [SerializeField] Sprite lastBlockFinalImage = null;
     [SerializeField] GameObject backsideTooltipImageObject = null;
     [SerializeField] GameObject tooltip = null;
@@ -58,6 +88,7 @@ public class Block : MonoBehaviour
     private GameObject armyAnimationImage;
     LevelLoader levelLoader;
     DiceController diceController;
+    BlockController blockController;
     ItemController itemController;
 
     void Awake()
@@ -81,31 +112,28 @@ public class Block : MonoBehaviour
         levelLoader = FindObjectOfType<LevelLoader>();
         diceController = FindObjectOfType<DiceController>();
         itemController = FindObjectOfType<ItemController>();
+        blockController = FindObjectOfType<BlockController>();
         wizardAnimationImage = GameObject.Find("Wizard Image");
         armyAnimationImage = GameObject.Find("Army Image");
+        uiAnimator.backgroundImageAnimator.enabled = false;
     }
 
     public void SetBlocksValue(bool setNumber = true)
     {
         var blocks = FindObjectsOfType<Block>();
         int randomNum = 0;
-
         posX = (int)transform.localPosition.x / blockSize;
         posY = (int)transform.localPosition.y / blockSize;
-        
         blocksLength = (int)Mathf.Sqrt(blocks.Length);
-        
+        blockText = GetComponentInChildren<Text>();
+
+        randomNum = UnityEngine.Random.Range(1, posX + posY+2) * 2 + UnityEngine.Random.Range(1, 7);        
+
         if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL)
         {
-            // todo tutorial
             randomNum = GetTutorialBlocksValue(posX, posY);
         } 
-        else
-        {
-            randomNum = Random.Range(1, posX + posY+2) * 2 + Random.Range(1, 7);
-        }
         
-        blockText = GetComponentInChildren<Text>();
         if (setNumber)
         {
             SetBlockValue(randomNum.ToString());
@@ -136,19 +164,23 @@ public class Block : MonoBehaviour
         if (posX == 1 && posY == 1)
         {
             isClickable = true;
-            backgroundImage.sprite = destroyableBlockImage;
+            backgroundImage.overrideSprite = destroyableBlockImage;
             backgroundImage.color = new Color32(255, 255, 255, 255);
-            GetComponentInChildren<Text>().color = new Color32(32, 32, 32, 255);
+            blockText.color = new Color32(32, 32, 32, 255);
             firstBlockPosition = transform.position;
         }
 
         // Set Last block text
         if (posX == blocksLength && posY == blocksLength)
-        {
-            backgroundImage.sprite = lastBlockImage;
+        {            
+            backgroundImage.overrideSprite = uiSprite.lastBlockNormal;
             backgroundImage.color = new Color32(255, 255, 255, 255);
-            backgroundImage.transform.localPosition = new Vector3(0.7f, 3.8f, 1);
+            backgroundImage.transform.localPosition = new Vector3(1.6f, 2.79f, 1);
+            uiTransform.backgroundImageRect.sizeDelta = new Vector2(68, 68);
+            blockText.color = new Color32(255, 255, 255, 255);
+
             lastBlockPosition = transform.position;
+            blockController.SetLastBlock(this);
             blocksType = "마왕성";
         }
     }
@@ -357,7 +389,6 @@ public class Block : MonoBehaviour
         }
 
         diceController.DestroyDices();
-
         // 블록의 남은 게이지
         int resultGage = int.Parse(blockText.text) - int.Parse(attackGage);
         if (resultGage <= 0)
@@ -376,15 +407,16 @@ public class Block : MonoBehaviour
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.ATTACK_BLOCK);
 
             SetBlockValue(resultGage.ToString());
+            HandleLastBlock(resultGage);
         }
 
-        if (blocksType != "마왕성")
-        {
-            speicalBlockController.IncreaseLastBlockGage();
-        }
         
         if (!isItemEffect)
         {
+            if (blocksType != "마왕성")
+            {
+                speicalBlockController.IncreaseLastBlockGage();
+            }
             resetDiceController.IncreaseTurnCount();
         }
         resetDiceController.ToggleResetDiceButton();
@@ -393,7 +425,83 @@ public class Block : MonoBehaviour
         FindObjectOfType<NoDiceNoCoinController>().ToggleScreen();
 
         destroyedDiceCount = 0;
+    }
 
+    private void HandleLastBlock(int resultGage)
+    {
+        string state = Constants.LAST_BLOCK_STATE.IS_NORMAL;
+        Block lastBlock = blockController.GetLastBlock();
+        lastBlock.backgroundImage.overrideSprite = null;
+
+        if (blocksType == "마왕성")
+        {
+            if (resultGage == 0)
+            {
+                state = Constants.LAST_BLOCK_STATE.IS_DYING;
+            }
+            else
+            {
+                state = Constants.LAST_BLOCK_STATE.IS_DESTROYABLE;
+            }
+        }
+        else
+        {
+            if (lastBlock.isClickable)
+            {
+                state = Constants.LAST_BLOCK_STATE.IS_CLICKABLE;   
+            }
+            else
+            {
+                state = Constants.LAST_BLOCK_STATE.IS_NORMAL;   
+            }
+        }
+
+        // if (resultGage <= 0)
+        // {
+        //     if (posX == blocksLength && posY == blocksLength)
+        //     {
+        //         state = Constants.LAST_BLOCK_STATE.IS_DYING;
+        //     }
+        //     else if ((posX == blocksLength - 1 && posY == blocksLength) || 
+        //         (posX == blocksLength && posY == blocksLength - 1))
+        //     {
+        //         state = Constants.LAST_BLOCK_STATE.IS_CLICKABLE;
+        //     }
+        //     else
+        //     {
+        //         if (lastBlock.isClickable)
+        //         {
+        //             state = Constants.LAST_BLOCK_STATE.IS_CLICKABLE;
+        //         }
+        //     }
+        // }
+        // else {
+        //     if ((posX == blocksLength - 1 && posY == blocksLength) || 
+        //         (posX == blocksLength && posY == blocksLength - 1))
+        //     {
+        //         state = Constants.LAST_BLOCK_STATE.IS_CLICKABLE;
+        //     }
+        //     else
+        //     {
+        //         if (!lastBlock.isClickable)
+        //         {
+        //             state = Constants.LAST_BLOCK_STATE.IS_NORMAL;
+        //         }
+        //         else
+        //         {
+        //             if (blocksType == "마왕성")
+        //             {
+        //                 state = Constants.LAST_BLOCK_STATE.IS_DESTROYABLE;
+        //             }
+        //             else
+        //             {
+        //                 state = Constants.LAST_BLOCK_STATE.IS_CLICKABLE;
+        //             }
+        //         }
+        //     }        
+        // }
+
+        blockController.AnimateLastBlock(state);        
     }
 
     private void HandleTutorialTurn()
@@ -445,14 +553,20 @@ public class Block : MonoBehaviour
             sequence.AppendInterval(isItemEffect ? 0.3f : 0);
             sequence.AppendCallback(() => {
                 backgroundImage.color = new Color32(255, 255 , 255, 255);
-                backgroundImage.sprite = clearLandOccupiedImage;
+                if (blocksType != "마왕성") {
+                    backgroundImage.overrideSprite = clearLandOccupiedImage;                    
+                }
                 SetBlockValue(string.Empty);
                 MakeNextBlockClickable();
                 if (isBombed)
                 {
                     onClickedItemType = ItemController.TYPE.EXPLOSIVE_WAREHOUSE;
-                }                
-                SetDdackEffectAnimation(onClickedItemType);
+                }
+
+                if (blocksType != "마왕성")
+                {
+                    SetDdackEffectAnimation(onClickedItemType);
+                }
 
                 if (!isItemEffect)
                 {
@@ -468,7 +582,7 @@ public class Block : MonoBehaviour
             if (EffectSoundController.instance != null)
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_LAND);
 
-            backgroundImage.sprite = clearLandImage;
+            backgroundImage.overrideSprite = clearLandImage;
             SetBlockValue(string.Empty);
             MakeNextBlockClickable();
             GetSpecialBlockReward();
@@ -478,16 +592,12 @@ public class Block : MonoBehaviour
 
     private void SetBlockValue(string targetValue)
     {
-        if (posX == 1 && posY == 1)
-        {
-            Debug.Log(targetValue + ":targetValue");
-        }
         blockText.text = targetValue;
     }
 
     public void SetDdackEffectAnimation(string onClickedItemType)
     {
-        int randomNumber = Random.Range(0, 8);
+        int randomNumber = UnityEngine.Random.Range(0, 8);
 
         if (onClickedItemType == ItemController.TYPE.GOLD_MINE)
         {
@@ -812,16 +922,14 @@ public class Block : MonoBehaviour
                         if (!(block.GetPosX() == blocksLength && block.GetPosY() == blocksLength))
                         {
                             block.backgroundImage.color = new Color32(255, 255, 255, 255);
-                            block.backgroundImage.sprite = destroyableBlockImage;
+                            block.backgroundImage.overrideSprite = destroyableBlockImage;
                             if (block.blocksType == string.Empty) {
                                 block.GetComponentInChildren<Text>().color = new Color32(32, 32, 32, 255);
-                            }
-                            
+                            }                            
                         }
                         else
                         {
                             block.backgroundImage.color = new Color32(255, 255, 255, 255);
-                            block.backgroundImage.sprite = lastBlockFinalImage;
                             block.GetComponentInChildren<Text>().color = new Color32(255, 255, 255, 255);
                             block.transform.Find("Last Block Oval").gameObject.SetActive(true);
                         }
@@ -829,6 +937,8 @@ public class Block : MonoBehaviour
                 }
             }
         }
+
+        HandleLastBlock(0);
     }
 
     public Transform GetSelectedSlot()
@@ -900,7 +1010,7 @@ public class Block : MonoBehaviour
 
     public void SetBlockType(string type)
     {
-        if(blocksType=="마왕성")return;
+        if(blocksType == "마왕성") return;
 
         blocksType = type;
         specialBlockImage.color = new Color32(255, 255, 255, 255);
@@ -910,49 +1020,49 @@ public class Block : MonoBehaviour
         {
             case "광산":
                 specialBlockImage.sprite = mineImage;
-                backgroundImage.sprite = mineBackgroundImage;
+                backgroundImage.overrideSprite = mineBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(191, 155, 48, 255);
                 blockText.text = (int.Parse(blockText.text) + 6).ToString();
                 break;
             case "던전":
                 specialBlockImage.sprite = dungeonImage;
-                backgroundImage.sprite = dungeonBackgroundImage;
+                backgroundImage.overrideSprite = dungeonBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(231, 134, 134, 255);
                 blockText.text = (int.Parse(blockText.text) + 4).ToString();
                 break;
             case "용병":
                 specialBlockImage.sprite = armyImage;
-                backgroundImage.sprite = armyBackgroundImage;
+                backgroundImage.overrideSprite = armyBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(113, 110, 110, 255);
                 blockText.text = (int.Parse(blockText.text) + 4).ToString();
                 break;
             case "마법사":
                 specialBlockImage.sprite = wizardImage;
-                backgroundImage.sprite = wizardBackgroundImage;
+                backgroundImage.overrideSprite = wizardBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(146, 100, 172, 255);
                 blockText.text = (int.Parse(blockText.text) + 6).ToString();
                 break;
             case "유물":
                 specialBlockImage.sprite = relicsImage;
-                backgroundImage.sprite = relicsBackgroundImage;
+                backgroundImage.overrideSprite = relicsBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(82, 119, 132, 255);
                 blockText.text = (int.Parse(blockText.text) + 3).ToString();
                 break;
             case "기병대":
                 specialBlockImage.sprite = horizontalImage;
-                backgroundImage.sprite = horizontalBackgroundImage;
+                backgroundImage.overrideSprite = horizontalBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(128, 120, 168, 255);
                 blockText.text = (int.Parse(blockText.text) + 6).ToString();
                 break;
             case "공습":
                 specialBlockImage.sprite = verticalImage;
-                backgroundImage.sprite = verticalBackgroundImage;
+                backgroundImage.overrideSprite = verticalBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(128, 120, 168, 255);
                 blockText.text = (int.Parse(blockText.text) + 6).ToString();
                 break;
             case "폭탄":
                 specialBlockImage.sprite = bombImage;
-                backgroundImage.sprite = bombBackgroundImage;
+                backgroundImage.overrideSprite = bombBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(128, 120, 168, 255);
                 blockText.text = (int.Parse(blockText.text) + 5).ToString();
                 break;

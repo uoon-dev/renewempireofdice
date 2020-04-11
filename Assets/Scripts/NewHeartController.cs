@@ -30,7 +30,7 @@ public class NewHeartController : ProductController
     private int heartRechargeSpeed = 1;
     private static int heartAmount;
     public static bool isHeartAmountUpdated = false;
-    private int heartTargetTimeStamp;
+    private static int heartTargetTimeStamp;
     private bool isNetworkConnected;
     private bool IsDeviceTimeValid = false;
     public static UIController UIController;

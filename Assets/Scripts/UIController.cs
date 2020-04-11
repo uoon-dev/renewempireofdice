@@ -140,7 +140,8 @@ public class UIController : MonoBehaviour
             string remainTime = string.Format("{0:0}:{1:00}", heartCharteRemainSecond / 60, heartCharteRemainSecond % 60);
             if (levelLoader.GetCurrentSceneName() != Constants.SCENE_NAME.TUTORIAL)
             {
-                heartTimerText.text = (heartAmount < Constants.HEART_MAX_CHARGE_COUNT && heartCharteRemainSecond > 0) ? remainTime : "full";
+                heartTimerText.text = (heartAmount < Constants.HEART_MAX_CHARGE_COUNT) ? remainTime : "full";
+                heartTimerText.fontSize = 34;
             }
             if (heartCharteRemainSecond > 0)
             {

@@ -20,6 +20,7 @@ public class BlockController : MonoBehaviour
     SpeicalBlockController speicalBlockController;
     ItemController itemController;
     Block[] createdBlocks;
+    public Block generatedLastBlock;
 
     private void Awake()
     {
@@ -28,36 +29,15 @@ public class BlockController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // ES3.DeleteKey("blockByLevelText0");
-        // ES3.DeleteKey("blockByLevelText1");
-        // ES3.DeleteKey("blockByLevelText2");
-        // ES3.DeleteKey("blockByLevelText3");
         Initialize();
         InitBlocks();
         createdBlocks = FindObjectsOfType<Block>();
-
-        // int blockLoadAdsCount = PlayerPrefs.GetInt("blockLoadAdsCount", 1);
-        // Debug.Log("clockMapCount" + blockLoadAdsCount);
-        // if (blockLoadAdsCount % 5 == 0)
-        // {
-        //     if (PlayerPrefs.GetInt("HeartRechargeSpeed") != 2) {
-        //         GameObject.Find("Ads Controller").GetComponent<AdsController>().PlayInterstitialAds(AD_REWARD_TYPE.LOAD_CLICKED_MAP);
-        //     }
-            
-        //     blockLoadAdsCount = 1;
-        // }
-        // else
-        // {
-        //     blockLoadAdsCount += 1;
-        // }
-        // PlayerPrefs.SetInt("blockLoadAdsCount", blockLoadAdsCount);
     }
     private void Initialize()
     {
         levelLoader = FindObjectOfType<LevelLoader>();
         speicalBlockController = FindObjectOfType<SpeicalBlockController>();
         itemController = FindObjectOfType<ItemController>();
-        // StorageController.DeleteBlocksText(282);
     }
 
     void OnApplicationQuit()
@@ -126,7 +106,6 @@ public class BlockController : MonoBehaviour
             StorageController.SaveBlocksType(currentLevelNumber, blockTypes);
             StorageController.SaveBlocksText(currentLevelNumber, blockTexts);
         }
-
     }
 
     private void CreateBlocks()
@@ -540,6 +519,16 @@ public class BlockController : MonoBehaviour
         return oneBlock;
     }
 
+    public void SetLastBlock(Block targetBlock)
+    {
+        generatedLastBlock = targetBlock;
+    }
+
+    public Block GetLastBlock()
+    {
+        return generatedLastBlock;
+    }
+
     public void ToggleBounceClickableBlocks(bool isActive, string type = null)
     {
         foreach (Block block in createdBlocks)
@@ -569,5 +558,11 @@ public class BlockController : MonoBehaviour
         backgroundImageWrapper.SetActive(isActive);
         targetBlock.GetComponent<Canvas>().overrideSorting = isActive;
         targetBlock.GetComponent<Canvas>().sortingOrder = isActive ? 20 : 5;
+    }
+
+    public void AnimateLastBlock(string state)
+    {
+        generatedLastBlock.uiAnimator.backgroundImageAnimator.enabled = true;        
+        generatedLastBlock.uiAnimator.backgroundImageAnimator.SetTrigger(state);
     }
 }
