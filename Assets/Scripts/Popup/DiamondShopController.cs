@@ -47,14 +47,8 @@ public class DiamondShopController : MonoBehaviour
 
         if (isShow) {
             diamondShopCanvas.image.raycastTarget = true;
-            // heartShopController.ToggleHeartShopCanvas(false);
             popupController.ToggleNoDiamindPopup(false);
  
-            SetCanvasOrder(14);
-            heartShopController.SetCanvasOrder(13);
-            diamondShopCanvas.canvasGroup.DOFade(1, 0.1f);
-            diamondShopCanvas.canvasGroup.interactable = true;
-            diamondShopCanvas.canvasGroup.blocksRaycasts = true;
 
             if(levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
             {
@@ -66,9 +60,6 @@ public class DiamondShopController : MonoBehaviour
         }
         
         diamondShopCanvas.image.raycastTarget = false;
-        diamondShopCanvas.canvasGroup.DOFade(0, 0.01f);
-        diamondShopCanvas.canvasGroup.interactable = false;
-        diamondShopCanvas.canvasGroup.blocksRaycasts = false;
 
         if(levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) {
             this.gameObject.transform.DOMoveY(-4, 0.25f);

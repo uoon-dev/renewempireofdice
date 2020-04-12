@@ -97,21 +97,11 @@ public class ItemShopController : MonoBehaviour
 
         if (isShow) {
             itemShopCanvas.image.raycastTarget = true;
-            itemShopCanvas.canvasGroup.DOFade(1, 0.1f);
-            itemShopCanvas.canvasGroup.interactable = true;
-            itemShopCanvas.canvasGroup.blocksRaycasts = true;
-            itemShopCanvas.canvas.sortingOrder = 7;
-            header.diamondBar.SetActive(true);
-            header.heartBar.SetActive(true);
+            this.gameObject.SetActive(isShow);
             return;
         }
         itemShopCanvas.image.raycastTarget = false;
-        itemShopCanvas.canvasGroup.DOFade(0, 0.01f);
-        itemShopCanvas.canvasGroup.interactable = false;
-        itemShopCanvas.canvasGroup.blocksRaycasts = false;
-        itemShopCanvas.canvas.sortingOrder = 5;
-        header.diamondBar.SetActive(false);
-        header.heartBar.SetActive(false);        
+        this.gameObject.SetActive(isShow);
         return;
     }
 

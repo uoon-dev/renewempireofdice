@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
-using Controllers.TutorialController;
 using RedBlueGames.Tools.TextTyper;
 using UnityEngine.Analytics;
 
@@ -109,7 +108,6 @@ public class LevelLoader : MonoBehaviour
     {
         if (currentSceneName == Constants.SCENE_NAME.TUTORIAL) {
             PlayerPrefs.SetInt("currentLevelNumber", currentLevelNumber);
-            TutorialController.SetTutorialCount(0);
             SceneManager.LoadScene(currentSceneName);
             return;
         }

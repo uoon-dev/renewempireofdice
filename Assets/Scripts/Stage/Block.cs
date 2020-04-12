@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using DG.Tweening;
 using RedBlueGames.Tools.TextTyper;
-using Controllers.TutorialController;
 
 [Serializable]
 public class BlockComponent {
@@ -29,16 +29,14 @@ public class BlockComponent {
     }
 }
 
-
-
-
-public class Block : MonoBehaviour
+public class Block : ControllerManager
 {
 
     public BlockComponent blockComponent;
     public BlockComponent.UIAnimator uiAnimator;
     public BlockComponent.UISprite uiSprite;
     public BlockComponent.UITransform uiTransform;
+    #region Sprite
     [SerializeField] Sprite clearLandImage = null;
     [SerializeField] Sprite clearLandOccupiedImage = null;
     [SerializeField] Sprite destroyableBlockImage = null;
@@ -62,16 +60,21 @@ public class Block : MonoBehaviour
     [SerializeField] Sprite verticalBackgroundImage = null;
     [SerializeField] Sprite bombBackgroundImage = null;
     [SerializeField] Sprite lastBlockFinalImage = null;
+    #endregion
+    #region GameObject
     [SerializeField] GameObject backsideTooltipImageObject = null;
     [SerializeField] GameObject tooltip = null;
     [SerializeField] GameObject ddackBody = null;
     [SerializeField] GameObject specialBlockEffect = null;
+    #endregion
+    #region Image
     [SerializeField] Image backgroundImage = null;
     [SerializeField] Image backgroundImageWrapper = null;
     [SerializeField] Image specialBlockImage = null;
+    #endregion
     int minNumber = 1;
     int maxNumber = 6;
-    int posX, posY;
+    public int posX, posY;
     int blockSize = 46;
     int blocksLength;
     int destroyedDiceCount = 0;
@@ -86,66 +89,30 @@ public class Block : MonoBehaviour
     private static int relicsAnimationTurn = 0;
     private GameObject wizardAnimationImage;
     private GameObject armyAnimationImage;
-    LevelLoader levelLoader;
-    DiceController diceController;
-    BlockController blockController;
-    ItemController itemController;
 
-    void Awake()
+    private void Start() 
     {
-        Initialize();
-        SetBlocksValue();
-    }
-    void Start()
-    {
+        wizardAnimationImage = GameObject.Find("Wizard Image");
+        armyAnimationImage = GameObject.Find("Army Image");
+        uiAnimator.backgroundImageAnimator.enabled = false;
+
         if (tooltip != null)
         {
             HideTooltip();
         }
 
         slotOrder1 = 0;
-        slotOrder2 = 0;
+        slotOrder2 = 0;  
+        // SetBlocksValue();
+        Init();
+        // GetComponent<>
     }
 
-    private void Initialize()
+    public void Init()
     {
-        levelLoader = FindObjectOfType<LevelLoader>();
-        diceController = FindObjectOfType<DiceController>();
-        itemController = FindObjectOfType<ItemController>();
-        blockController = FindObjectOfType<BlockController>();
-        wizardAnimationImage = GameObject.Find("Wizard Image");
-        armyAnimationImage = GameObject.Find("Army Image");
-        uiAnimator.backgroundImageAnimator.enabled = false;
-    }
-
-    public void SetBlocksValue(bool setNumber = true)
-    {
-        var blocks = FindObjectsOfType<Block>();
-        int randomNum = 0;
         posX = (int)transform.localPosition.x / blockSize;
         posY = (int)transform.localPosition.y / blockSize;
-        blocksLength = (int)Mathf.Sqrt(blocks.Length);
-        blockText = GetComponentInChildren<Text>();
-
-        randomNum = UnityEngine.Random.Range(1, posX + posY+2) * 2 + UnityEngine.Random.Range(1, 7);        
-
-        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL)
-        {
-            randomNum = GetTutorialBlocksValue(posX, posY);
-        } 
-        
-        if (setNumber)
-        {
-            SetBlockValue(randomNum.ToString());
-        }
-
-        if (posX == 1 && posY == 1 && levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.LEVEL)
-        {
-            int randomNumInDices = diceController.GetDiceNumberRandomly();
-            SetBlockValue(randomNumInDices.ToString());
-        }        
-
-        UpdateBlocksUI();
+        // blockText = GetComponentInChildren<TMPro>();
     }
 
     public void UpdateBlocksUI()
@@ -171,7 +138,7 @@ public class Block : MonoBehaviour
         }
 
         // Set Last block text
-        if (posX == blocksLength && posY == blocksLength)
+        if (blocksType == "마왕성")
         {            
             backgroundImage.overrideSprite = uiSprite.lastBlockNormal;
             backgroundImage.color = new Color32(255, 255, 255, 255);
@@ -185,7 +152,7 @@ public class Block : MonoBehaviour
         }
     }
 
-    private int GetTutorialBlocksValue(int posX, int poxY)
+    public int GetTutorialBlocksValue(int posX, int poxY)
     {
         if (posX == 1 && posY == 1)
         {
@@ -240,18 +207,22 @@ public class Block : MonoBehaviour
         var diceController = FindObjectOfType<DiceController>();
         var attackGageDisplay = FindObjectOfType<AttackGageDisplay>();
         int clickedDiceCount = diceController.GetClickedDiceCount();
-
+        
+        // 블록을 공격하는 경우
         if (isClickable == true)
         {
+            // 아이템 사용해서 블록을 공격하는 경우
             if(itemController && itemController.onClickedType.Length > 0 && blocksType != "마왕성")
             {
-                diceController.UnbounceDices();
+                // diceController.UnbounceDices();
                 ReduceBlockGage(blockText.text, true);
             }
+            // 아이템 사용 없이 블록을 공격하는 경우
             else if (clickedDiceCount > 0)
             {
                 ReduceBlockGage(attackGageDisplay.GetAttackGage());
             }
+            // 툴팁을 누르는 경우
             else
             {
                 if (blocksType != string.Empty && blocksType != "마왕성")
@@ -260,6 +231,7 @@ public class Block : MonoBehaviour
                 }
             }
         }
+        // 툴팁을 누르는 경우
         else
         {
             if (blocksType != string.Empty && blocksType != "마왕성")
@@ -422,7 +394,7 @@ public class Block : MonoBehaviour
         resetDiceController.ToggleResetDiceButton();
 
         // 남은 주사위 개수가 0이고 돈이 없으면 No Dice Screen 띄우기
-        FindObjectOfType<NoDiceNoCoinController>().ToggleScreen();
+        noDiceNoCoinController.ToggleScreen();
 
         destroyedDiceCount = 0;
     }
@@ -455,51 +427,6 @@ public class Block : MonoBehaviour
                 state = Constants.LAST_BLOCK_STATE.IS_NORMAL;   
             }
         }
-
-        // if (resultGage <= 0)
-        // {
-        //     if (posX == blocksLength && posY == blocksLength)
-        //     {
-        //         state = Constants.LAST_BLOCK_STATE.IS_DYING;
-        //     }
-        //     else if ((posX == blocksLength - 1 && posY == blocksLength) || 
-        //         (posX == blocksLength && posY == blocksLength - 1))
-        //     {
-        //         state = Constants.LAST_BLOCK_STATE.IS_CLICKABLE;
-        //     }
-        //     else
-        //     {
-        //         if (lastBlock.isClickable)
-        //         {
-        //             state = Constants.LAST_BLOCK_STATE.IS_CLICKABLE;
-        //         }
-        //     }
-        // }
-        // else {
-        //     if ((posX == blocksLength - 1 && posY == blocksLength) || 
-        //         (posX == blocksLength && posY == blocksLength - 1))
-        //     {
-        //         state = Constants.LAST_BLOCK_STATE.IS_CLICKABLE;
-        //     }
-        //     else
-        //     {
-        //         if (!lastBlock.isClickable)
-        //         {
-        //             state = Constants.LAST_BLOCK_STATE.IS_NORMAL;
-        //         }
-        //         else
-        //         {
-        //             if (blocksType == "마왕성")
-        //             {
-        //                 state = Constants.LAST_BLOCK_STATE.IS_DESTROYABLE;
-        //             }
-        //             else
-        //             {
-        //                 state = Constants.LAST_BLOCK_STATE.IS_CLICKABLE;
-        //             }
-        //         }
-        //     }        
-        // }
 
         blockController.AnimateLastBlock(state);        
     }
@@ -590,7 +517,7 @@ public class Block : MonoBehaviour
         }
     }
 
-    private void SetBlockValue(string targetValue)
+    public void SetBlockValue(string targetValue)
     {
         blockText.text = targetValue;
     }
@@ -919,7 +846,7 @@ public class Block : MonoBehaviour
                         block.GetComponentInChildren<Button>().interactable = true;
                         block.isClickable = true;
                         // 마왕성을 제외하고 나머지만 이미지 변경
-                        if (!(block.GetPosX() == blocksLength && block.GetPosY() == blocksLength))
+                        if (blocksType != "마왕성")
                         {
                             block.backgroundImage.color = new Color32(255, 255, 255, 255);
                             block.backgroundImage.overrideSprite = destroyableBlockImage;

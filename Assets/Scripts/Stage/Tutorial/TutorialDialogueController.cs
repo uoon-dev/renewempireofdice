@@ -16,19 +16,15 @@ public class TutorialDialogueController : MonoBehaviour
     public static int dialogueTurn = 0;
     NewTutorialController newTutorialController;
 
-
-
     void Start()
     {   
         Initialize();
-        // advanceKeyStartScale = advanceKeySprite.transform.localScale;
         Apply();
     }
 
     private void Initialize()
     {
         newTutorialController = FindObjectOfType<NewTutorialController>();
-        // InitTextLines();
     }
 
     public void InitTextLines()
@@ -57,38 +53,21 @@ public class TutorialDialogueController : MonoBehaviour
     }
     public void Apply()
     {
-        //isDoneFading = false;
         if (currentLine < lines.Length)
         {
             if (lines[currentLine] != string.Empty) 
             {
                 textMesh.Text = lines[currentLine]; //invoke accessor so rebuild() is called
-                // if (dialogueTurn == 2)
-                // {
-                //     textMesh.Text = lines[19];
-                //     currentLine--;
-                //     dialogueTurn = 21;
-                // }
             }
             currentLine++; //move to next line of dialogue...
-            // currentLine %= lines.Length; //or loop back to first one
         }
         dialogueTurn++;
-        // if (dialogueTurn == 22) dialogueTurn = 21;
         newTutorialController.dialogueUpdated = true;
 
         Debug.Log(dialogueTurn + ":dialogueTurn");
     }
     void Update()
     {
-        // if (Input.GetKey(advanceKey))
-        // {
-        //     advanceKeySprite.transform.localScale = advanceKeyScale; //scale key if held
-        // }
-        // else
-        // {
-        //     advanceKeySprite.transform.localScale = Vector3.Lerp(advanceKeySprite.transform.localScale, advanceKeyStartScale, Time.deltaTime * advanceKeyTime);
-        // }
         if (isClickable)
         {
             if (Input.GetKeyDown(advanceKey))

@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class PopupObjects 
 {
-    public Canvas noDiamondPopup;
+    public GameObject noDiamondPopup;
 }
 
 
@@ -24,7 +24,7 @@ public class PopupController : MonoBehaviour
     
     public void ToggleNoDiamindPopup(bool isActive)
     {
-        popupObjects.noDiamondPopup.gameObject.SetActive(isActive);
+        popupObjects.noDiamondPopup.SetActive(isActive);
     }
 
     public void CloseOtherPopups()

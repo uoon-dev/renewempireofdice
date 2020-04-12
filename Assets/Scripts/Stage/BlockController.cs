@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Analytics;
 
-public class BlockController : MonoBehaviour
+public class BlockController : ControllerManager
 {
     [SerializeField] GameObject block = null;
     [SerializeField] Sprite goldMineBackgroundImage;
@@ -16,28 +16,17 @@ public class BlockController : MonoBehaviour
     public static int boardSize = 1;
     object speicalBlocks;
     List<GameObject> blocks;
-    LevelLoader levelLoader;
-    SpeicalBlockController speicalBlockController;
-    ItemController itemController;
     Block[] createdBlocks;
     public Block generatedLastBlock;
 
-    private void Awake()
-    {
-        blocks = new List<GameObject>();
-    }
-    // Start is called before the first frame update
+
     void Start()
     {
-        Initialize();
+        blocks = new List<GameObject>();
         InitBlocks();
         createdBlocks = FindObjectsOfType<Block>();
-    }
-    private void Initialize()
-    {
-        levelLoader = FindObjectOfType<LevelLoader>();
-        speicalBlockController = FindObjectOfType<SpeicalBlockController>();
-        itemController = FindObjectOfType<ItemController>();
+        // this.gameObject.SetActive(false);
+        // this.gameObject.SetActive(true);
     }
 
     void OnApplicationQuit()
@@ -82,17 +71,19 @@ public class BlockController : MonoBehaviour
 
                 if (i < blockTexts.Count) {
                     tmpBlock.blockText.text = blockTexts[i];
-                    // Debug.Log(tmpBlock.blockText.text + ":" + i);
-                    tmpBlock.SetBlocksValue(false);
+                    // tmpBlock.SetBlocksValue(false);
                 }
             }
+
+            SetBlocksValue(false);
         }
         else
         {
+            SetBlocksValue(true);
             foreach (GameObject clonedBlock in blocks)
             {
                 Block tmpBlock = clonedBlock.GetComponent<Block>();
-                tmpBlock.SetBlocksValue();
+                // tmpBlock.SetBlocksValue();
             }
             speicalBlockController.SetSpeicialBlocks(speicalBlocks);
 
@@ -117,6 +108,8 @@ public class BlockController : MonoBehaviour
                 GameObject clonedBlock = Instantiate(block, transform.position, transform.rotation);
                 clonedBlock.transform.SetParent(this.transform, false);
                 clonedBlock.transform.localPosition = new Vector3(i * 46, j * 46, 1);
+                // clonedBlock.isStatic = true;
+                // StaticBatchingUtility.Combine(this.gameObject);
 
                 if (i == boardHeight && j == boardWidth)
                 {
@@ -129,6 +122,37 @@ public class BlockController : MonoBehaviour
 
         Destroy(block);
     }
+
+    public void SetBlocksValue(bool setNumber = true)
+    {
+        Block[] blocks = FindObjectsOfType<Block>();
+        int randomNum = 0;
+
+        foreach(Block block in blocks)
+        {
+            block.Init();
+            
+            randomNum = UnityEngine.Random.Range(1, block.posX + block.posY+2) * 2 + UnityEngine.Random.Range(1, 7);        
+
+            if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL)
+            {
+                randomNum = block.GetTutorialBlocksValue(block.posX, block.posY);
+            } 
+            
+            if (setNumber)
+            {
+                block.SetBlockValue(randomNum.ToString());
+            }
+
+            if (block.posX == 1 && block.posY == 1 && levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.LEVEL)
+            {
+                int randomNumInDices = diceController.GetDiceNumberRandomly();
+                block.SetBlockValue(randomNumInDices.ToString());
+            }
+
+            block.UpdateBlocksUI();
+        }
+    }    
 
     private void SetBoardType(int currentLevelNumber)
     {

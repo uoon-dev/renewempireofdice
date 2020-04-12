@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NoDiceNoCoinController : MonoBehaviour
+public class NoDiceNoCoinController : ControllerManager
 {
     void Start()
     {
         HideScreen();
+    }
+
+    void Init()
+    {
+        HideScreen();        
     }
 
     public void ToggleScreen()
@@ -34,13 +39,15 @@ public class NoDiceNoCoinController : MonoBehaviour
 
     public void ShowScreen()
     {
-        this.gameObject.GetComponent<CanvasGroup>().alpha = 1;
-        this.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        this.gameObject.SetActive(true);
+        // this.gameObject.GetComponent<CanvasGroup>().alpha = 1;
+        // this.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 
     public void HideScreen()
     {
-        this.gameObject.GetComponent<CanvasGroup>().alpha = 0;
-        this.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = false;
+        this.gameObject.SetActive(false);
+        // this.gameObject.GetComponent<CanvasGroup>().alpha = 0;
+        // this.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
 }

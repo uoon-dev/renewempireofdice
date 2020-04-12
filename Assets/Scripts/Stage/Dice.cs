@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using RedBlueGames.Tools.TextTyper;
-using Controllers.TutorialController;
 
 public class Dice : MonoBehaviour
 {
@@ -125,28 +124,6 @@ public class Dice : MonoBehaviour
                 newTutorialController.MoveArrowToBlock(pickedBlock);
             }            
         }
-
-        // if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL) {
-        //     if (TutorialController.GetTutorialCount() == 4) {
-        //         TextTyperTester.Jump();
-        //         TutorialController.AllowClickEventNextButton();
-        //         TutorialController.ControllArrowUI();
-        //     }
-        //     if (TutorialController.GetTutorialCount() == 5) {
-        //         // TutorialController.ToggleDiceArrow();
-        //         TutorialController.ToggleDiceArrow();
-        //     }
-        //     if (TutorialController.GetTutorialCount() == 8) {
-        //         TutorialController.ToggleClonedArrow(int.Parse(this.name.Split(' ')[1]) - 1);
-        //     }
-        //     if (TutorialController.GetTutorialCount() == 10) {
-        //         TutorialController.Jump(false);
-        //         TutorialController.ControllArrowUI();
-        //     }
-        //     if (TutorialController.GetTutorialCount() == 11) {
-        //         TutorialController.ToggleCanvasBody(1);
-        //     }
-        // }
     }
 
     public void ToggleDice()
@@ -212,9 +189,7 @@ public class Dice : MonoBehaviour
 
     public void ResetDice()
     {
-        if (TutorialController.GetTutorialCount() != 13) {
-            GetComponentInChildren<Image>().raycastTarget = true;
-        }        
+        GetComponentInChildren<Image>().raycastTarget = true;
         GetComponentInChildren<Image>().color = Color.white;
         GetComponentInChildren<Text>().color = Color.black;
         SetDiceNumber(minNumber, maxNumber);
@@ -258,17 +233,7 @@ public class Dice : MonoBehaviour
 
     public void SetTutorialDiceNumber()
     {
-        int tutorialCount = TutorialController.GetTutorialCount();
         int diceNumber = 1;
-        // if (tutorialCount == 3)
-        // {
-        //     diceNumber = 1;
-        // }
-
-        // if (tutorialCount == 5)
-        // {
-        //     diceNumber = 6;
-        // }
         switch(this.name)
         {
             case "Dice (1)": 

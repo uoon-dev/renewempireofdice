@@ -89,13 +89,8 @@ public class HeartShopController : MonoBehaviour
 
             UIController.ToggleNoHeartCanvas(false);
 
-            SetCanvasOrder(14);
-            diamondShopController.SetCanvasOrder(13);
             if(levelLoader.GetCurrentSceneName() == "Map System") {
                 this.gameObject.transform.DOMoveY(0, 0.25f);
-                heartShopCanvas.canvasGroup.DOFade(1, 0.1f);
-                heartShopCanvas.canvasGroup.interactable = true;
-                heartShopCanvas.canvasGroup.blocksRaycasts = true;                
                 return;
             }
             body.transform.DOMoveY(Screen.height/2, 0.25f);
@@ -104,9 +99,6 @@ public class HeartShopController : MonoBehaviour
         heartShopCanvas.image.raycastTarget = false;
         if(levelLoader.GetCurrentSceneName() == "Map System") {
             this.gameObject.transform.DOMoveY(-4, 0.25f);
-            heartShopCanvas.canvasGroup.DOFade(0, 0.01f);
-            heartShopCanvas.canvasGroup.interactable = false;
-            heartShopCanvas.canvasGroup.blocksRaycasts = false;
             return;
         }
         body.transform.DOMoveY(-Screen.height/2, 0.25f);

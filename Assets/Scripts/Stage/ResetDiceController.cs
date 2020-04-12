@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using RedBlueGames.Tools.TextTyper;
-using Controllers.TutorialController;
 
 public class ResetDiceController : MonoBehaviour
 {
