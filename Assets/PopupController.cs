@@ -19,7 +19,7 @@ public class PopupController : MonoBehaviour
 
     void Start()
     {
-        noDiamondPopup = transform.Find("No Diamond Popup");
+        if (noDiamondPopup == null) noDiamondPopup = transform.Find("No Diamond Popup");
         // heartShopSiblingIndex = 
     }
     

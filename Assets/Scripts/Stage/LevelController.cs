@@ -65,7 +65,6 @@ public class LevelController : MonoBehaviour
         UIController.UpdateBlocksNumberColor();
 
         winLabel.SetActive(true);
-        winLabel.GetComponent<Canvas>().sortingOrder = 13;
         
         if (BackGroundSoundController.instance != null)
             BackGroundSoundController.instance.StopPlay(BackGroundSoundController.BGM_NAME.GAME_BGM);
