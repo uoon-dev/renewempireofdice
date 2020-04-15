@@ -17,7 +17,7 @@ public class DiamondShopCanvas {
     public Text[] priceTexts;
 }
 
-public class DiamondShopController : MonoBehaviour
+public class DiamondShopController : PopupController
 {
     [SerializeField] Sprite defaultPurchaseButtonImage;
     [SerializeField] Sprite loadingButtonImage;    
@@ -39,22 +39,25 @@ public class DiamondShopController : MonoBehaviour
         levelLoader = FindObjectOfType<LevelLoader>();
         UIController = FindObjectOfType<UIController>();
         heartShopController = FindObjectOfType<HeartShopController>();
-        popupController = FindObjectOfType<PopupController>();
+        // popupController = FindObjectOfType<PopupController>();
+
+        diamondShopSiblingIndex = transform.GetSiblingIndex();
+        Debug.Log(diamondShopSiblingIndex + ":diamondShopSiblingIndex");
     }
 
     public void ToggleDiamondShopCanvas(bool isShow) {
-        var body = this.gameObject.transform.GetChild(0);
+        var body = transform.GetChild(0);
 
         if (isShow) {
             diamondShopCanvas.image.raycastTarget = true;
-            popupController.ToggleNoDiamindPopup(false);
- 
+            base.ToggleNoDiamondPopup(false);
 
             if(levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
             {
-                this.gameObject.transform.DOMoveY(0, 0.25f);
+                transform.DOMoveY(0, 0.25f);
                 return;
             }
+            transform.SetSiblingIndex(heartShopSiblingIndex + 1);
             body.transform.DOMoveY(Screen.height/2, 0.25f);
             return;
         }
@@ -62,7 +65,7 @@ public class DiamondShopController : MonoBehaviour
         diamondShopCanvas.image.raycastTarget = false;
 
         if(levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) {
-            this.gameObject.transform.DOMoveY(-4, 0.25f);
+            transform.DOMoveY(-4, 0.25f);
             return;
         }
         body.transform.DOMoveY(-Screen.height/2, 0.25f);

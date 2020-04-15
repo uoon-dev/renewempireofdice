@@ -16539,7 +16539,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1439504388}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
@@ -16556,7 +16556,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1439504388}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -22041,6 +22041,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2123814527}
+  - component: {fileID: 2123814528}
   m_Layer: 5
   m_Name: Popup
   m_TagString: Untagged
@@ -22075,6 +22076,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 668, y: 376}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2123814528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123814526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 007d3827b860540ddbcf35243d0d5f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2144208895
 GameObject:
   m_ObjectHideFlags: 0
@@ -24311,6 +24324,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Popup Controller
       objectReference: {fileID: 0}
+    - target: {fileID: 5555429278028175947, guid: c443a80de613a40f38f9744b0dde4757,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9218203022379975099, guid: c443a80de613a40f38f9744b0dde4757,
         type: 3}
       propertyPath: popupObjects.noDiamondPopup
@@ -25342,7 +25360,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 3716716194799101594}
+      objectReference: {fileID: 2123814528}
     - target: {fileID: 5314218072218449326, guid: 0dec80f0887c64852ba3ec9f8dbfc4cc,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

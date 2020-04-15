@@ -3,33 +3,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class PopupObjects 
-{
-    public GameObject noDiamondPopup;
-}
+// [Serializable]
+// public class PopupObjects 
+// {
+//     public GameObject noDiamondPopup;
+// }
 
 
 public class PopupController : MonoBehaviour
 {
-    public PopupObjects popupObjects;
-    DiamondShopController diamondShopController;
-    HeartShopController heartShopController;
+    // public PopupObjects popupObjects;
+    public static Transform noDiamondPopup;
+    public static int heartShopSiblingIndex;
+    public static int diamondShopSiblingIndex;
 
     void Start()
     {
-        diamondShopController = FindObjectOfType<DiamondShopController>();
-        heartShopController = FindObjectOfType<HeartShopController>();
+        noDiamondPopup = transform.Find("No Diamond Popup");
+        // heartShopSiblingIndex = 
     }
     
-    public void ToggleNoDiamindPopup(bool isActive)
+    public void ToggleNoDiamondPopup(bool isActive)
     {
-        popupObjects.noDiamondPopup.SetActive(isActive);
+        if (noDiamondPopup == null) return;
+        noDiamondPopup.gameObject.SetActive(isActive);
     }
 
     public void CloseOtherPopups()
     {
-        diamondShopController.ToggleDiamondShopCanvas(false);
-        heartShopController.ToggleHeartShopCanvas(false);
     }
 }

@@ -12,7 +12,7 @@ public class HeartShopCanvas {
     public CanvasGroup canvasGroup;
 }
 
-public class HeartShopController : MonoBehaviour
+public class HeartShopController : PopupController
 {
     [SerializeField] GameObject rechargeItemPrice;
     [SerializeField] GameObject rechargeItemPurchaseButton;
@@ -45,6 +45,9 @@ public class HeartShopController : MonoBehaviour
         diamondShopController = FindObjectOfType<DiamondShopController>();
         afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
         popupController = FindObjectOfType<PopupController>();
+
+        heartShopSiblingIndex = transform.GetSiblingIndex();
+        Debug.Log(heartShopSiblingIndex + ":heartShopSiblingIndex");
     }    
 
     public void SetSpeedUpText()
@@ -82,23 +85,23 @@ public class HeartShopController : MonoBehaviour
     }
 
     public void ToggleHeartShopCanvas(bool isShow) {
-        var body = this.gameObject.transform.GetChild(0);
+        var body = transform.GetChild(0);
 
         if (isShow) {
             heartShopCanvas.image.raycastTarget = true;
-
             UIController.ToggleNoHeartCanvas(false);
 
             if(levelLoader.GetCurrentSceneName() == "Map System") {
-                this.gameObject.transform.DOMoveY(0, 0.25f);
+                transform.DOMoveY(0, 0.25f);
                 return;
             }
+            transform.SetSiblingIndex(diamondShopSiblingIndex);
             body.transform.DOMoveY(Screen.height/2, 0.25f);
             return;
         }
         heartShopCanvas.image.raycastTarget = false;
         if(levelLoader.GetCurrentSceneName() == "Map System") {
-            this.gameObject.transform.DOMoveY(-4, 0.25f);
+            transform.DOMoveY(-4, 0.25f);
             return;
         }
         body.transform.DOMoveY(-Screen.height/2, 0.25f);
@@ -119,7 +122,7 @@ public class HeartShopController : MonoBehaviour
             {
                 if(currentDiamondAmount < 15)
                 {
-                    popupController.ToggleNoDiamindPopup(true);
+                    base.ToggleNoDiamondPopup(true);
                     return;
                 }
                 
@@ -132,7 +135,7 @@ public class HeartShopController : MonoBehaviour
             {
                 if(currentDiamondAmount < 120)
                 {
-                    popupController.ToggleNoDiamindPopup(true);
+                    base.ToggleNoDiamondPopup(true);
                     return;
                 }
 
@@ -145,7 +148,7 @@ public class HeartShopController : MonoBehaviour
             {
                 if(currentDiamondAmount < 20)
                 {
-                    popupController.ToggleNoDiamindPopup(true);
+                    base.ToggleNoDiamondPopup(true);
                     return;
                 }
 

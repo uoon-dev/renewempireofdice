@@ -114,7 +114,7 @@ public class ItemShopController : MonoBehaviour
             {
                 if(currentDiamondAmount < 10)
                 {
-                    popupController.ToggleNoDiamindPopup(true);
+                    popupController.ToggleNoDiamondPopup(true);
                     return;
                 }
                 itemController.AddItemAmount(ItemController.TYPE.GOLD_MINE, 1);
@@ -126,7 +126,7 @@ public class ItemShopController : MonoBehaviour
             {
                 if(currentDiamondAmount < 40)
                 {
-                    popupController.ToggleNoDiamindPopup(true);
+                    popupController.ToggleNoDiamondPopup(true);
                     return;
                 }
 
@@ -139,7 +139,7 @@ public class ItemShopController : MonoBehaviour
             {
                 if(currentDiamondAmount < 10)
                 {
-                    popupController.ToggleNoDiamindPopup(true);
+                    popupController.ToggleNoDiamondPopup(true);
                     return;
                 }
 
@@ -152,7 +152,7 @@ public class ItemShopController : MonoBehaviour
             {
                 if(currentDiamondAmount < 40)
                 {
-                    popupController.ToggleNoDiamindPopup(true);
+                    popupController.ToggleNoDiamondPopup(true);
                     return;
                 }
 
