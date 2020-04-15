@@ -35,6 +35,17 @@ public class ControllerManager : MonoBehaviour
     public static ItemController itemController;
     public static NoDiceNoCoinController noDiceNoCoinController;
     public static SpeicalBlockController speicalBlockController;
+    public static StatisticsController statisticsController;
+    public static ResetDiceController resetDiceController;
+    public static UIController uiController;
+    public static CameraShaker[] cameraShakersForPlate;
+    public static HeartShopController heartShopController;
+    public static ItemShopController itemShopController;
+    public static DiamondShopController diamondShopController;
+    public static StartController startController;
+    public static NewHeartController newHeartController;
+    public static DiamondController diamondController;
+    public static IAPManager iAPManager;
 
     void Awake()
     {
@@ -44,5 +55,27 @@ public class ControllerManager : MonoBehaviour
         if (itemController == null) itemController = FindObjectOfType<ItemController>();
         if (noDiceNoCoinController == null) noDiceNoCoinController = FindObjectOfType<NoDiceNoCoinController>();
         if (speicalBlockController == null) speicalBlockController = FindObjectOfType<SpeicalBlockController>();
+        if (statisticsController == null) statisticsController = FindObjectOfType<StatisticsController>();
+        if (resetDiceController == null) resetDiceController = FindObjectOfType<ResetDiceController>();
+        if (uiController == null) uiController = FindObjectOfType<UIController>();
+        if (heartShopController == null) heartShopController = FindObjectOfType<HeartShopController>();
+        if (itemShopController == null) itemShopController = FindObjectOfType<ItemShopController>();
+        if (diamondShopController == null) diamondShopController = FindObjectOfType<DiamondShopController>();
+        if (startController == null) startController = FindObjectOfType<StartController>();
+        if (newHeartController == null) newHeartController = FindObjectOfType<NewHeartController>();
+        if (diamondController == null) diamondController = FindObjectOfType<DiamondController>();
+        if (iAPManager == null) iAPManager = FindObjectOfType<IAPManager>();
+        if (this.name != Constants.GAME_OBJECT_NAME.STAGE.CLONED_BLOCK) cameraShakersForPlate = FindObjectsOfType<CameraShaker>();
+
+        _initialize();
     }
+
+    protected virtual void _initialize(){}
+
+    void Update()
+    {
+        _update();   
+    }
+
+    protected virtual void _update(){}
 }

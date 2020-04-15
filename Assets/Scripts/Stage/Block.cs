@@ -27,6 +27,11 @@ public class BlockComponent {
         public Sprite lastBlockClickable = null;
         public Sprite lastBlockDestoryable = null;
     }
+
+    [Serializable]
+    public class Controller {
+        public CameraShaker cameraShaker = null;
+    }
 }
 
 public class Block : ControllerManager
@@ -36,6 +41,7 @@ public class Block : ControllerManager
     public BlockComponent.UIAnimator uiAnimator;
     public BlockComponent.UISprite uiSprite;
     public BlockComponent.UITransform uiTransform;
+    public BlockComponent.Controller _controller;
     #region Sprite
     [SerializeField] Sprite clearLandImage = null;
     [SerializeField] Sprite clearLandOccupiedImage = null;
@@ -485,6 +491,7 @@ public class Block : ControllerManager
                 }
                 SetBlockValue(string.Empty);
                 MakeNextBlockClickable();
+                
                 if (isBombed)
                 {
                     onClickedItemType = ItemController.TYPE.EXPLOSIVE_WAREHOUSE;
@@ -498,9 +505,9 @@ public class Block : ControllerManager
                 if (!isItemEffect)
                 {
                     GetSpecialBlockReward();
-                    FindObjectOfType<ResetDiceController>().ResetOneDice();
+                    resetDiceController.ResetOneDice();
                 }
-                FindObjectOfType<StatisticsController>().UpdateFactor01();
+                statisticsController.UpdateFactor01();
             });
             sequence.Play();
         }
@@ -513,7 +520,7 @@ public class Block : ControllerManager
             SetBlockValue(string.Empty);
             MakeNextBlockClickable();
             GetSpecialBlockReward();
-            FindObjectOfType<StatisticsController>().UpdateFactor02();
+            statisticsController.UpdateFactor02();
         }
     }
 
@@ -560,7 +567,6 @@ public class Block : ControllerManager
 
     private void GetSpecialBlockReward()
     {
-        var resetDiceButton = FindObjectOfType<ResetDiceController>();
         var powerUpController = FindObjectOfType<PowerUpController>();
         Dice[] dices = FindObjectsOfType<Dice>();
         Block[] blocks = FindObjectsOfType<Block>();
@@ -570,16 +576,16 @@ public class Block : ControllerManager
             case "광산":
                 if (EffectSoundController.instance != null)
                     EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.REWARD_MINE);
-                int currentCost = resetDiceButton.GetCost();
+                int currentCost = resetDiceController.GetCost();
                 AnimateMine(currentCost);
                 if (currentCost == 1)
                 {
                     // 주사위 굴리는 비용이 1이면 더 삭감하지 않기
-                    resetDiceButton.SetCost(1);
+                    resetDiceController.SetCost(1);
                 }
                 else
                 {
-                    resetDiceButton.SetCost(--currentCost);
+                    resetDiceController.SetCost(--currentCost);
                 }
                 break;
             case "용병":
@@ -637,7 +643,7 @@ public class Block : ControllerManager
 
                     AnimateDungeon();
 
-                    resetDiceButton.SetAttackPower(dices[0].GetMaxNumber());
+                    resetDiceController.SetAttackPower(dices[0].GetMaxNumber());
 
                     foreach (Dice dice in dices)
                     {
@@ -656,6 +662,7 @@ public class Block : ControllerManager
                         {
                             string targetValue = Mathf.Ceil(float.Parse(block.GetBlockValue()) / 2f).ToString();
                             block.SetBlockValue(targetValue);
+                            StartCoroutine(block._controller.cameraShaker.ShakeBlock(0.2f, 4f));
                         }
                     }
                 }
@@ -672,6 +679,7 @@ public class Block : ControllerManager
                         {
                             string targetValue = Mathf.Ceil(float.Parse(block.GetBlockValue()) / 2f).ToString();
                             block.SetBlockValue(targetValue);
+                            StartCoroutine(block._controller.cameraShaker.ShakeBlock(0.2f, 4f));
                         }
                     }
                 }
@@ -697,9 +705,11 @@ public class Block : ControllerManager
                         {
                             string targetValue = Mathf.Ceil(float.Parse(block.GetBlockValue()) / 2f).ToString();
                             block.SetBlockValue(targetValue);
+                            StartCoroutine(block._controller.cameraShaker.ShakeBlock(0.2f, 4f));
                         }
                     }
                 }
+
                 ShowEffectBombBlock();
 
                 break;
@@ -1052,7 +1062,7 @@ public class Block : ControllerManager
 
             AnimateRelics();
 
-            FindObjectOfType<ResetDiceController>().ResetOneDice(10);
+            resetDiceController.ResetOneDice(10);
             ResetSelectedSlot(slot);
         }
     }

@@ -28,9 +28,9 @@ public class ItemController : ProductController
     [SerializeField] Sprite explosiveWarehouseIllust;
     [SerializeField] Text guideTitle;
     [SerializeField] Text guideDescription;
-    BlockController blockController;
-    ResetDiceController resetDiceController;
-    ItemShopController itemShopController;
+    // BlockController blockController;
+    // ResetDiceController resetDiceController;
+    // ItemShopController itemShopController;
     public string onClickedType;
     private static int goldMineAmount;
     private static int explosiveWarehouseAmount;
@@ -46,17 +46,15 @@ public class ItemController : ProductController
     // Start is called before the first frame update
     void Awake()
     {
-        Initialize();
+        // Initialize();
+        LoadItem();
     }
 
     private void Initialize()
     {
-        
-        itemShopController = FindObjectOfType<ItemShopController>();
-        blockController = FindObjectOfType<BlockController>();
-        resetDiceController = FindObjectOfType<ResetDiceController>();
-
-        LoadItem();
+        // itemShopController = FindObjectOfType<ItemShopController>();
+        // blockController = FindObjectOfType<BlockController>();
+        // resetDiceController = FindObjectOfType<ResetDiceController>();
     }
 
     private void OnDestroy()
@@ -205,6 +203,7 @@ public class ItemController : ProductController
             if (EffectSoundController.instance != null)
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.DYNAMITE_USE);        
 
+            uiController.ShakeCamera();
             explosiveWarehouseEffect.smogX.gameObject.SetActive(true);
             explosiveWarehouseEffect.smogY.gameObject.SetActive(true);
         });

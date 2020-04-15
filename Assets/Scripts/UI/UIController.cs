@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class UIController : MonoBehaviour
+public class UIController : ControllerManager
 {
     [SerializeField] Sprite heartSpriteFull;
     [SerializeField] Sprite heartSpriteNormal;
@@ -13,15 +13,7 @@ public class UIController : MonoBehaviour
     [SerializeField] Text explosiveWarehouseAmountText;    
     GameObject noHeartCanvas;
     GameObject afterPurchaseEffectCanvas;
-    HeartShopController heartShopController;
-    DiamondShopController diamondShopController;
-    StartController startController;
-    NewHeartController newHeartController;
-    DiamondController diamondController;
-    LevelLoader levelLoader;
-    IAPManager iAPManager;
-    ItemController itemController;
-    
+
     Text heartTimerText;
     Text heartTimerTextInNoHeartCanvas;
     Text heartTimerTextInShop;
@@ -37,12 +29,34 @@ public class UIController : MonoBehaviour
 
 
 
-    void Awake()
+    protected override void _initialize()
     {
-        Initialize();
+        bool newIsNetworkConnected = Utils.IsNetworkConnected();
+        
+        afterPurchaseEffectCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.AFTER_PURCHASE_EFFECT_CANVAS);
+
+        if (levelLoader.GetCurrentSceneName() != Constants.SCENE_NAME.TUTORIAL)
+        {
+            heartTimerText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT).GetComponent<Text>();
+            heartAmountText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_STATUS).GetComponent<Text>();
+        }
+        
+        heartTimerTextInNoHeartCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_NO_HEART_CANVAS).GetComponent<Text>();
+        heartTimerTextInShop = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_SHOP).GetComponent<Text>();
+        timerTitle = GameObject.Find(Constants.GAME_OBJECT_NAME.TIMER_TITLE_IN_SHOP).GetComponent<Text>();
+        titleInHeartShop = GameObject.Find(Constants.GAME_OBJECT_NAME.TITLE_IN_SHOP).GetComponent<Text>();
+
+        if (newIsNetworkConnected && isIAPInitialized)
+        {
+            TogglePurchaseButtonInDiamondShop(false);
+        }
+        else 
+        {
+            TogglePurchaseButtonInDiamondShop(true);
+        }
     }
 
-    void Update()
+    protected override void _update()
     {
         bool newIsNetworkConnected = Utils.IsNetworkConnected();
         isIAPInitialized = iAPManager.isIAPInitialized();
@@ -92,41 +106,10 @@ public class UIController : MonoBehaviour
         }
     }
 
-    private void Initialize()
-    {
-        bool newIsNetworkConnected = Utils.IsNetworkConnected();
+    // private void Initialize()
+    // {
 
-        heartShopController = FindObjectOfType<HeartShopController>();
-        diamondShopController = FindObjectOfType<DiamondShopController>();
-        startController = FindObjectOfType<StartController>();
-        newHeartController = FindObjectOfType<NewHeartController>();
-        diamondController = FindObjectOfType<DiamondController>();
-        levelLoader = FindObjectOfType<LevelLoader>();
-        iAPManager = FindObjectOfType<IAPManager>();
-        itemController = FindObjectOfType<ItemController>();
-        
-        afterPurchaseEffectCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.AFTER_PURCHASE_EFFECT_CANVAS);
-
-        if (levelLoader.GetCurrentSceneName() != Constants.SCENE_NAME.TUTORIAL)
-        {
-            heartTimerText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT).GetComponent<Text>();
-            heartAmountText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_STATUS).GetComponent<Text>();
-        }
-        // }
-        heartTimerTextInNoHeartCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_NO_HEART_CANVAS).GetComponent<Text>();
-        heartTimerTextInShop = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_SHOP).GetComponent<Text>();
-        timerTitle = GameObject.Find(Constants.GAME_OBJECT_NAME.TIMER_TITLE_IN_SHOP).GetComponent<Text>();
-        titleInHeartShop = GameObject.Find(Constants.GAME_OBJECT_NAME.TITLE_IN_SHOP).GetComponent<Text>();
-
-        if (newIsNetworkConnected && isIAPInitialized)
-        {
-            TogglePurchaseButtonInDiamondShop(false);
-        }
-        else 
-        {
-            TogglePurchaseButtonInDiamondShop(true);
-        }
-    }
+    // }
 
 
     public void UpdateTimerText()
@@ -271,5 +254,16 @@ public class UIController : MonoBehaviour
     {
         goldMineAmountText.text = itemController.GetItemAmount(ItemController.TYPE.GOLD_MINE).ToString();
         explosiveWarehouseAmountText.text = itemController.GetItemAmount(ItemController.TYPE.EXPLOSIVE_WAREHOUSE).ToString();
+    }
+
+    public void ShakeCamera()
+    {
+        foreach (CameraShaker cameraShaker in cameraShakersForPlate)
+        {
+            if (cameraShaker != null)
+            {
+                StartCoroutine(cameraShaker.ShakeCamera(0.2f, 4f));
+            }
+        }        
     }
 }

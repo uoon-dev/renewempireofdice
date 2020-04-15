@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProductController : MonoBehaviour
+public class ProductController : ControllerManager
 {
   public static string rewardType;
 
