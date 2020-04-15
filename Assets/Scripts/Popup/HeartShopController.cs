@@ -90,12 +90,12 @@ public class HeartShopController : PopupController
         if (isShow) {
             heartShopCanvas.image.raycastTarget = true;
             UIController.ToggleNoHeartCanvas(false);
+            transform.SetSiblingIndex(diamondShopSiblingIndex);
 
             if(levelLoader.GetCurrentSceneName() == "Map System") {
                 transform.DOMoveY(0, 0.25f);
                 return;
             }
-            transform.SetSiblingIndex(diamondShopSiblingIndex);
             body.transform.DOMoveY(Screen.height/2, 0.25f);
             return;
         }

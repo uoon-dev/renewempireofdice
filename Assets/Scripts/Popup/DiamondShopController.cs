@@ -51,13 +51,13 @@ public class DiamondShopController : PopupController
         if (isShow) {
             diamondShopCanvas.image.raycastTarget = true;
             base.ToggleNoDiamondPopup(false);
+            transform.SetSiblingIndex(heartShopSiblingIndex + 1);
 
             if(levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
             {
                 transform.DOMoveY(0, 0.25f);
                 return;
             }
-            transform.SetSiblingIndex(heartShopSiblingIndex + 1);
             body.transform.DOMoveY(Screen.height/2, 0.25f);
             return;
         }
