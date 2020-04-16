@@ -518,6 +518,7 @@ public class NewTutorialController : MonoBehaviour
                     var rightAreaPosition = rightArea.field.transform.position;
                     
                     rightArea.status.sortingOrder = 102;
+                    rightArea.resetDiceScreen.overrideSorting = true;
                     rightArea.resetDiceScreen.sortingOrder = 102;
 
                     ToggleClickEventResetDiceScreen(true);
@@ -652,6 +653,9 @@ public class NewTutorialController : MonoBehaviour
                     MainDialogueContainer.GetComponent<CanvasGroup>().DOFade(0, 0f).OnComplete(() => {
                         diceController.ToggleDicesClick(true);
                         tutorialGuideCanvas.SetActive(false);
+                        leftArea.overrideSorting = false;
+                        rightArea.status.overrideSorting = false;
+                        rightArea.resetDiceScreen.overrideSorting = false;
                     });
                     break;
                 }                
@@ -699,20 +703,23 @@ public class NewTutorialController : MonoBehaviour
     {
         Sequence sequence = DOTween.Sequence();
         block.ToggleAllowClick(true);
-        var blockPosition = block.transform.position;
+        var blockPosition = block.transform.position;        
         DOTween.Kill(guideItems.arrowTransform);
+        DOTween.Kill(guideItems.arrowCanvasGroup);
+        // sequence.AppendCallback(() => DOTween.Kill(guideItems.arrowTransform));
+        // sequence.AppendInterval(0.1f);
         sequence.Append(guideItems.arrowCanvasGroup.DOFade(0, 0f));
         sequence.AppendCallback(() => {
             guideItems.arrowTransform.DOMove(new Vector3(
                 blockPosition.x - blockPosition.x / 3,
                 blockPosition.y + blockPosition.y / 5, 
                 blockPosition.z), 0);
-                
-            sequence.Append(guideItems.arrowCanvasGroup.DOFade(1, 0f));
+
+            guideItems.arrowCanvasGroup.DOFade(1, 0f);
             guideItems.arrowTransform.DOMove(new Vector3(
-                blockPosition.x - blockPosition.x / 3 - 10, 
+                blockPosition.x - blockPosition.x / 3 - 10,
                 blockPosition.y + blockPosition.y / 5 + 10, 
-                blockPosition.z), 0.2f).SetLoops(-1, LoopType.Yoyo);            
+                blockPosition.z), 0.2f).SetLoops(-1, LoopType.Yoyo);
         });
         sequence.Play();
     }

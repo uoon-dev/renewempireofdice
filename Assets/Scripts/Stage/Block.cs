@@ -129,10 +129,6 @@ public class Block : ControllerManager
             specialBlockImage.color = new Color32(255, 255, 255, 0);
         }
 
-        if (blocksType == "마왕성") {
-            specialBlockImage.color = new Color32(255, 255, 255, 0);
-        }
-
         // Set First block clickable
         if (posX == 1 && posY == 1)
         {
@@ -144,8 +140,9 @@ public class Block : ControllerManager
         }
 
         // Set Last block text
-        if (blocksType == "마왕성")
+        if (posX == BlockController.GetBoardSize() && posY == BlockController.GetBoardSize())
         {            
+            specialBlockImage.color = new Color32(255, 255, 255, 0);
             backgroundImage.overrideSprite = uiSprite.lastBlockNormal;
             backgroundImage.color = new Color32(255, 255, 255, 255);
             backgroundImage.transform.localPosition = new Vector3(1.6f, 2.79f, 1);
@@ -389,21 +386,23 @@ public class Block : ControllerManager
         }
 
         
-        if (!isItemEffect)
+        if (!isItemEffect && blocksType != "마왕성")
         {
-            if (blocksType != "마왕성")
-            {
-                speicalBlockController.IncreaseLastBlockGage();
-            }
+            speicalBlockController.IncreaseLastBlockGage();
             resetDiceController.IncreaseTurnCount();
         }
-        resetDiceController.ToggleResetDiceButton();
-
-        // 남은 주사위 개수가 0이고 돈이 없으면 No Dice Screen 띄우기
-        noDiceNoCoinController.ToggleScreen();
+        
+        Invoke("UpdateResetDiceButton", isItemEffect ? 0.7f : 0);
 
         destroyedDiceCount = 0;
     }
+
+    private void UpdateResetDiceButton()
+    {
+        resetDiceController.ToggleResetDiceButton();
+        // 남은 주사위 개수가 0이고 돈이 없으면 No Dice Screen 띄우기
+        noDiceNoCoinController.ToggleScreen();
+    } 
 
     private void HandleLastBlock(int resultGage)
     {
@@ -491,7 +490,7 @@ public class Block : ControllerManager
                 }
                 SetBlockValue(string.Empty);
                 MakeNextBlockClickable();
-                
+
                 if (isBombed)
                 {
                     onClickedItemType = ItemController.TYPE.EXPLOSIVE_WAREHOUSE;
@@ -661,7 +660,11 @@ public class Block : ControllerManager
                         if (block.GetPosY() == posY)
                         {
                             string targetValue = Mathf.Ceil(float.Parse(block.GetBlockValue()) / 2f).ToString();
-                            block.SetBlockValue(targetValue);
+                            Sequence sequence = DOTween.Sequence();
+                            sequence.AppendInterval(0.3f);
+                            sequence.AppendCallback(() => block.SetBlockValue(targetValue));
+                            sequence.Play();
+                            
                             StartCoroutine(block._controller.cameraShaker.ShakeBlock(0.2f, 4f));
                         }
                     }
@@ -671,6 +674,7 @@ public class Block : ControllerManager
             case "공습":
                 if (EffectSoundController.instance != null)
                     EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.REWARD_HORSE);
+
                 foreach (Block block in blocks)
                 {
                     if (!block.isDestroyed)
@@ -678,7 +682,11 @@ public class Block : ControllerManager
                         if (block.GetPosX() == posX)
                         {
                             string targetValue = Mathf.Ceil(float.Parse(block.GetBlockValue()) / 2f).ToString();
-                            block.SetBlockValue(targetValue);
+                            Sequence sequence = DOTween.Sequence();
+                            sequence.AppendInterval(0.3f);
+                            sequence.AppendCallback(() => block.SetBlockValue(targetValue));
+                            sequence.Play();
+
                             StartCoroutine(block._controller.cameraShaker.ShakeBlock(0.2f, 4f));
                         }
                     }
@@ -704,7 +712,10 @@ public class Block : ControllerManager
                         )
                         {
                             string targetValue = Mathf.Ceil(float.Parse(block.GetBlockValue()) / 2f).ToString();
-                            block.SetBlockValue(targetValue);
+                            Sequence sequence = DOTween.Sequence();
+                            sequence.AppendInterval(0.3f);
+                            sequence.AppendCallback(() => block.SetBlockValue(targetValue));
+                            sequence.Play();
                             StartCoroutine(block._controller.cameraShaker.ShakeBlock(0.2f, 4f));
                         }
                     }

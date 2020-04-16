@@ -25,7 +25,8 @@ public class BlockController : ControllerManager
         blocks = new List<GameObject>();
         InitBlocks();
         createdBlocks = FindObjectsOfType<Block>();
-        // this.gameObject.SetActive(false);
+        Debug.Log("test");
+        // this.gameObjezct.SetActive(false);
         // this.gameObject.SetActive(true);
     }
 
@@ -79,6 +80,7 @@ public class BlockController : ControllerManager
         }
         else
         {
+            Debug.Log("Save");
             SetBlocksValue(true);
             foreach (GameObject clonedBlock in blocks)
             {

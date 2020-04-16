@@ -4,8 +4,11 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class DiceController : MonoBehaviour
 {
+    [SerializeField] Canvas dicesCanvas;
+
     public int GetClickedDiceCount()
     {
         var dices = FindObjectsOfType<Dice>();
@@ -68,23 +71,20 @@ public class DiceController : MonoBehaviour
 
     public void BounceDices()
     {
-        var dices = FindObjectsOfType<Dice>();
-        foreach (Dice dice in dices)
-        {
-            dice.GetComponent<Canvas>().overrideSorting = true;
-            dice.GetComponent<Canvas>().sortingOrder = 102;
-        }  
+        dicesCanvas.overrideSorting = true;
+        dicesCanvas.sortingOrder = 102;
     }
 
     public void UnbounceDices()
     {
+        dicesCanvas.overrideSorting = false;
+        dicesCanvas.sortingOrder = 6;
+
         var dices = FindObjectsOfType<Dice>();
         foreach (Dice dice in dices)
         {
-            dice.GetComponent<Canvas>().overrideSorting = false;
-            dice.GetComponent<Canvas>().sortingOrder = 6;
             dice.UnClickDice();
-        }  
+        }
     }
 
     public Dice GetOneDice(string name)

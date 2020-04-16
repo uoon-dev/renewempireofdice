@@ -58,7 +58,7 @@ public class MapController : MonoBehaviour
         //     PlayerPrefs.DeleteKey($"LevelStar {i}");
         // }
 
-        // for (int i = 1; i < 10; i++) {
+        // for (int i = 1; i < 300; i++) {
         //     PlayerPrefs.SetInt($"Level {i}", 1);
         //     // PlayerPrefs.SetInt($"LevelStar {i}", i % 3 + 1);
         //     PlayerPrefs.SetInt($"LevelStar {i}", 1);
