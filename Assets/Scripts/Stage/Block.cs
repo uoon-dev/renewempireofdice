@@ -329,6 +329,7 @@ public class Block : ControllerManager
     public void ShowTooltip()
     {
         tooltip.transform.DOMoveY(tooltip.transform.position.y - 4, 0);
+        tooltip.transform.DOMoveZ(1, 0);
         tooltip.GetComponent<CanvasGroup>().blocksRaycasts = true;
         tooltip.GetComponent<ContentSizeFitter>().horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
         backsideTooltipImageObject.transform.DOLocalMoveX(tooltip.transform.GetChild(0).GetComponent<RectTransform>().sizeDelta.x / 2 - 35, 0);

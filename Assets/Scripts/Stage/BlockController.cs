@@ -25,7 +25,6 @@ public class BlockController : ControllerManager
         blocks = new List<GameObject>();
         InitBlocks();
         createdBlocks = FindObjectsOfType<Block>();
-        Debug.Log("test");
         // this.gameObjezct.SetActive(false);
         // this.gameObject.SetActive(true);
     }
