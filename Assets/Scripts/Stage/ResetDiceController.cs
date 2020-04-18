@@ -21,6 +21,7 @@ public class ResetDiceController : MonoBehaviour
     LevelLoader levelLoader;
     TutorialDialogueController tutorialDialogueController;
     NoDiceNoCoinController noDiceNoCoinController;
+    BlockController blockController;
 
     void Start()
     {   
@@ -46,6 +47,7 @@ public class ResetDiceController : MonoBehaviour
     {
         levelLoader = FindObjectOfType<LevelLoader>();
         noDiceNoCoinController = FindObjectOfType<NoDiceNoCoinController>();
+        blockController = FindObjectOfType<BlockController>();
         moneyArea = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.MONEY_AREA);
         costText = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.COST_TEXT).GetComponent<Text>();
         moneyText = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE.MONEY_TEXT).GetComponent<Text>();
@@ -65,6 +67,7 @@ public class ResetDiceController : MonoBehaviour
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_NEW_DICE);
             moneyText.text = (int.Parse(moneyText.text) - cost).ToString();
             ResetDices();
+            blockController.HandleLastBlock(null, 0);
 
             if (TutorialDialogueController.dialogueTurn == 19)
             {

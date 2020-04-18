@@ -143,11 +143,13 @@ public class StatisticsController : MonoBehaviour
                         {
                             isHeartFullReward = true;
                             yield return new WaitForSeconds(0.7f);
+                            Debug.Log("특별 스테이지");
                             afterPurchaseEffectController.ShowScreen("3", 0);
                             SetRewardAtSpecialStage();
                         }
                         if (savedLevelStarCount < 3)
                         {
+                            Debug.Log("별 3개 보상");
                             SetReward();
                             yield return new WaitForSeconds(isHeartFullReward ? 2f : 0.7f);
                             afterPurchaseEffectController.ShowScreen("2", 0);

@@ -585,6 +585,37 @@ public class BlockController : ControllerManager
         targetBlock.GetComponent<Canvas>().sortingOrder = isActive ? 20 : 5;
     }
 
+    public void HandleLastBlock(string blocksType, int resultGage)
+    {
+        string state = Constants.LAST_BLOCK_STATE.IS_NORMAL;
+
+        generatedLastBlock.uiImage.backgroundImage.overrideSprite = null;
+        
+        if (blocksType == "마왕성")
+        {
+            if (resultGage == 0)
+            {
+                state = Constants.LAST_BLOCK_STATE.IS_DYING;
+            }
+            else
+            {
+                state = Constants.LAST_BLOCK_STATE.IS_DESTROYABLE;
+            }
+        }
+        else
+        {
+            if (generatedLastBlock.isClickable)
+            {
+                state = Constants.LAST_BLOCK_STATE.IS_CLICKABLE;   
+            }
+            else
+            {
+                state = Constants.LAST_BLOCK_STATE.IS_NORMAL;   
+            }
+        }
+
+        AnimateLastBlock(state);
+    }
     public void AnimateLastBlock(string state)
     {
         generatedLastBlock.uiAnimator.backgroundImageAnimator.enabled = true;        

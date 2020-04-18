@@ -10019,6 +10019,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiAnimator:
     backgroundImageAnimator: {fileID: 1556030948}
+  uiImage:
+    backgroundImage: {fileID: 1556030945}
   uiSprite:
     lastBlockNormal: {fileID: 6288705242737420169, guid: 81f79bc9ce8e84170a490234dfd0731b,
       type: 3}

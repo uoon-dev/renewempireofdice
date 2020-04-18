@@ -49,7 +49,7 @@ public class DiamondShopController : PopupController
         var body = transform.GetChild(0);
 
         if (isShow) {
-            diamondShopCanvas.image.raycastTarget = true;
+            // diamondShopCanvas.image.raycastTarget = true;
             base.ToggleNoDiamondPopup(false);
             transform.SetSiblingIndex(heartShopSiblingIndex + 1);
 
@@ -62,7 +62,7 @@ public class DiamondShopController : PopupController
             return;
         }
         
-        diamondShopCanvas.image.raycastTarget = false;
+        // diamondShopCanvas.image.raycastTarget = false;
 
         if(levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) {
             transform.DOMoveY(-4, 0.25f);

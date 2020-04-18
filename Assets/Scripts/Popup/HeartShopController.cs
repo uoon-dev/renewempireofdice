@@ -88,7 +88,7 @@ public class HeartShopController : PopupController
         var body = transform.GetChild(0);
 
         if (isShow) {
-            heartShopCanvas.image.raycastTarget = true;
+            // heartShopCanvas.image.raycastTarget = true;
             UIController.ToggleNoHeartCanvas(false);
             transform.SetSiblingIndex(diamondShopSiblingIndex);
 
@@ -99,7 +99,7 @@ public class HeartShopController : PopupController
             body.transform.DOMoveY(Screen.height/2, 0.25f);
             return;
         }
-        heartShopCanvas.image.raycastTarget = false;
+        // heartShopCanvas.image.raycastTarget = false;
         if(levelLoader.GetCurrentSceneName() == "Map System") {
             transform.DOMoveY(-4, 0.25f);
             return;

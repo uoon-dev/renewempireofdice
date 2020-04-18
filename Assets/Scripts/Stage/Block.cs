@@ -29,6 +29,11 @@ public class BlockComponent {
     }
 
     [Serializable]
+    public class UIImage {
+        public Image backgroundImage = null;
+    }
+
+    [Serializable]
     public class Controller {
         public CameraShaker cameraShaker = null;
     }
@@ -39,6 +44,7 @@ public class Block : ControllerManager
 
     public BlockComponent blockComponent;
     public BlockComponent.UIAnimator uiAnimator;
+    public BlockComponent.UIImage uiImage;
     public BlockComponent.UISprite uiSprite;
     public BlockComponent.UITransform uiTransform;
     public BlockComponent.Controller _controller;
@@ -125,7 +131,9 @@ public class Block : ControllerManager
     {
         if (blocksType == string.Empty)
         {
-            backgroundImage.color = new Color32(255, 255, 255, 0);
+            uiImage.backgroundImage.enabled = false;
+            uiImage.backgroundImage.color = new Color32(255, 255, 255, 0);
+            specialBlockImage.enabled = false;
             specialBlockImage.color = new Color32(255, 255, 255, 0);
         }
 
@@ -133,8 +141,9 @@ public class Block : ControllerManager
         if (posX == 1 && posY == 1)
         {
             isClickable = true;
-            backgroundImage.overrideSprite = destroyableBlockImage;
-            backgroundImage.color = new Color32(255, 255, 255, 255);
+            uiImage.backgroundImage.enabled = true;
+            uiImage.backgroundImage.overrideSprite = destroyableBlockImage;
+            uiImage.backgroundImage.color = new Color32(255, 255, 255, 255);
             blockText.color = new Color32(32, 32, 32, 255);
             firstBlockPosition = transform.position;
         }
@@ -143,9 +152,9 @@ public class Block : ControllerManager
         if (posX == BlockController.GetBoardSize() && posY == BlockController.GetBoardSize())
         {            
             specialBlockImage.color = new Color32(255, 255, 255, 0);
-            backgroundImage.overrideSprite = uiSprite.lastBlockNormal;
-            backgroundImage.color = new Color32(255, 255, 255, 255);
-            backgroundImage.transform.localPosition = new Vector3(1.6f, 2.79f, 1);
+            uiImage.backgroundImage.overrideSprite = uiSprite.lastBlockNormal;
+            uiImage.backgroundImage.color = new Color32(255, 255, 255, 255);
+            uiImage.backgroundImage.transform.localPosition = new Vector3(1.6f, 2.79f, 1);
             uiTransform.backgroundImageRect.sizeDelta = new Vector2(68, 68);
             blockText.color = new Color32(255, 255, 255, 255);
 
@@ -383,7 +392,7 @@ public class Block : ControllerManager
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.ATTACK_BLOCK);
 
             SetBlockValue(resultGage.ToString());
-            HandleLastBlock(resultGage);
+            blockController.HandleLastBlock(blocksType, resultGage);
         }
 
         
@@ -407,34 +416,7 @@ public class Block : ControllerManager
 
     private void HandleLastBlock(int resultGage)
     {
-        string state = Constants.LAST_BLOCK_STATE.IS_NORMAL;
-        Block lastBlock = blockController.GetLastBlock();
-        lastBlock.backgroundImage.overrideSprite = null;
-
-        if (blocksType == "마왕성")
-        {
-            if (resultGage == 0)
-            {
-                state = Constants.LAST_BLOCK_STATE.IS_DYING;
-            }
-            else
-            {
-                state = Constants.LAST_BLOCK_STATE.IS_DESTROYABLE;
-            }
-        }
-        else
-        {
-            if (lastBlock.isClickable)
-            {
-                state = Constants.LAST_BLOCK_STATE.IS_CLICKABLE;   
-            }
-            else
-            {
-                state = Constants.LAST_BLOCK_STATE.IS_NORMAL;   
-            }
-        }
-
-        blockController.AnimateLastBlock(state);        
+        blockController.HandleLastBlock(blocksType, resultGage);
     }
 
     private void HandleTutorialTurn()
@@ -485,9 +467,10 @@ public class Block : ControllerManager
             Sequence sequence = DOTween.Sequence();
             sequence.AppendInterval(isItemEffect ? 0.3f : 0);
             sequence.AppendCallback(() => {
-                backgroundImage.color = new Color32(255, 255 , 255, 255);
+                uiImage.backgroundImage.color = new Color32(255, 255 , 255, 255);
                 if (blocksType != "마왕성") {
-                    backgroundImage.overrideSprite = clearLandOccupiedImage;                    
+                    uiImage.backgroundImage.enabled = true;
+                    uiImage.backgroundImage.overrideSprite = clearLandOccupiedImage;
                 }
                 SetBlockValue(string.Empty);
                 MakeNextBlockClickable();
@@ -516,7 +499,7 @@ public class Block : ControllerManager
             if (EffectSoundController.instance != null)
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_LAND);
 
-            backgroundImage.overrideSprite = clearLandImage;
+            uiImage.backgroundImage.overrideSprite = clearLandImage;
             SetBlockValue(string.Empty);
             MakeNextBlockClickable();
             GetSpecialBlockReward();
@@ -850,7 +833,7 @@ public class Block : ControllerManager
 
         if (posX == (int)Mathf.Sqrt(blocks.Length) && posY == (int)Mathf.Sqrt(blocks.Length))
         {
-            backgroundImage.transform.localPosition = new Vector3(0, 0, 1);
+            uiImage.backgroundImage.transform.localPosition = new Vector3(0, 0, 1);
             FindObjectOfType<LevelController>().WinLastBlock();
         }
         else
@@ -870,15 +853,17 @@ public class Block : ControllerManager
                         // 마왕성을 제외하고 나머지만 이미지 변경
                         if (blocksType != "마왕성")
                         {
-                            block.backgroundImage.color = new Color32(255, 255, 255, 255);
-                            block.backgroundImage.overrideSprite = destroyableBlockImage;
-                            if (block.blocksType == string.Empty) {
+                            block.uiImage.backgroundImage.color = new Color32(255, 255, 255, 255);
+                            block.uiImage.backgroundImage.overrideSprite = destroyableBlockImage;
+                            if (block.blocksType == string.Empty) 
+                            {
                                 block.GetComponentInChildren<Text>().color = new Color32(32, 32, 32, 255);
+                                block.uiImage.backgroundImage.enabled = true;
                             }                            
                         }
                         else
                         {
-                            block.backgroundImage.color = new Color32(255, 255, 255, 255);
+                            block.uiImage.backgroundImage.color = new Color32(255, 255, 255, 255);
                             block.GetComponentInChildren<Text>().color = new Color32(255, 255, 255, 255);
                             block.transform.Find("Last Block Oval").gameObject.SetActive(true);
                         }
@@ -887,7 +872,7 @@ public class Block : ControllerManager
             }
         }
 
-        HandleLastBlock(0);
+        blockController.HandleLastBlock(blocksType, 0);
     }
 
     public Transform GetSelectedSlot()
@@ -963,55 +948,56 @@ public class Block : ControllerManager
 
         blocksType = type;
         specialBlockImage.color = new Color32(255, 255, 255, 255);
-        backgroundImage.color = new Color32(255, 255, 255, 255);
+        uiImage.backgroundImage.enabled = true;
+        uiImage.backgroundImage.color = new Color32(255, 255, 255, 255);
 
         switch (blocksType)
         {
             case "광산":
                 specialBlockImage.sprite = mineImage;
-                backgroundImage.overrideSprite = mineBackgroundImage;
+                uiImage.backgroundImage.overrideSprite = mineBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(191, 155, 48, 255);
                 blockText.text = (int.Parse(blockText.text) + 6).ToString();
                 break;
             case "던전":
                 specialBlockImage.sprite = dungeonImage;
-                backgroundImage.overrideSprite = dungeonBackgroundImage;
+                uiImage.backgroundImage.overrideSprite = dungeonBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(231, 134, 134, 255);
                 blockText.text = (int.Parse(blockText.text) + 4).ToString();
                 break;
             case "용병":
                 specialBlockImage.sprite = armyImage;
-                backgroundImage.overrideSprite = armyBackgroundImage;
+                uiImage.backgroundImage.overrideSprite = armyBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(113, 110, 110, 255);
                 blockText.text = (int.Parse(blockText.text) + 4).ToString();
                 break;
             case "마법사":
                 specialBlockImage.sprite = wizardImage;
-                backgroundImage.overrideSprite = wizardBackgroundImage;
+                uiImage.backgroundImage.overrideSprite = wizardBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(146, 100, 172, 255);
                 blockText.text = (int.Parse(blockText.text) + 6).ToString();
                 break;
             case "유물":
                 specialBlockImage.sprite = relicsImage;
-                backgroundImage.overrideSprite = relicsBackgroundImage;
+                uiImage.backgroundImage.overrideSprite = relicsBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(82, 119, 132, 255);
                 blockText.text = (int.Parse(blockText.text) + 3).ToString();
                 break;
             case "기병대":
                 specialBlockImage.sprite = horizontalImage;
-                backgroundImage.overrideSprite = horizontalBackgroundImage;
+                uiImage.backgroundImage.overrideSprite = horizontalBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(128, 120, 168, 255);
                 blockText.text = (int.Parse(blockText.text) + 6).ToString();
                 break;
             case "공습":
                 specialBlockImage.sprite = verticalImage;
-                backgroundImage.overrideSprite = verticalBackgroundImage;
+                uiImage.backgroundImage.overrideSprite = verticalBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(128, 120, 168, 255);
                 blockText.text = (int.Parse(blockText.text) + 6).ToString();
                 break;
             case "폭탄":
                 specialBlockImage.sprite = bombImage;
-                backgroundImage.overrideSprite = bombBackgroundImage;
+                uiImage.backgroundImage.overrideSprite = bombBackgroundImage;
                 GetComponentsInChildren<Text>()[0].color = new Color32(128, 120, 168, 255);
                 blockText.text = (int.Parse(blockText.text) + 5).ToString();
                 break;

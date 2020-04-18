@@ -28,9 +28,6 @@ public class NoDiceNoCoinController : ControllerManager
             }
         }
 
-        Debug.Log(resetDiceController.GetCurrentMoney());
-        Debug.Log(resetDiceController.GetCost());
-
         if (destroyedDiceCount == 6 && resetDiceController.GetCurrentMoney() < resetDiceController.GetCost())
         {
             ShowScreen();
