@@ -21030,7 +21030,7 @@ MonoBehaviour:
     type: 3}
   mineImage: {fileID: 21300000, guid: d2d8ccb500a8247e19f0be628495135b, type: 3}
   dungeonImage: {fileID: 21300000, guid: 9db9e87454e5c46028565f00a98c0f08, type: 3}
-  armyImage: {fileID: 21300000, guid: 2306868a146f64879b44da67f2a836f6, type: 3}
+  armyImage: {fileID: 21300000, guid: 34234873940204e9c8830d4cd1582bde, type: 3}
   armySlotImage: {fileID: 21300000, guid: 13846fd44fbb746d1af0ead5ea1a0912, type: 3}
   wizardImage: {fileID: 21300000, guid: 3fde67fd6aee74e7d81d85cec4fa1cda, type: 3}
   wizardSlotImage: {fileID: 21300000, guid: 54ffffbad17314a4ca21865291a40f99, type: 3}
