@@ -1,10 +1,29 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
+using DG.Tweening;
+
+[Serializable]
+public class RewardStatus {
+
+    [Serializable]
+    public class UIObject {
+        public GameObject rewardBefore;
+        public GameObject rewardAfter;
+    }
+
+    [Serializable]
+    public class UITransform {
+        public Transform box;
+    }
+}
 
 public class RewardController : MonoBehaviour
 {
+    public RewardStatus.UIObject uiObject;
+    public RewardStatus.UITransform uiTransform;
     public static Timer timer;
     private const int timerInterval = 500;
     private static int rewardTargetTimeStamp;
@@ -13,6 +32,8 @@ public class RewardController : MonoBehaviour
     private int isPossibleReward = 0;
     public static UIController UIController;
     public static AdsController adsController;
+    public Sequence boxSequence;
+
 
     void Awake()
     {
@@ -25,8 +46,8 @@ public class RewardController : MonoBehaviour
         {
             StartTimer();
         }
-        Debug.Log(rewardTargetTimeStamp);
-        Debug.Log(Utils.GetTimeStamp());
+        UpdateRewardBox();
+        AnimateRewardBox();
     }
 
     private void Initialize()
@@ -34,6 +55,7 @@ public class RewardController : MonoBehaviour
         rewardTargetTimeStamp = PlayerPrefs.GetInt("RewardTargetTimeStamp");
         isPossibleReward = PlayerPrefs.GetInt("IsPossibleReward");
         adsController = FindObjectOfType<AdsController>();
+        boxSequence = DOTween.Sequence();
 
         InitializeTimer();
     }
@@ -46,11 +68,15 @@ public class RewardController : MonoBehaviour
         {
             StopTimer();
         }
-
-        if (isPossibleReward == 0) 
+        else
         {
-            StartTimer();
+            if (isPossibleReward == 0) 
+            {
+                StartTimer();
+            }
         }
+
+        UpdateRewardBox();        
         
         isNetworkConnected = newIsNetworkConnected;
     }
@@ -85,9 +111,13 @@ public class RewardController : MonoBehaviour
         }
     }    
 
-    public void OnClickReward()
+    public void OnClickReward(string rewardType)
     {
+        int currentTimeStamp = Utils.GetTimeStamp();
+        rewardTargetTimeStamp = Constants.REWARD_CHARGE_SECONDS + currentTimeStamp;
         isPossibleReward = 0;
+        // adsController.PlayAds(rewardType);
+        UpdateRewardBox();
     }
 
     public void StartTimer()
@@ -127,17 +157,49 @@ public class RewardController : MonoBehaviour
         {
             if (isPossibleReward == 0)
             {
-                int targetDeltaCount = (currentTimeStamp - rewardTargetTimeStamp) / Constants.REWARD_CHARGE_SECONDS;
                 isPossibleReward = 1;
-                rewardTargetTimeStamp = rewardTargetTimeStamp + (Constants.REWARD_CHARGE_SECONDS) * (targetDeltaCount + 1) - 1;
-                
-                Debug.Log(isPossibleReward + ":isPossibleReward");
+
+                StopTimer();
             }
         }
     }
-
     public int GetRewardTargetTimeStamp()
     {
         return rewardTargetTimeStamp;
-    }    
+    }
+
+    public void UpdateRewardBox()
+    {
+        if (isPossibleReward == 0)
+        {
+            uiObject.rewardBefore.SetActive(true);
+            uiObject.rewardAfter.SetActive(false);
+            
+            if (boxSequence.IsPlaying())
+            {
+                boxSequence.Pause();
+            }
+        }
+        else
+        {
+            uiObject.rewardBefore.SetActive(false);
+            uiObject.rewardAfter.SetActive(true);
+            
+            if (!boxSequence.IsPlaying())
+            {
+                boxSequence.Restart();
+            }
+        }        
+    }
+
+    public void AnimateRewardBox()
+    {
+        boxSequence.Append(uiTransform.box.DORotate(new Vector3(0, 0, -3), 0.8f));
+        boxSequence.Append(uiTransform.box.DORotate(new Vector3(0, 0, 3), 0.8f));
+        boxSequence.Append(uiTransform.box.DORotate(new Vector3(0, 0, -3), 0.8f));
+        boxSequence.Append(uiTransform.box.DORotate(new Vector3(0, 0, 3), 0.8f));
+        boxSequence.AppendInterval(4.8f);
+        boxSequence.SetLoops(-1, LoopType.Restart);
+        boxSequence.Play();
+    }
 }

@@ -197,7 +197,7 @@ public class UIController : ControllerManager
             }
             else
             {
-                rewardTimerText.text = "보상 받기";
+                rewardTimerText.text = "0:00";
             }
         }
         else

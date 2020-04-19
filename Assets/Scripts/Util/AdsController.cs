@@ -9,6 +9,7 @@ public static class AD_REWARD_TYPE
     public const string GET_ALL_DICES = "getAllDices";
     public const string LOAD_CLICKED_MAP = "LoadClickedMap";
     public const string LOAD_LEVEL_SCENE = "LoadLevelScene";
+    public const string GET_REWARD_ITEM = "getRewardItem";
 }
 
 public class AdsController : MonoBehaviour
@@ -134,25 +135,25 @@ public class AdsController : MonoBehaviour
     private void OnRewaredVideoSuccess()
     {
         Initialize();
-        // 주사위 굴리기
-        if (rewardType == AD_REWARD_TYPE.GET_ALL_DICES)
-        {
-            noDiceNoCoinController.HideScreen();
-            resetDiceController.AbleResetDiceButton();
-            resetDiceController.ResetDices();
-        }
-        // 게임 시작하기
-        else
-        {
-            newHeartController.AddHeartAmount(1);
-        }
-
+        
         switch(rewardType) {
+            case AD_REWARD_TYPE.GET_REWARD_ITEM: {
+
+                break;
+            }
+            case AD_REWARD_TYPE.GET_ALL_DICES: {
+                noDiceNoCoinController.HideScreen();
+                resetDiceController.AbleResetDiceButton();
+                resetDiceController.ResetDices();
+                break;
+            }
             case AD_REWARD_TYPE.LOAD_CLICKED_MAP: {
+                newHeartController.AddHeartAmount(1);
                 mapController.OnClickMap();
                 break;
             }
             case AD_REWARD_TYPE.LOAD_LEVEL_SCENE: {
+                newHeartController.AddHeartAmount(1);
                 if (levelLoader.GetIsGoingToNextLevel()) {
                     levelLoader.LoadNextLevel();
                     levelLoader.SetIsGoingToNextLevel(false);
@@ -162,6 +163,7 @@ public class AdsController : MonoBehaviour
                 break;
             }
         }
+
     }
 }
     
