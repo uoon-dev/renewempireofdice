@@ -10,7 +10,8 @@ public class UIController : ControllerManager
     [SerializeField] Image heartImage;
     [SerializeField] Text goldMineAmountText;
     [SerializeField] Text diamondAmount;
-    [SerializeField] Text explosiveWarehouseAmountText;    
+    [SerializeField] Text explosiveWarehouseAmountText;
+    [SerializeField] Text rewardTimerText;
     GameObject noHeartCanvas;
     GameObject afterPurchaseEffectCanvas;
 
@@ -86,6 +87,11 @@ public class UIController : ControllerManager
         isNetworkConnected = newIsNetworkConnected;
 
         UpdateTimerText();
+
+        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
+        {
+            UpdateRewardTimerText();
+        } 
         
         // 하트바 + 다이아몬드바 핸들링
         if (levelLoader.GetCurrentSceneName() != Constants.SCENE_NAME.TUTORIAL) 
@@ -105,11 +111,6 @@ public class UIController : ControllerManager
             ToggleNoHeartCanvas(false);
         }
     }
-
-    // private void Initialize()
-    // {
-
-    // }
 
 
     public void UpdateTimerText()
@@ -163,7 +164,7 @@ public class UIController : ControllerManager
         else
         {
             if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
-            {                
+            {
                 heartTimerText.fontSize = 24;
             }
             else
@@ -178,6 +179,30 @@ public class UIController : ControllerManager
             }
             heartTimerTextInNoHeartCanvas.text = "오프라인";
             heartTimerTextInShop.text = "오프라인";
+        }
+    }
+
+    public void UpdateRewardTimerText()
+    {
+        int rewardTimerRemainSecond =
+            rewardController.GetRewardTargetTimeStamp() - Utils.GetTimeStamp();
+
+        if (Utils.IsNetworkConnected())
+        {
+            string remainTime = string.Format("{0:0}:{1:00}", rewardTimerRemainSecond / 60, rewardTimerRemainSecond % 60);
+
+            if (rewardTimerRemainSecond > 0)
+            {
+                rewardTimerText.text = remainTime;
+            }
+            else
+            {
+                rewardTimerText.text = "보상 받기";
+            }
+        }
+        else
+        {
+            rewardTimerText.text = "오프라인";
         }
     }
 

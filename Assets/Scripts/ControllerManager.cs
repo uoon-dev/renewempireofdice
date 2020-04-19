@@ -46,6 +46,7 @@ public class ControllerManager : MonoBehaviour
     public static NewHeartController newHeartController;
     public static DiamondController diamondController;
     public static IAPManager iAPManager;
+    public static RewardController rewardController;
 
     void Awake()
     {
@@ -65,6 +66,7 @@ public class ControllerManager : MonoBehaviour
         if (newHeartController == null) newHeartController = FindObjectOfType<NewHeartController>();
         if (diamondController == null) diamondController = FindObjectOfType<DiamondController>();
         if (iAPManager == null) iAPManager = FindObjectOfType<IAPManager>();
+        if (rewardController == null) rewardController = FindObjectOfType<RewardController>();
         if (this.name != Constants.GAME_OBJECT_NAME.STAGE.CLONED_BLOCK) cameraShakersForPlate = FindObjectsOfType<CameraShaker>();
 
         _initialize();

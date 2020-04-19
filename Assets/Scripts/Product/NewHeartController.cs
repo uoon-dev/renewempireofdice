@@ -3,26 +3,6 @@ using System.Threading.Tasks;
 using System.Timers;
 using UnityEngine;
 
-/* 
-    Todo 
-    다른 씬에도 NewHeartController, UIController 넣어주기 (완료)
-    하트 잘 사용되는지 테스트하기 (완료)
-    하트 상점에서 구입 잘 되는지 테스트하기 (완료)
-    하트 타이머 잘 작동되는지 테스트하기 (완료)
-    클리어 조건 완료시 하트 보상 잘되는지 테스트하기 (완료)
-    10x 스테이지 클리어시 하트 풀 충전 되는지 테스트하기 (완료)
-    하트 충전속도 증가 로직 구현하기 (완료)
-    광고 리워드로 하트 잘 얻을 수 있는지 테스트하기
-
-    bug
-    처음 앱을 실행했을 때 하트가 0개이다. (solved)
-    타이머 충전 중간에 인터넷을 꺼도 타이머 상태가 오프라인으로 변하지 않는다. (solved)
-    타이머 충전 중간에 인터넷을 끄고 앱을 껐다가 다시 켜도 오프라인 표시가 나타나지 않는다. (solved)
-    앱을 pause 했다가 다시 돌아가보면 하트 하나가 더 충전되어 있다. (solved)
-
-    * 인터넷을 중간에 다시 연결해도 타이머가 동작하지 않는다. -> 플레이를 해야 동작하는데 10분으로 리셋된다. *
-*/
-
 public class NewHeartController : ProductController
 {
     public static Timer timer;
@@ -83,7 +63,6 @@ public class NewHeartController : ProductController
 
     private void InitializeHeartBar() {
         UIController.HandleHeartBarUI();
-        // UIController.HandleHeartBarInEffectUI();
     }
 
     private void InitializeTimer() {
@@ -113,11 +92,9 @@ public class NewHeartController : ProductController
             if (currentTimeStamp >= heartTargetTimeStamp)
             {
                 IsDeviceTimeValid = await Utils.IsDeviceTimeValid();
-                // IsDeviceTimeValidTest = IsDeviceTimeValid;
                 if (IsDeviceTimeValid)
                 {
                     int targetDeltaCount = (currentTimeStamp - heartTargetTimeStamp) / (Constants.HEART_CHARGE_SECONDS / heartRechargeSpeed);
-                    // targetDeltaCountTest = targetDeltaCount;
                     heartAmount += targetDeltaCount + 1;
                     if (heartAmount > Constants.HEART_MAX_CHARGE_COUNT)
                     {
@@ -140,7 +117,6 @@ public class NewHeartController : ProductController
         {
             StopTimer();
         }
-        
     }
 
     private void Start()
