@@ -12,11 +12,13 @@ public class RewardStatus {
     public class UIObject {
         public GameObject rewardBefore;
         public GameObject rewardAfter;
+
     }
 
     [Serializable]
     public class UITransform {
         public Transform box;
+
     }
 }
 

@@ -30,6 +30,11 @@ public class RewardEffect {
     }
 
     [Serializable]
+    public class UIObject {
+        public GameObject background;
+    }
+
+    [Serializable]
     public class UISprite {
         public Sprite heart;
         public Sprite diamond;
@@ -44,6 +49,7 @@ public class RewardEffectController : ControllerManager
     public RewardEffect.UITransform uiTransform;
     public RewardEffect.UIImage uiImage;
     public RewardEffect.UISprite uiSprite;
+    public RewardEffect.UIObject uiObject;
     public ProductController[] productControllers;
     public string rewardType;
 
@@ -64,7 +70,7 @@ public class RewardEffectController : ControllerManager
     public void AnimateRewardEffect()
     {
         Sequence sequence = DOTween.Sequence();
-        sequence.AppendInterval(1.2f);
+        sequence.AppendInterval(1.4f);
         sequence.Append(uiCanvasGroup.beforeReward.DOFade(0, 0));
         sequence.AppendCallback(() => uiCanvasGroup.afterReward.DOFade(1, 0.3f));
         sequence.Join(uiTransform.rewardItem.DOScale(new Vector3(1.1f, 1.1f, 1.1f), 0.3f));
@@ -74,6 +80,7 @@ public class RewardEffectController : ControllerManager
 
     public void ResetRewardEffect()
     {
+        uiObject.background.SetActive(false);
         Sequence sequence = DOTween.Sequence();
         sequence.Append(uiCanvasGroup.beforeReward.DOFade(1, 0));
         sequence.Append(uiCanvasGroup.afterReward.DOFade(0, 0f));

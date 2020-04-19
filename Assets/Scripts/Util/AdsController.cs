@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Analytics;
-//using UnityEngine.Advertisements;
+using DG.Tweening;
 
 public static class AD_REWARD_TYPE
 {
@@ -25,7 +25,10 @@ public class AdsController : MonoBehaviour
     ResetDiceController resetDiceController;
     MapController mapController;
     LevelLoader levelLoader;
-    RewardEffectController rewardEffectController;
+    [SerializeField] GameObject rewardEffect;
+    [SerializeField] GameObject toast;
+    [SerializeField] GameObject rewardEffectBackground;
+    [SerializeField] Transform toastTransform;
 
     
     void Start()
@@ -44,7 +47,6 @@ public class AdsController : MonoBehaviour
         resetDiceController = FindObjectOfType<ResetDiceController>();
         mapController = FindObjectOfType<MapController>();
         levelLoader = FindObjectOfType<LevelLoader>();
-        rewardEffectController = FindObjectOfType<RewardEffectController>();
     }
 
     public void InitializeAds()
@@ -117,7 +119,16 @@ public class AdsController : MonoBehaviour
     {
         if (Yodo1U3dAds.VideoIsReady()) {   
             rewardType = reward;
+            if (rewardType == AD_REWARD_TYPE.GET_REWARD_ITEM)
+            {
+                rewardEffectBackground.SetActive(true);
+            }
             Yodo1U3dAds.ShowVideo();
+        } else {
+            if (toast != null)
+            {
+                VideoIsNotReady();
+            }
         }
     }
 
@@ -140,7 +151,7 @@ public class AdsController : MonoBehaviour
         
         switch(rewardType) {
             case AD_REWARD_TYPE.GET_REWARD_ITEM: {
-                rewardEffectController.gameObject.SetActive(true);
+                rewardEffect.SetActive(true);
                 break;
             }
             case AD_REWARD_TYPE.GET_ALL_DICES: {
@@ -165,7 +176,22 @@ public class AdsController : MonoBehaviour
                 break;
             }
         }
+    }
 
+    public void VideoIsNotReady()
+    {
+        Sequence sequence = DOTween.Sequence();
+        if (!toast.activeSelf)
+        {
+            toast.SetActive(true);
+            sequence.Append(toastTransform.DOLocalMoveY(0, 0.2f));
+            sequence.AppendInterval(3f);
+            sequence.AppendCallback(() => {
+                toast.SetActive(false);
+                sequence.Append(toastTransform.DOLocalMoveY(-20, 0));
+            });
+            sequence.Play();
+        }
     }
 }
     
