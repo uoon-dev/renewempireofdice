@@ -29,7 +29,7 @@ public class RewardController : MonoBehaviour
     private static int rewardTargetTimeStamp;
     private bool isNetworkConnected;
     private bool IsDeviceTimeValid = false;
-    private int isPossibleReward = 0;
+    private static int isPossibleReward = 0;
     public static UIController UIController;
     public static AdsController adsController;
     public Sequence boxSequence;
@@ -111,13 +111,9 @@ public class RewardController : MonoBehaviour
         }
     }    
 
-    public void OnClickReward(string rewardType)
-    {
-        int currentTimeStamp = Utils.GetTimeStamp();
-        rewardTargetTimeStamp = Constants.REWARD_CHARGE_SECONDS + currentTimeStamp;
-        isPossibleReward = 0;
-        // adsController.PlayAds(rewardType);
-        UpdateRewardBox();
+    public void OnClickReward()
+    {        
+        adsController.PlayAds(AD_REWARD_TYPE.GET_REWARD_ITEM);
     }
 
     public void StartTimer()
@@ -168,13 +164,20 @@ public class RewardController : MonoBehaviour
         return rewardTargetTimeStamp;
     }
 
+    public void SetRewardTargetTimeStamp()
+    {
+        isPossibleReward = 0;
+        int currentTimeStamp = Utils.GetTimeStamp();
+        rewardTargetTimeStamp = Constants.REWARD_CHARGE_SECONDS + currentTimeStamp;        
+    }
+
     public void UpdateRewardBox()
     {
         if (isPossibleReward == 0)
         {
             uiObject.rewardBefore.SetActive(true);
             uiObject.rewardAfter.SetActive(false);
-            
+
             if (boxSequence.IsPlaying())
             {
                 boxSequence.Pause();

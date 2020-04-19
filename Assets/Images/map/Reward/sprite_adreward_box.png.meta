@@ -1,7 +1,37 @@
 fileFormatVersion: 2
 guid: a095cea58462540eaa864591f127cb9e
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 1415580729030143023
+    second: sprite_adreward_box_0
+  - first:
+      213: 576644757768159662
+    second: sprite_adreward_box_1
+  - first:
+      213: 5139013157872978150
+    second: sprite_adreward_box_2
+  - first:
+      213: -4909463052812825077
+    second: sprite_adreward_box_3
+  - first:
+      213: -2640984169947291282
+    second: sprite_adreward_box_4
+  - first:
+      213: 2819325091830702185
+    second: sprite_adreward_box_5
+  - first:
+      213: 7792732980664347016
+    second: sprite_adreward_box_6
+  - first:
+      213: -7167491740700851957
+    second: sprite_adreward_box_7
+  - first:
+      213: -5187388402655905255
+    second: sprite_adreward_box_8
+  - first:
+      213: 1079921208759374946
+    second: sprite_adreward_box_9
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -40,7 +70,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -70,9 +100,267 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: sprite_adreward_box_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 894.3
+        height: 663
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5bc797170d29434e99a2b374b69b2bf
+      internalID: 1415580729030143023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite_adreward_box_1
+      rect:
+        serializedVersion: 2
+        x: 894
+        y: 0
+        width: 894.3
+        height: 663
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7f6d7fe27de24ffd93e1983860ba963
+      internalID: 576644757768159662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite_adreward_box_2
+      rect:
+        serializedVersion: 2
+        x: 1788
+        y: 0
+        width: 894.3
+        height: 663
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68282cb8e7dbd4b50b17adcec647938c
+      internalID: 5139013157872978150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite_adreward_box_3
+      rect:
+        serializedVersion: 2
+        x: 2682
+        y: 0
+        width: 894.3
+        height: 663
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7333e5b10c797485e985fc55a37589bd
+      internalID: -4909463052812825077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite_adreward_box_4
+      rect:
+        serializedVersion: 2
+        x: 3576
+        y: 0
+        width: 894.3
+        height: 663
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ce9f949828e6403aafeac7eb35fa1fc
+      internalID: -2640984169947291282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite_adreward_box_5
+      rect:
+        serializedVersion: 2
+        x: 4470
+        y: 0
+        width: 894.3
+        height: 663
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60704e2a9d8124e37b6c9592641baef3
+      internalID: 2819325091830702185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite_adreward_box_6
+      rect:
+        serializedVersion: 2
+        x: 5364
+        y: 0
+        width: 894.3
+        height: 663
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d8faf9e4e6b44f04babb46c93f99b07
+      internalID: 7792732980664347016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite_adreward_box_7
+      rect:
+        serializedVersion: 2
+        x: 6258
+        y: 0
+        width: 894.3
+        height: 663
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2265b0a57210842a986013c2e5c2ba5a
+      internalID: -7167491740700851957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite_adreward_box_8
+      rect:
+        serializedVersion: 2
+        x: 7152
+        y: 0
+        width: 894.3
+        height: 663
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25528b47fc7114d97a13a496acd1f3a7
+      internalID: -5187388402655905255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite_adreward_box_9
+      rect:
+        serializedVersion: 2
+        x: 8046
+        y: 0
+        width: 894.3
+        height: 663
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd1efd6b212bf4b8b8947574624612d1
+      internalID: 1079921208759374946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []

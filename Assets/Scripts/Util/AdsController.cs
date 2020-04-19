@@ -25,6 +25,7 @@ public class AdsController : MonoBehaviour
     ResetDiceController resetDiceController;
     MapController mapController;
     LevelLoader levelLoader;
+    RewardEffectController rewardEffectController;
 
     
     void Start()
@@ -43,6 +44,7 @@ public class AdsController : MonoBehaviour
         resetDiceController = FindObjectOfType<ResetDiceController>();
         mapController = FindObjectOfType<MapController>();
         levelLoader = FindObjectOfType<LevelLoader>();
+        rewardEffectController = FindObjectOfType<RewardEffectController>();
     }
 
     public void InitializeAds()
@@ -138,7 +140,7 @@ public class AdsController : MonoBehaviour
         
         switch(rewardType) {
             case AD_REWARD_TYPE.GET_REWARD_ITEM: {
-
+                rewardEffectController.gameObject.SetActive(true);
                 break;
             }
             case AD_REWARD_TYPE.GET_ALL_DICES: {
