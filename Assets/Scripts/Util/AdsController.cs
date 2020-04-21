@@ -14,23 +14,28 @@ public static class AD_REWARD_TYPE
 
 public class AdsController : MonoBehaviour
 {
+    public static AdsController instance = null;
     private static bool isIntitialized;
     private string adsAppleId = "3259036";
     private string adsAndroidId = "3259037";
     private static string rewardType = "";
     private int targetLevel = 0;
     NewHeartController newHeartController;
-    UIController UIController;
+    UIController uiController;
     NoDiceNoCoinController noDiceNoCoinController;
     ResetDiceController resetDiceController;
     MapController mapController;
     LevelLoader levelLoader;
-    [SerializeField] GameObject rewardEffect;
-    [SerializeField] GameObject toast;
-    [SerializeField] GameObject rewardEffectBackground;
-    [SerializeField] Transform toastTransform;
-
     
+
+    void Awake() {
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+        DontDestroyOnLoad(gameObject);        
+    }
+
     void Start()
     {
         Initialize();
@@ -41,12 +46,12 @@ public class AdsController : MonoBehaviour
 
     public void Initialize()
     {
-        newHeartController = FindObjectOfType<NewHeartController>();
-        UIController = FindObjectOfType<UIController>();
-        noDiceNoCoinController = FindObjectOfType<NoDiceNoCoinController>();
-        resetDiceController = FindObjectOfType<ResetDiceController>();
-        mapController = FindObjectOfType<MapController>();
-        levelLoader = FindObjectOfType<LevelLoader>();
+        if (newHeartController == null) newHeartController = FindObjectOfType<NewHeartController>();
+        if (uiController == null) uiController = FindObjectOfType<UIController>();
+        if (noDiceNoCoinController == null) noDiceNoCoinController = FindObjectOfType<NoDiceNoCoinController>();
+        if (resetDiceController == null) resetDiceController = FindObjectOfType<ResetDiceController>();
+        if (mapController == null) mapController = FindObjectOfType<MapController>();
+        if (levelLoader == null) levelLoader = FindObjectOfType<LevelLoader>();
     }
 
     public void InitializeAds()
@@ -112,23 +117,34 @@ public class AdsController : MonoBehaviour
                     Debug.Log("Rewarded video ad has been played finish, give rewards to the player.");
                     break;
             }
+
+            // if (rewardType == AD_REWARD_TYPE.GET_REWARD_ITEM)
+            // {
+            //     rewardEffectBackground.SetActive(false);
+            // }            
         });
     }
 
     public void PlayAds(string reward)
     {
-        if (Yodo1U3dAds.VideoIsReady()) {   
+        if (Yodo1U3dAds.VideoIsReady()) 
+        {   
             rewardType = reward;
-            if (rewardType == AD_REWARD_TYPE.GET_REWARD_ITEM)
-            {
-                rewardEffectBackground.SetActive(true);
-            }
+            // if (rewardType == AD_REWARD_TYPE.GET_REWARD_ITEM)
+            // {
+            //     rewardEffectBackground.SetActive(true);
+            // }
             Yodo1U3dAds.ShowVideo();
         } else {
-            if (toast != null)
+            if (uiController == null) 
             {
-                VideoIsNotReady();
+                uiController = FindObjectOfType<UIController>();
+            } 
+            else
+            {
+                uiController.ShowToastVideoIsNotReady();
             }
+            
         }
     }
 
@@ -148,10 +164,9 @@ public class AdsController : MonoBehaviour
     private void OnRewaredVideoSuccess()
     {
         Initialize();
-        
         switch(rewardType) {
             case AD_REWARD_TYPE.GET_REWARD_ITEM: {
-                rewardEffect.SetActive(true);
+                uiController.ShowRewardEffect();
                 break;
             }
             case AD_REWARD_TYPE.GET_ALL_DICES: {
@@ -175,22 +190,6 @@ public class AdsController : MonoBehaviour
                 levelLoader.LoadCurrentScene();
                 break;
             }
-        }
-    }
-
-    public void VideoIsNotReady()
-    {
-        Sequence sequence = DOTween.Sequence();
-        if (!toast.activeSelf)
-        {
-            toast.SetActive(true);
-            sequence.Append(toastTransform.DOLocalMoveY(0, 0.2f));
-            sequence.AppendInterval(3f);
-            sequence.AppendCallback(() => {
-                toast.SetActive(false);
-                sequence.Append(toastTransform.DOLocalMoveY(-20, 0));
-            });
-            sequence.Play();
         }
     }
 }

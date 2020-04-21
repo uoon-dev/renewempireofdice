@@ -137,18 +137,22 @@ public class LevelLoader : MonoBehaviour
         PlayerPrefs.DeleteKey("currentLevelNumber");
         SceneManager.LoadScene("Map System");
     }
+
     public void LoadHomeScene()
     {
         SceneManager.LoadScene("Start Screen");
     }
+
     public void QuitGame()
     {
         Application.Quit();
     }
+
     public string GetCurrentSceneName()
     {
         return SceneManager.GetActiveScene().name;;
     }
+
     public int GetCurrentLevelNumber()
     {
         return currentLevelNumber;

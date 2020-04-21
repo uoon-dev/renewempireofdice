@@ -4,6 +4,9 @@ using DG.Tweening;
 
 public class UIController : ControllerManager
 {
+    [SerializeField] GameObject rewardEffect;
+    [SerializeField] GameObject toast;
+    [SerializeField] Transform toastTransform;    
     [SerializeField] Sprite heartSpriteFull;
     [SerializeField] Sprite heartSpriteNormal;
     [SerializeField] Sprite heartSpriteEmpty;
@@ -11,7 +14,7 @@ public class UIController : ControllerManager
     [SerializeField] Text goldMineAmountText;
     [SerializeField] Text diamondAmount;
     [SerializeField] Text explosiveWarehouseAmountText;
-    [SerializeField] Text rewardTimerText;
+    [SerializeField] Text rewardTimerText;    
     GameObject noHeartCanvas;
     GameObject afterPurchaseEffectCanvas;
 
@@ -291,4 +294,33 @@ public class UIController : ControllerManager
             }
         }        
     }
+
+    public void ShowToastVideoIsNotReady()
+    {
+        Sequence sequence = DOTween.Sequence();
+        if (toast != null)
+        {
+            if (!toast.activeSelf)
+            {
+                toast.SetActive(true);
+                sequence.Append(toastTransform.DOLocalMoveY(0, 0.2f));
+                sequence.AppendInterval(3f);
+                sequence.AppendCallback(() => {
+                    toast.SetActive(false);
+                    sequence.Append(toastTransform.DOLocalMoveY(-20, 0));
+                });
+                sequence.Play();
+            }
+        }
+    }
+
+    public void ShowRewardEffect()
+    {
+        rewardEffect.SetActive(true);
+    }
+
+    public void OnClickAds(string type)
+    {
+        AdsController.instance.PlayAds(type);
+    }    
 }

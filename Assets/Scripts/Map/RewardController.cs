@@ -12,7 +12,7 @@ public class RewardStatus {
     public class UIObject {
         public GameObject rewardBefore;
         public GameObject rewardAfter;
-
+        public GameObject rewardEffect;
     }
 
     [Serializable]
@@ -33,7 +33,6 @@ public class RewardController : MonoBehaviour
     private bool IsDeviceTimeValid = false;
     private static int isPossibleReward = 0;
     public static UIController UIController;
-    public static AdsController adsController;
     public Sequence boxSequence;
 
 
@@ -56,7 +55,6 @@ public class RewardController : MonoBehaviour
     {
         rewardTargetTimeStamp = PlayerPrefs.GetInt("RewardTargetTimeStamp");
         isPossibleReward = PlayerPrefs.GetInt("IsPossibleReward");
-        adsController = FindObjectOfType<AdsController>();
         boxSequence = DOTween.Sequence();
 
         InitializeTimer();
@@ -115,7 +113,9 @@ public class RewardController : MonoBehaviour
 
     public void OnClickReward()
     {        
-        adsController.PlayAds(AD_REWARD_TYPE.GET_REWARD_ITEM);
+        AdsController.instance.PlayAds(AD_REWARD_TYPE.GET_REWARD_ITEM);
+        // FindObjectOfType<UIController>().ShowToastVideoIsNotReady();
+        // uiObject.rewardEffect.SetActive(true);
     }
 
     public void StartTimer()
@@ -199,11 +199,11 @@ public class RewardController : MonoBehaviour
 
     public void AnimateRewardBox()
     {
-        boxSequence.Append(uiTransform.box.DORotate(new Vector3(0, 0, -3), 0.8f));
-        boxSequence.Append(uiTransform.box.DORotate(new Vector3(0, 0, 3), 0.8f));
-        boxSequence.Append(uiTransform.box.DORotate(new Vector3(0, 0, -3), 0.8f));
-        boxSequence.Append(uiTransform.box.DORotate(new Vector3(0, 0, 3), 0.8f));
-        boxSequence.AppendInterval(4.8f);
+        boxSequence.Append(uiTransform.box.DORotate(new Vector3(0, 0, -3), 0.08f));
+        boxSequence.Append(uiTransform.box.DORotate(new Vector3(0, 0, 3), 0.08f));
+        boxSequence.Append(uiTransform.box.DORotate(new Vector3(0, 0, -3), 0.08f));
+        boxSequence.Append(uiTransform.box.DORotate(new Vector3(0, 0, 3), 0.08f));
+        boxSequence.AppendInterval(0.48f);
         boxSequence.SetLoops(-1, LoopType.Restart);
         boxSequence.Play();
     }

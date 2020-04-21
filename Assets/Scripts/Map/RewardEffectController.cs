@@ -72,7 +72,11 @@ public class RewardEffectController : ControllerManager
         Sequence sequence = DOTween.Sequence();
         sequence.AppendInterval(1.4f);
         sequence.Append(uiCanvasGroup.beforeReward.DOFade(0, 0));
-        sequence.AppendCallback(() => uiCanvasGroup.afterReward.DOFade(1, 0.3f));
+        sequence.AppendCallback(() => {
+            if (EffectSoundController.instance != null)
+                EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_REWARD_ITEM);            
+            uiCanvasGroup.afterReward.DOFade(1, 0.3f);
+        });
         sequence.Join(uiTransform.rewardItem.DOScale(new Vector3(1.1f, 1.1f, 1.1f), 0.3f));
         sequence.Join(uiTransform.rewardItem.DOLocalMoveY(18.62f, 0.3f));
         sequence.Play();

@@ -23,6 +23,7 @@ public class EffectSoundController : MonoBehaviour
     [SerializeField] AudioSource attackBlockSource;
     [SerializeField] AudioSource getLandPerfectSource2;
     [SerializeField] AudioSource goldMineUseSource;
+    [SerializeField] AudioSource getRewardItemSource;
 
     
     public static class SOUND_NAME {
@@ -44,6 +45,7 @@ public class EffectSoundController : MonoBehaviour
         public const string GET_LAND_PERFECT_2 = "getLandPerfect2";
         public const string GOLD_MINE_USE = "goldMineUse";
         public const string DYNAMITE_USE = "dynamiteUse";
+        public const string GET_REWARD_ITEM = "getRewardItem";
     }
 
     void Awake()
@@ -53,17 +55,6 @@ public class EffectSoundController : MonoBehaviour
         else if (instance != this)
             Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
-    }
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void PlaySoundByName(string soundName) {
@@ -122,6 +113,9 @@ public class EffectSoundController : MonoBehaviour
                 break;
             case SOUND_NAME.DYNAMITE_USE:
                 rewardHorseSource.Play();
+                break;
+            case SOUND_NAME.GET_REWARD_ITEM:
+                getRewardItemSource.Play();
                 break;
         }
     }

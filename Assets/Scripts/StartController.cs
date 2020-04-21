@@ -31,9 +31,6 @@ public class StartController : MonoBehaviour
     public void UpdateClickedMapStage(bool isGoingToNextStage)
     {
         isNextStage = isGoingToNextStage;
-        // var StageStartButton = GameObject.Find("Start Button").GetComponent<Button>();
-        // StageStartButton.onClick.RemoveAllListeners();
-        // StageStartButton.onClick.AddListener(() => FindObjectOfType<MapController>().OnClickMap(isNextStage));
     }
 
     public void SetObjects()
@@ -157,24 +154,6 @@ public class StartController : MonoBehaviour
         SetDiceIndexToButton();
     }
 
-    // public void SlideDiceSelectDisplay(int index)
-    // {
-    //     currentDice = purchasedDices[index];
-
-    //     foreach (GameObject purchasedDice in purchasedDices)
-    //     {
-    //         if (purchasedDice.name.Split(' ')[0].ToLower() != GetCurrentDiceType().ToLower())
-    //         {
-    //             purchasedDice.SetActive(false);
-    //         }
-    //         else
-    //         {
-    //             currentDice = purchasedDice;
-    //             SetDiceIndexToButton();
-    //         }
-    //     }
-    // }
-
     public static string GetCurrentDiceType()
     {
         if (PlayerPrefs.GetInt($"used-{Constants.MaldivesDice}") == 1)
@@ -217,5 +196,5 @@ public class StartController : MonoBehaviour
         this.gameObject.GetComponent<CanvasGroup>().alpha = 0;
         this.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = false;
         this.gameObject.transform.GetChild(1).GetComponent<CanvasGroup>().ignoreParentGroups = false;        
-    }   
+    }
 }

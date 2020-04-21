@@ -152,6 +152,7 @@ public class Block : ControllerManager
         if (posX == BlockController.GetBoardSize() && posY == BlockController.GetBoardSize())
         {            
             specialBlockImage.color = new Color32(255, 255, 255, 0);
+            uiImage.backgroundImage.enabled = true;
             uiImage.backgroundImage.overrideSprite = uiSprite.lastBlockNormal;
             uiImage.backgroundImage.color = new Color32(255, 255, 255, 255);
             uiImage.backgroundImage.transform.localPosition = new Vector3(1.6f, 2.79f, 1);
@@ -649,7 +650,7 @@ public class Block : ControllerManager
                             sequence.AppendCallback(() => block.SetBlockValue(targetValue));
                             sequence.Play();
                             
-                            StartCoroutine(block._controller.cameraShaker.ShakeBlock(0.2f, 4f));
+                            StartCoroutine(block._controller.cameraShaker.ShakeBlock(0.2f, 8f));
                         }
                     }
                 }
@@ -671,7 +672,7 @@ public class Block : ControllerManager
                             sequence.AppendCallback(() => block.SetBlockValue(targetValue));
                             sequence.Play();
 
-                            StartCoroutine(block._controller.cameraShaker.ShakeBlock(0.2f, 4f));
+                            StartCoroutine(block._controller.cameraShaker.ShakeBlock(0.2f, 8f));
                         }
                     }
                 }
@@ -700,7 +701,7 @@ public class Block : ControllerManager
                             sequence.AppendInterval(0.3f);
                             sequence.AppendCallback(() => block.SetBlockValue(targetValue));
                             sequence.Play();
-                            StartCoroutine(block._controller.cameraShaker.ShakeBlock(0.2f, 4f));
+                            StartCoroutine(block._controller.cameraShaker.ShakeBlock(0.2f, 8f));
                         }
                     }
                 }
@@ -756,13 +757,13 @@ public class Block : ControllerManager
         }        
         mineSequence.Append(mineImage.GetComponent<CanvasGroup>().DOFade(1, 0.1f));
         mineSequence.Join(mineImage.transform.DOScale(0.4f, 0.1f));
-        mineSequence.Append(goldText.transform.DOLocalMoveY(-30, 0.1f));
+        mineSequence.Append(goldText.transform.DOLocalMoveY(-100, 0.1f));
         mineSequence.Join(goldText.GetComponent<CanvasGroup>().DOFade(0, 0.1f));
         mineSequence.Append(goldText.GetComponent<CanvasGroup>().DOFade(1, 0.1f));
-        mineSequence.Join(goldText.transform.DOLocalMoveY(46, 0).OnComplete(() => {
+        mineSequence.Join(goldText.transform.DOLocalMoveY(-24, 0).OnComplete(() => {
             goldText.GetComponent<Text>().text = (currentCost > 1 ? currentCost - 1 : 1).ToString();
         }));
-        mineSequence.Append(goldText.transform.DOLocalMoveY(-5, 0.1f));
+        mineSequence.Append(goldText.transform.DOLocalMoveY(-70.1f, 0.1f));
         mineSequence.AppendInterval(0.25f);
         mineSequence.Append(mineImage.GetComponent<CanvasGroup>().DOFade(0, 0.1f));
         mineSequence.Play();
@@ -948,6 +949,7 @@ public class Block : ControllerManager
 
         blocksType = type;
         specialBlockImage.color = new Color32(255, 255, 255, 255);
+        specialBlockImage.enabled = true;
         uiImage.backgroundImage.enabled = true;
         uiImage.backgroundImage.color = new Color32(255, 255, 255, 255);
 
