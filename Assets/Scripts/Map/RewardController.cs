@@ -114,7 +114,7 @@ public class RewardController : MonoBehaviour
     public void OnClickReward()
     {        
         AdsController.instance.PlayAds(AD_REWARD_TYPE.GET_REWARD_ITEM);
-        // FindObjectOfType<UIController>().ShowToastVideoIsNotReady();
+        // FindObjectOfType<UIController>().ShowToast("광고를 불러오지 못했어요. 잠시 후에 다시 시도해주세요");
         // uiObject.rewardEffect.SetActive(true);
     }
 
@@ -203,7 +203,7 @@ public class RewardController : MonoBehaviour
         boxSequence.Append(uiTransform.box.DORotate(new Vector3(0, 0, 3), 0.08f));
         boxSequence.Append(uiTransform.box.DORotate(new Vector3(0, 0, -3), 0.08f));
         boxSequence.Append(uiTransform.box.DORotate(new Vector3(0, 0, 3), 0.08f));
-        boxSequence.AppendInterval(0.48f);
+        boxSequence.AppendInterval(1.2f);
         boxSequence.SetLoops(-1, LoopType.Restart);
         boxSequence.Play();
     }

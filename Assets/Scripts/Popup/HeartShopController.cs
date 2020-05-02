@@ -61,7 +61,7 @@ public class HeartShopController : PopupController
 
         if (rechargeItemPriceText != null) {
             int heartRechargeSpeed = PlayerPrefs.GetInt("HeartRechargeSpeed");
-            if (heartRechargeSpeed == 2 || IAPManager.Instance.HadPurchased(Constants.HeartRechargeSpeedUp))
+            if (heartRechargeSpeed == 2)
             {
                 rechargeItemPriceText.text = "구매함";
                 rechargeItemPriceText.color = new Color32(0, 0, 0, 100);
@@ -158,6 +158,26 @@ public class HeartShopController : PopupController
                 SetSpeedUpText();
                 break;
             }
+        }
+    }
+
+    public void OnClickItemRestore()
+    {
+        if (!IAPManager.Instance.isIAPInitialized())
+        {
+            UIController.ShowToast("인앱결제 모듈이 초기화 되지 않았습니다. 잠시 후에 다시 시도해주세요.");   
+            return;
+        }
+
+        if (IAPManager.Instance.HadPurchased(Constants.HeartRechargeSpeedUp))
+        {
+            newHeartController.UpgradeHeartRechargeSpeed(2);
+            SetSpeedUpText();
+            UIController.ShowToast("고속충전 + 중간광고 제거 아이템이 복구되었습니다.");
+        }
+        else
+        {
+            UIController.ShowToast("구글/애플 계정으로 등록된 복구 가능 아이템이 없습니다.\n고속충전 + 중간광고 제거 아이템만 복구 가능합니다.", 2);
         }
     }
 }

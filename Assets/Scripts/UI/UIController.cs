@@ -6,11 +6,12 @@ public class UIController : ControllerManager
 {
     [SerializeField] GameObject rewardEffect;
     [SerializeField] GameObject toast;
-    [SerializeField] Transform toastTransform;    
+    [SerializeField] Transform toastTransform;
     [SerializeField] Sprite heartSpriteFull;
     [SerializeField] Sprite heartSpriteNormal;
     [SerializeField] Sprite heartSpriteEmpty;
     [SerializeField] Image heartImage;
+    [SerializeField] Text toastDescription;
     [SerializeField] Text goldMineAmountText;
     [SerializeField] Text diamondAmount;
     [SerializeField] Text explosiveWarehouseAmountText;
@@ -295,7 +296,7 @@ public class UIController : ControllerManager
         }        
     }
 
-    public void ShowToastVideoIsNotReady()
+    public void ShowToast(string text, int lineCount = 1)
     {
         Sequence sequence = DOTween.Sequence();
         if (toast != null)
@@ -303,6 +304,16 @@ public class UIController : ControllerManager
             if (!toast.activeSelf)
             {
                 toast.SetActive(true);
+                toastDescription.text = text;
+                if (lineCount == 2)
+                {
+                    toastDescription.fontSize = 28;
+                }           
+                else 
+                {
+                    toastDescription.fontSize = 35;
+                }
+
                 sequence.Append(toastTransform.DOLocalMoveY(0, 0.2f));
                 sequence.AppendInterval(3f);
                 sequence.AppendCallback(() => {

@@ -222,20 +222,11 @@ public class NewHeartController : ProductController
 
     public void AddHeartAmount(int addedCount) {
         heartAmount += addedCount;
-        // if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
-        // {        
-        //     UIController.HandleHeartBarUI();
-        // }
-        // UIController.HandleHeartBarInEffectUI();
         SaveHeartAmount(heartAmount);
     }
 
     public void SubtractHeartAmount(int subtractedCount) {
         heartAmount -= subtractedCount;
-        // if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
-        // {
-        //     UIController.HandleHeartBarUI();
-        // }
         if (!timer.Enabled && heartAmount < Constants.HEART_MAX_CHARGE_COUNT) {
             heartTargetTimeStamp = Utils.GetTimeStamp() + (Constants.HEART_CHARGE_SECONDS / heartRechargeSpeed);
             StartTimer();

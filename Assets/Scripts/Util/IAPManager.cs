@@ -75,48 +75,6 @@ public class IAPManager : MonoBehaviour, IStoreListener
         if (IsInitialized) return;
 
         var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
-        builder.AddProduct(
-            Constants.MaldivesDice, ProductType.NonConsumable,
-            new IDs()
-            {
-                { IOSMaldivesDiceId, AppleAppStore.Name },
-                { AndroidMaldivesDiceId, GooglePlay.Name },
-            }
-            );
-        builder.AddProduct(
-            Constants.GoldrushDice, ProductType.NonConsumable,
-            new IDs()
-            {
-                { IOSGoldrushDiceId, AppleAppStore.Name },
-                { AndroidGoldrushDiceId, GooglePlay.Name },
-            }
-            );
-
-        // 하트   
-        builder.AddProduct(
-            Constants.SmallHeart, ProductType.Consumable,
-            new IDs()
-            {
-                { IOSSmallHeartId, AppleAppStore.Name },
-                { AndroidSmallHeartId, GooglePlay.Name },
-            }
-            );
-        builder.AddProduct(
-            Constants.LargeHeart, ProductType.Consumable,
-            new IDs()
-            {
-                { IOSLargeHeartId, AppleAppStore.Name },
-                { AndroidLargeHeartId, GooglePlay.Name },
-            }
-            );
-        builder.AddProduct(
-            Constants.HeartRechargeSpeedUp, ProductType.NonConsumable,
-            new IDs()
-            {
-                { IOSHeartRechargeSpeedUpId, AppleAppStore.Name },
-                { AndroidHeartRechargeSpeedUpId, GooglePlay.Name },
-            }
-            );
 
         // 다이아몬드
         builder.AddProduct(

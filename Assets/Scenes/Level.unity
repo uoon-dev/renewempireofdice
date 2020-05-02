@@ -14822,8 +14822,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 123.9323, y: 0}
-  m_SizeDelta: {x: 27.864594, y: 0}
+  m_AnchoredPosition: {x: 123.80208, y: 0}
+  m_SizeDelta: {x: 27.604156, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &663396303
 MonoBehaviour:
@@ -23583,7 +23583,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 150.18361, y: 0}
+  m_AnchoredPosition: {x: 150.13803, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1725909431
@@ -28964,6 +28964,11 @@ PrefabInstance:
       propertyPath: toastTransform
       value: 
       objectReference: {fileID: 768957128}
+    - target: {fileID: 4277300304567534604, guid: c6b9d33bf20f04f6e9e1001c6e9b68f4,
+        type: 3}
+      propertyPath: toastDescription
+      value: 
+      objectReference: {fileID: 1200198934}
     - target: {fileID: 4790309772656039886, guid: c6b9d33bf20f04f6e9e1001c6e9b68f4,
         type: 3}
       propertyPath: pauseButton

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using RedBlueGames.Tools.TextTyper;
 
-public class Dice : MonoBehaviour
+public class Dice : ControllerManager
 {
     [SerializeField] Sprite unclickedDiceImage = null;
     [SerializeField] Sprite clickedDiceImage = null;
@@ -208,7 +208,7 @@ public class Dice : MonoBehaviour
         isDestroyed = false;
         SetDiceRollAnimation();
         
-        FindObjectOfType<NoDiceNoCoinController>().ToggleScreen();
+        noDiceNoCoinController.ToggleScreen();
     }
 
     private void SetDiceRollAnimation()

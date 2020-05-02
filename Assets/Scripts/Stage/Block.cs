@@ -227,7 +227,7 @@ public class Block : ControllerManager
             // 아이템 사용해서 블록을 공격하는 경우
             if(itemController && itemController.onClickedType.Length > 0 && blocksType != "마왕성")
             {
-                // diceController.UnbounceDices();
+                diceController.UnbounceDices();
                 ReduceBlockGage(blockText.text, true);
             }
             // 아이템 사용 없이 블록을 공격하는 경우

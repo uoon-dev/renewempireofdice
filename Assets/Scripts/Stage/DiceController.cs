@@ -71,14 +71,20 @@ public class DiceController : MonoBehaviour
 
     public void BounceDices()
     {
-        dicesCanvas.overrideSorting = true;
-        dicesCanvas.sortingOrder = 102;
+        if (dicesCanvas != null)
+        {        
+            dicesCanvas.overrideSorting = true;
+            dicesCanvas.sortingOrder = 102;
+        }
     }
 
     public void UnbounceDices()
     {
-        dicesCanvas.overrideSorting = false;
-        dicesCanvas.sortingOrder = 6;
+        if (dicesCanvas != null)
+        {
+            dicesCanvas.overrideSorting = false;
+            dicesCanvas.sortingOrder = 6;
+        }
 
         var dices = FindObjectsOfType<Dice>();
         foreach (Dice dice in dices)

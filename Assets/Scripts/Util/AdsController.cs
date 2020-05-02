@@ -142,9 +142,8 @@ public class AdsController : MonoBehaviour
             } 
             else
             {
-                uiController.ShowToastVideoIsNotReady();
-            }
-            
+                uiController.ShowToast("광고를 불러오지 못했어요. 잠시 후에 다시 시도해주세요.");
+            }            
         }
     }
 

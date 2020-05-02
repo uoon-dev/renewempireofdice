@@ -147,7 +147,7 @@ public class Constants : MonoBehaviour
     public const int TIMESTAMP_VALID_OFFSET_SECONDS = 20;
     // public const int HEART_CHARGE_SECONDS = 20;
     public const int HEART_CHARGE_SECONDS = 20 * 60;// 20 min
-    public const int REWARD_CHARGE_SECONDS = 20;// 1 min
+    public const int REWARD_CHARGE_SECONDS = 15 * 60;// 15 min
     public static class TEXT {
         public const string GOLD_MINE_GUIDE_TITLE = "황금 광산을 만드세요!"; 
         public const string GOLD_MINE_GUIDE_DESC = "선택한 땅을 즉시 딱뎀으로 점령하고, 그 땅의 방어력만큼 골드를 캐냅니다.";
