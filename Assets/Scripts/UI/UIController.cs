@@ -305,13 +305,16 @@ public class UIController : ControllerManager
             {
                 toast.SetActive(true);
                 toastDescription.text = text;
-                if (lineCount == 2)
+                if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
                 {
-                    toastDescription.fontSize = 28;
-                }           
-                else 
-                {
-                    toastDescription.fontSize = 35;
+                    if (lineCount == 2)
+                    {
+                        toastDescription.fontSize = 28;
+                    }
+                    else 
+                    {
+                        toastDescription.fontSize = 35;
+                    }
                 }
 
                 sequence.Append(toastTransform.DOLocalMoveY(0, 0.2f));
